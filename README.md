@@ -12,7 +12,7 @@ source code is kept in a private repository.
 
 ## How to report a bug
 
-1. Open a new issue: https://github.com/seu-usuario/meu-software-issues/issues/new
+1. Open a new issue: https://github.com/argiopeLab/Argiope/issues/new
 2. Describe:
    - The version of the software;
    - Your operating system;

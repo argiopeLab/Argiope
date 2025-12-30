@@ -5,7 +5,6 @@ Argiope is a desktop suite for standardizing and analyzing images. AI-assisted t
 
 This repository is used **only** for tracking bug reports and feature requests.
 
-⚠️ The source code of the project is **not public**.  
 The software is licensed under the **PolyForm Strict License 1.0.0** and its
 source code is kept in a private repository.
 

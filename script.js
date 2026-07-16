@@ -5,7 +5,7 @@ const menu = document.querySelector('.main-nav');
 function closeMenu() {
   menu.classList.remove('open');
   menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', 'Abrir menu');
+  menuButton.setAttribute('aria-label', document.body.dataset.menuOpen);
   document.body.style.overflow = '';
 }
 
@@ -13,7 +13,7 @@ menuButton.addEventListener('click', () => {
   const willOpen = !menu.classList.contains('open');
   menu.classList.toggle('open', willOpen);
   menuButton.setAttribute('aria-expanded', String(willOpen));
-  menuButton.setAttribute('aria-label', willOpen ? 'Fechar menu' : 'Abrir menu');
+  menuButton.setAttribute('aria-label', willOpen ? document.body.dataset.menuClose : document.body.dataset.menuOpen);
   document.body.style.overflow = willOpen ? 'hidden' : '';
 });
 

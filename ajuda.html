@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'self';" />
-  <title>Argiope | Help & Tutorial</title>
-
-  <!-- Preloads -->
-  <link rel="preload" href="assets/help/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/help/main.css">
-  <link rel="stylesheet" href="assets/help/custom.css">
-  <link href="assets/help/fontawesome/css/all.min.css" rel="stylesheet" />
-
-  <noscript>
-    <link rel="stylesheet" href="assets/help/main.css" />
-    <link rel="stylesheet" href="assets/help/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="assets/help/custom.css" />
-  </noscript>
-
-  <script defer src="assets/help/bootstrap.bundle.min.js"></script>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="script-src 'unsafe-inline' 'self';" http-equiv="Content-Security-Policy"/>
+<title>Argiope | Ajuda e Tutorial</title>
+<link href="ajuda.html" hreflang="pt-BR" rel="alternate"/>
+<link href="help-en.html" hreflang="en" rel="alternate"/>
+<link href="ayuda.html" hreflang="es" rel="alternate"/>
+<!-- Preloads -->
+<link as="font" crossorigin="" href="assets/help/fontawesome/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link href="assets/help/main.css" rel="stylesheet"/>
+<link href="assets/help/custom.css" rel="stylesheet"/>
+<link href="assets/help/fontawesome/css/all.min.css" rel="stylesheet"/>
+<noscript>
+<link href="assets/help/main.css" rel="stylesheet"/>
+<link href="assets/help/fontawesome/css/all.min.css" rel="stylesheet"/>
+<link href="assets/help/custom.css" rel="stylesheet"/>
+</noscript>
+<script defer="" src="assets/help/bootstrap.bundle.min.js"></script>
+<style>
     /* Typography */
     @font-face {
       font-family: "IBM Plex Sans";
@@ -148,567 +147,522 @@
     mark.help-search-hit { background: #fff3bf; padding: 0 .15rem; border-radius: 4px; }
     mark.help-search-hit.active { outline: 2px solid #f59f00; }
   </style>
-  <link rel="stylesheet" href="help.css">
+<link href="help.css" rel="stylesheet"/>
 </head>
-<body data-bs-spy="scroll" data-bs-target="#tocNav" data-bs-smooth-scroll="true" tabindex="0">
-
-  <!-- Topbar -->
-  <nav class="topbar py-2">
-    
-    <div class="container d-flex align-items-center justify-content-between">
-      <div class = 'navbar'>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-              <span class="navbar-toggler-icon"></span>
-          </button> 
-      </div> 
-      <div class="d-flex align-items-center gap-3">
-        <a class="brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
-          <img src="assets/argiope-logo.png" alt="Argiope logo" width="32" height="32" />
-          <strong class="text-body">argiope <span>/ ajuda</span></strong>
-        </a>
-        <form id="helpSearchForm" class="help-search" role="search" aria-label="Search help page">
-          <input id="helpSearchInput" class="help-search-input" type="search" placeholder="Pesquisar na ajuda" aria-label="Pesquisar na ajuda" autocomplete="off">
-          <button id="helpSearchBtn" class="btn btn-outline-secondary btn-sm help-search-btn" type="submit" title="Search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </div>
-      <div class="d-none d-md-flex gap-3 small">
-        <a class="btn btn-outline-secondary btn-sm px-4" href="#analyze">Analisar</a>
-        <a class="btn btn-outline-secondary btn-sm px-4" href="#standardize">Padronizar</a>
-        <a class="btn btn-outline-secondary btn-sm px-4" href="https://www.youtube.com/playlist?list=PLUFucDpEwd5Pwd0zafdGdwaZ3mjYi294B" target="_blank" rel="noreferrer">Tutoriais ↗</a>
-        <a class="btn btn-outline-secondary btn-sm px-4" href="#support">Suporte</a>
-        <a class="btn btn-outline-primary btn-sm px-4" href="index.html" role="button"><i class="fa-solid fa-arrow-left"></i> Voltar ao site</a>
-      </div>
-    </div>
-  </nav>
-
-  <main class="container my-4 page">
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-          <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body d-flex flex-column">
-              <h5 class="mb-2" id="username"></h5>
-              <button class="btn btn-tertiary mb-2" id="btnLoadHomePage" ><i class="fa-solid fa-home"></i>  Home page  </button>
-              <button class="btn btn-tertiary mb-2" id="btnLoadAnalysisPage" ><i class="fa-solid fa-eye-dropper"></i>  Analyze  </button>
-              <button class="btn btn-tertiary mb-2" id="btnLoadCalibrationPage" ><i class="fa-solid fa-layer-group"></i>  Standardize  </i></button>
-              <button class="btn btn-tertiary mb-2" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i>  Logout  </button>
-              <button class="btn btn-tertiary mb-2" id="btnLoadHelpPage" ><i class="fa-regular fa-circle-question"></i>  Help  </button>
-              <button class="btn btn-tertiary mb-2" id="btnLoadAboutPage" ><i class="fa-solid fa-circle-info"></i>  About  </button>
-          </div>
-      </div>
-    <!-- TOC -->
-    <aside class="toc" id="tocNav" aria-label="Table of contents">
-      <h2 class="fw-semibold mb-2"><i class="fa-solid fa-list" aria-hidden="true"></i> Table of Contents</h2>
-      <!-- Original TOC preserved -->
-      <ol>
-        <li><a href="#introduction">Introduction</a></li>
-        <li><a href="#home">Home Page</a></li>
-        <li><a href="#access">Access and Accounts</a>
-          <ol>
-            <li><a href="#login">Logging In</a></li>
-            <li><a href="#create-user">Creating Users</a></li>
-            <li><a href="#update-password">Updating Passwords</a></li>
-            <li><a href="#guest">Guest Access</a></li>
-          </ol>
-        </li>
-        <li><a href="#analyze">Analyzing Images</a>
-          <ol>
-            <li><a href="#analysis-import">Importing Images</a></li>
-            <li><a href="#analysis-gallery">Managing the Object Gallery</a></li>
-            <li><a href="#analysis-viewer">Viewing Objects &amp; Editing Features</a>
-            <li><a href="#analysis-ai">AI Models &amp; Feature Generation</a></li>
-            <li><a href="#analysis-ai-how">AI Models: How to Add Models</a></li>
-            <li><a href="#image-lists">Image Lists</a></li>
-            <li><a href="#analysis-run">Running Analysis</a></li>
-              <ol>
-                <li><a href="#analysis-additional">Analyses</a></li>
-              </ol>
-            </li>
-          </ol>
-        </li>
-        <li><a href="#standardize">Standardizing Images</a>
-          <ol>
-            <li><a href="#calibration">Calibration Settings</a>
-              <ol>
-                <li><a href="#cal-channels">Channels Tab</a></li>
-                <li><a href="#cal-alignment">Alignment Tab</a></li>
-                <li><a href="#cal-calibration">Calibration Tab</a></li>
-                <li><a href="#cal-ai">AI Models &amp; Color Standards</a></li>
-                <li><a href="#cal-export">Export Options</a></li>
-                <li><a href="#cal-progress">Processing &amp; Progress</a></li>
-              </ol>
-            </li>
-            <li><a href="#review">Review Results</a></li>
-            <li><a href="#cal-workflow">Technical Calibration Workflow</a></li>
-          </ol>
-        </li>
-        <li><a href="#limitations">Known Limitations</a></li>
-        <li><a href="#support">Support</a></li>
-        <li><a href="#terminology">Glossary</a></li>
-      </ol>
-    </aside>
-
-    <div id="helpContent">
-      <!-- Hero -->
-      <header class="hero section-card" id="top">
-        <img src="assets/argiope-logo.png" alt="Argiope logo" width="120" height="120" />
-        <h1>Help & Tutorial</h1>
-        <p class="lead">Guide to Argiope features and technical concepts</p>
-      </header>
-
-      <a class="help-tutorial-banner" href="https://www.youtube.com/playlist?list=PLUFucDpEwd5Pwd0zafdGdwaZ3mjYi294B" target="_blank" rel="noreferrer"><span><i class="fa-brands fa-youtube"></i></span><div><small>PLAYLIST DE TUTORIAIS</small><strong>Prefere acompanhar em vídeo?</strong><p>Veja os recursos do Argiope em demonstrações passo a passo.</p></div><b>Abrir no YouTube ↗</b></a>
-
-      <!-- Sections -->
-      <section id="introduction" class="section-card">
-        <h3>Introduction</h3>
-        <p>Argiope is a desktop suite for <strong>analyzing</strong> and <strong>standardizing</strong> images. AI-assisted tools are integrated in both modules to support image segmentation, classification, and image calibration. Argiope supports RGB, multispectral, and hyperspectral imagery. The <strong>Analyze Images</strong> and <strong>Standardize Images</strong> modules are independent.</p>
-        <p><strong>Analyze Images</strong> provides tools for image segmentation, object detection, image classification, and image-data extraction across RGB, multispectral, and hyperspectral images. AI-assisted methods support classification, bounding-box detection, and segmentation. You may also draw polygons and annotate images or individual shapes manually. Supported formats include JPEG, PNG, ENVI, TIFF, GeoTIFF, CR2, DNG, NEF, among many other types.</p>
-        <p><strong>Standardize Images</strong> performs image calibration, converting raw camera output into values proportional to the scene's true optical properties so that colors are comparable across devices. Calibration removes camera- and scene-specific biases (e.g., illumination, white balance, in-camera processing) and maps pixel intensities to standardized values. The goal is for a surface with a given reflectance to yield consistent values regardless of camera, lens, or lighting.</p>
-      </section>
-
-      
-      <section id="home" class="section-card">
-        <h3>Home Page</h3>
-        <ul>
-          <li><strong>Analyze Images:</strong> Launches the analysis module.</li>
-          <li><strong>Standardize Images:</strong> Launches the standardization module.</li>
-          <li><strong>Log in/Log out:</strong> Ends the session and returns to the login page.</li>
-        </ul>
-      </section>
-
-      <section id="access" class="section-card">
-        <h3>Access and Accounts</h3>
-        <p>The <strong>Login</strong> page manages user authentication and local account creation. User settings and AI models are stored per account. Some AI models require personal API keys. Creating an account ensures API keys are stored securely and your settings persist.</p>
-        <section id="login" class="mt-3">
-          <h4>Logging In</h4>
-          <ol>
-            <li>Enter your username. A dropdown lists previously created accounts for quick selection.</li>
-            <li>Type your password. Use <em>Show</em> to toggle visibility and avoid typos.</li>
-            <li>Press <em>Log in</em> to start a session.</li>
-          </ol>
-        </section>
-        <section id="create-user" class="mt-3">
-          <h4>Creating and Deleting Users</h4>
-          <p>Select <em>Create user</em> to open a modal with fields for username and password. You may leave the password field empty. The new account is saved locally and appears in the suggestions list. Select <em>Delete user</em> and type a password to permanently delete a user.</p>
-        </section>
-        <section id="update-password" class="mt-3">
-          <h4>Updating Passwords</h4>
-          <p>Click <em>Change password</em> to open a modal pre-filled with the logged-in username. Provide the old password, enter and confirm the new one, then click <em>Update password</em>. The change takes effect immediately.</p>
-        </section>
-        <section id="guest" class="mt-3">
-          <h4>Guest Access</h4>
-          <p>Argiope opens automatically as Guest. Use <em>Access as guest</em> to explore features without credentials. Guest sessions also persist user data, including API keys.</p>
-        </section>
-      </section>
-
-
-      <section id="standardize" class="section-card">
-        <h3>Standardizing Images</h3>
-        <p>This multi-step procedure converts RAW photographs into color-corrected files using a reference standard.</p>
-        <p>Only RAW image formats are accepted as input. Most camera vendors are supported, including Canon, Nikon, Sony, Samsung, Panasonic, and Olympus. Because RAW files preserve minimally processed sensor measurements (digital negatives), they provide maximum flexibility and accuracy for calibration.</p>
-        <p>A reference standard with known reflectance values (e.g., X-Rite ColorChecker Passport or Labsphere Diffuse Reflectance Standards) is required. The standard is used to fit the regression that maps pixel intensities to calibrated values. The reference may appear in every photo or only one photo; in the latter case, that photo must share the same conditions as the others (illumination, angle, and camera settings).</p>
-        <p>Calibrated images are saved as either TIFF or ENVI files. ENVI images are composed of two files (<em>.hdr</em> and <em>.dat</em>).</p>
-        <p>Images do not go through barrel corrections which may introduce small distortions depending on the lens type</p>
-
-        <section id="calibration" class="section-card">
-          <h4>Calibration Settings</h4>
-          <p>You may treat images independently (processing mode <code>Separate images</code>) or as groups (processing mode <code>Stacking images</code>). Grouping is intended when the same object was photographed multiple times (e.g., with UV, RGB, and IR filters) and you want to merge them into a multispectral image.</p>
-          <section id="fm-add" class="mt-2">
-            <h5>Adding and Organizing Files</h5>
-            <ul>
-              <li><strong>Add files</strong> or <strong>Add folder</strong> to import from disk.
-              <li>Imported items appear as thumbnails. You may drag and drop cards to reorder them.</li>
-              <li>
-                <strong class="text-danger">Important:</strong>
-                If the files you added are stored on an external source that requires an internet connection, make sure your connection is stable. An unstable connection may affect the software’s performance.
-              </li>            
-            </ul>
-          </section>
-
-          <section id="cal-channels" class="mt-2">
-          <p>1) If you chose <strong>Stacking images</strong>, three tabs are available: <strong>Channels</strong>, <strong>Alignment</strong>, and <strong>Calibration</strong>.</p>
-            <h5>Channels <strong>Tab</strong></h5>
-            <p>The Stacking images structure appears as groups of images. Each row represents one group to be treated as a multispectral image. Rows are aligned so each image within a row is handled consistently.</p>
-            <ul>
-              <li>Within a group, you may reorder (drag and drop) or remove (trash icon) images.</li>
-              <li>Between groups, you may reorder (drag and drop) or remove (trash icon) groups.</li>
-              <li>You may create a new  group.</li>
-              <li>Use the settings icon at the bottom to choose whether to use all channels (R, G, B) or let Argiope automatically select a single best channel.</li>
-              <li>Specify CWL (center wavelength) and FWHM (full width at half maximum) for every channel. The input accepts numbers (e.g., 450) or labels (e.g., UV). While not strictly required for calibration, accurate interpretation of color metrics depends on correct wavelength values.</li>
-            </ul>
-          </section>
-
-          <section id="cal-alignment" class="mt-2">
-            <h5>Alignment <strong>Tab</strong></h5>
-            <p>Aligns images relative to each other so all spectral channels overlap correctly for multispectral composition. There are three options: 
-              <strong>Feature Matching + Homography</strong>, <strong>Phase correction</strong> or <strong>Manual</strong>. Automatic alignment works for most cases.
+<body data-bs-smooth-scroll="true" data-bs-spy="scroll" data-bs-target="#tocNav" tabindex="0">
+<!-- Topbar -->
+<nav class="topbar py-2">
+<div class="container d-flex align-items-center justify-content-between">
+<div class="navbar">
+<button aria-controls="offcanvasExample" class="navbar-toggler" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+</div>
+<div class="d-flex align-items-center gap-3">
+<a class="brand d-flex align-items-center gap-2 text-decoration-none" href="index-pt.html">
+<img alt="Logotipo Argiope" height="32" src="assets/argiope-logo.png" width="32"/>
+<strong class="text-body">argiope <span>/ ajuda</span></strong>
+</a>
+<form aria-label="Pesquisar página de ajuda" class="help-search" id="helpSearchForm" role="search">
+<input aria-label="Pesquisar ajuda" autocomplete="off" class="help-search-input" id="helpSearchInput" placeholder="Pesquisar ajuda" type="search"/>
+<button class="btn btn-outline-secondary btn-sm help-search-btn" id="helpSearchBtn" title="Procurar" type="submit">
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+</form>
+<div aria-label="Selecione o idioma" class="help-language-switcher">
+<a aria-current="page" href="ajuda.html" hreflang="pt-BR" lang="pt-BR">PT</a>
+<a href="help-en.html" hreflang="en" lang="en">EN</a>
+<a href="ayuda.html" hreflang="es" lang="es">ES</a>
+</div>
+</div>
+<div class="d-none d-md-flex gap-3 small">
+<a class="btn btn-outline-secondary btn-sm px-4" href="#analyze">Analisar</a>
+<a class="btn btn-outline-secondary btn-sm px-4" href="#standardize">Padronizar</a>
+<a class="btn btn-outline-secondary btn-sm px-4" href="https://www.youtube.com/playlist?list=PLUFucDpEwd5Pwd0zafdGdwaZ3mjYi294B" rel="noreferrer" target="_blank">Tutoriais ↗</a>
+<a class="btn btn-outline-secondary btn-sm px-4" href="#support">Suporte</a>
+<a class="btn btn-outline-primary btn-sm px-4" href="index-pt.html" role="button"><i class="fa-solid fa-arrow-left"></i> Voltar ao site</a>
+</div>
+</div>
+</nav>
+<main class="container my-4 page">
+<div aria-labelledby="offcanvasExampleLabel" class="offcanvas offcanvas-start" id="offcanvasExample" tabindex="-1">
+<div class="offcanvas-header">
+<h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+<button aria-label="Fechar" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body d-flex flex-column">
+<h5 class="mb-2" id="username"></h5>
+<button class="btn btn-tertiary mb-2" id="btnLoadHomePage"><i class="fa-solid fa-home"></i>  Página inicial  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadAnalysisPage"><i class="fa-solid fa-eye-dropper"></i>  Analisar  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadCalibrationPage"><i class="fa-solid fa-layer-group"></i>  Padronizar  </button>
+<button class="btn btn-tertiary mb-2" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i>  Sair  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadHelpPage"><i class="fa-regular fa-circle-question"></i>  Ajuda  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadAboutPage"><i class="fa-solid fa-circle-info"></i>  Sobre  </button>
+</div>
+</div>
+<!-- TOC -->
+<aside aria-label="Índice" class="toc" id="tocNav">
+<h2 class="fw-semibold mb-2"><i aria-hidden="true" class="fa-solid fa-list"></i> Índice</h2>
+<!-- Original TOC preserved -->
+<ol>
+<li><a href="#introduction">Introdução</a></li>
+<li><a href="#home">Página inicial</a></li>
+<li><a href="#access">Acesso e contas</a>
+<ol>
+<li><a href="#login">Fazendo login</a></li>
+<li><a href="#create-user">Criando usuários</a></li>
+<li><a href="#update-password">Atualizando senhas</a></li>
+<li><a href="#guest">Acesso de convidado</a></li>
+</ol>
+</li>
+<li><a href="#analyze">Analisando Imagens</a>
+<ol>
+<li><a href="#analysis-import">Importando Imagens</a></li>
+<li><a href="#analysis-gallery">Gerenciando a Galeria de Objetos</a></li>
+<li><a href="#analysis-viewer">Visualizando objetos e recursos de edição</a></li>
+<li><a href="#analysis-ai">Modelos de IA e geração de objetos</a></li>
+<li><a href="#analysis-ai-how">Modelos de IA: como adicionar modelos</a></li>
+<li><a href="#image-lists">Listas de imagens</a></li>
+<li><a href="#analysis-run">Executando Análise</a>
+<ol>
+<li><a href="#analysis-additional">Análises</a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a href="#standardize">Padronizando Imagens</a>
+<ol>
+<li><a href="#calibration">Configurações de calibração</a>
+<ol>
+<li><a href="#cal-channels">Guia Canais</a></li>
+<li><a href="#cal-alignment">Guia Alinhamento</a></li>
+<li><a href="#cal-calibration">Guia Calibração</a></li>
+<li><a href="#cal-ai">Modelos de IA e padrões de cores</a></li>
+<li><a href="#cal-export">Opções de exportação</a></li>
+<li><a href="#cal-progress">Processamento e Progresso</a></li>
+</ol>
+</li>
+<li><a href="#review">Revise os resultados</a></li>
+<li><a href="#cal-workflow">Fluxo de trabalho de calibração técnica</a></li>
+</ol>
+</li>
+<li><a href="#limitations">Limitações conhecidas</a></li>
+<li><a href="#support">Suporte</a></li>
+<li><a href="#terminology">Glossário</a></li>
+</ol>
+</aside>
+<div id="helpContent">
+<!-- Hero -->
+<header class="hero section-card" id="top">
+<img alt="Logotipo Argiope" height="120" src="assets/argiope-logo.png" width="120"/>
+<h1>Ajuda e Tutorial</h1>
+<p class="lead">Guia para recursos e conceitos técnicos do Argiope</p>
+</header>
+<a class="help-tutorial-banner" href="https://www.youtube.com/playlist?list=PLUFucDpEwd5Pwd0zafdGdwaZ3mjYi294B" rel="noreferrer" target="_blank"><span><i class="fa-brands fa-youtube"></i></span><div><small>LISTA DE REPRODUÇÃO DE TUTORIAIS</small><strong>Prefere acompanhar em vídeo?</strong><p>Veja os recursos do Argiope em demonstrações passo a passo.</p></div><b>Abra no YouTube ↗</b></a>
+<!-- Sections -->
+<section class="section-card" id="introduction">
+<h3>Introdução</h3>
+<p>Argiope é um pacote de desktop para <strong>analisando</strong> e <strong>padronização</strong> imagens. Ferramentas assistidas por IA são integradas em ambos os módulos para oferecer suporte à segmentação, classificação e calibração de imagens. Argiope suporta imagens RGB, multiespectrais e hiperespectrais. O <strong>Analisar Imagens</strong> e <strong>Padronizar imagens</strong> módulos são independentes.</p>
+<p><strong>Analisar Imagens</strong> fornece ferramentas para segmentação de imagens, detecção de objetos, classificação de imagens e extração de dados de imagens em imagens RGB, multiespectrais e hiperespectrais. Os métodos assistidos por IA suportam classificação, detecção de caixa delimitadora e segmentação. Você também pode desenhar polígonos e anotar imagens ou formas individuais manualmente. Os formatos suportados incluem JPEG, PNG, ENVI, TIFF, GeoTIFF, CR2, DNG, NEF, entre muitos outros tipos.</p>
+<p><strong>Padronizar imagens</strong> executa a calibração da imagem, convertendo a saída bruta da câmera em valores proporcionais às verdadeiras propriedades ópticas da cena, para que as cores sejam comparáveis ​​entre os dispositivos. A calibração remove distorções específicas da câmera e da cena (por exemplo, iluminação, equilíbrio de branco, processamento na câmera) e mapeia intensidades de pixel para valores padronizados. O objetivo é que uma superfície com uma determinada refletância produza valores consistentes, independentemente da câmera, lente ou iluminação.</p>
+</section>
+<section class="section-card" id="home">
+<h3>Página inicial</h3>
+<ul>
+<li><strong>Analisar imagens:</strong> Inicia o módulo de análise.</li>
+<li><strong>Padronizar imagens:</strong> Inicia o módulo de padronização.</li>
+<li><strong>Entrar/Sair:</strong> Encerra a sessão e retorna à página de login.</li>
+</ul>
+</section>
+<section class="section-card" id="access">
+<h3>Acesso e contas</h3>
+<p>O <strong>Conecte-se</strong> página gerencia a autenticação do usuário e a criação de conta local. As configurações do usuário e os modelos de IA são armazenados por conta. Alguns modelos AI requerem chaves API pessoais. A criação de uma conta garante que as chaves API sejam armazenadas com segurança e que suas configurações persistam.</p>
+<section class="mt-3" id="login">
+<h4>Fazendo login</h4>
+<ol>
+<li>Digite seu nome de usuário. Um menu suspenso lista contas criadas anteriormente para seleção rápida.</li>
+<li>Digite sua senha. Usar <em>Mostrar</em> para alternar a visibilidade e evitar erros de digitação.</li>
+<li>Imprensa <em>Conecte-se</em> para iniciar uma sessão.</li>
+</ol>
+</section>
+<section class="mt-3" id="create-user">
+<h4>Criando e excluindo usuários</h4>
+<p>Selecione <em>Criar usuário</em> para abrir um modal com campos para nome de usuário e senha. Você pode deixar o campo de senha vazio. A nova conta é salva localmente e aparece na lista de sugestões. Selecione <em>Excluir usuário</em> e digite uma senha para excluir permanentemente um usuário.</p>
+</section>
+<section class="mt-3" id="update-password">
+<h4>Atualizando senhas</h4>
+<p>Clique <em>Alterar a senha</em> para abrir um modal pré-preenchido com o nome de usuário logado. Forneça a senha antiga, digite e confirme a nova e clique em <em>Atualizar senha</em>. A alteração entra em vigor imediatamente.</p>
+</section>
+<section class="mt-3" id="guest">
+<h4>Acesso de convidado</h4>
+<p>Argiope abre automaticamente como convidado. Usar <em>Acesse como convidado</em> para explorar recursos sem credenciais. As sessões de convidados também persistem os dados do usuário, incluindo chaves API.</p>
+</section>
+</section>
+<section class="section-card" id="standardize">
+<h3>Padronizando Imagens</h3>
+<p>Este procedimento de várias etapas converte fotografias RAW em arquivos com correção de cor usando um padrão de referência.</p>
+<p>Somente formatos de imagem RAW são aceitos como entrada. A maioria dos fornecedores de câmeras é compatível, incluindo Canon, Nikon, Sony, Samsung, Panasonic e Olympus. Como os arquivos RAW preservam medições de sensores minimamente processadas (negativos digitais), eles fornecem máxima flexibilidade e precisão para calibração.</p>
+<p>É necessário um padrão de referência com valores de refletância conhecidos (por exemplo, X-Rite ColorChecker Passport ou Labsphere Diffuse Reflectance Standards). O padrão é usado para ajustar a regressão que mapeia as intensidades dos pixels para valores calibrados. A referência poderá aparecer em todas as fotos ou em apenas uma foto; neste último caso, essa foto deve compartilhar as mesmas condições das demais (iluminação, ângulo e configurações da câmera).</p>
+<p>As imagens calibradas são salvas como arquivos TIFF ou ENVI. As imagens ENVI são compostas por dois arquivos (<em>.hdr</em> e <em>.dat</em>).</p>
+<p>As imagens não passam por correções de barril que podem introduzir pequenas distorções dependendo do tipo de lente</p>
+<section class="section-card" id="calibration">
+<h4>Configurações de calibração</h4>
+<p>Você pode tratar imagens de forma independente (modo de processamento <code>Separate images</code>) ou como grupos (modo de processamento <code>Stacking images</code>). O agrupamento é pretendido quando o mesmo objeto foi fotografado diversas vezes (por exemplo, com filtros UV, RGB e IR) e você deseja mesclá-los em uma imagem multiespectral.</p>
+<section class="mt-2" id="fm-add">
+<h5>Adicionando e organizando arquivos</h5>
+<ul>
+<li><strong>Adicionar arquivos</strong> ou <strong>Adicionar pasta</strong> para importar do disco.
+              </li><li>Os itens importados aparecem como miniaturas. Você pode arrastar e soltar os cartões para reordená-los.</li>
+<li>
+<strong class="text-danger">Importante:</strong>
+                Se os arquivos adicionados estiverem armazenados em uma fonte externa que requer conexão com a Internet, certifique-se de que sua conexão esteja estável. Uma conexão instável pode afetar o desempenho do software.
+              </li>
+</ul>
+</section>
+<section class="mt-2" id="cal-channels">
+<p>1) Se você escolheu <strong>Empilhar imagens</strong>, três guias estão disponíveis: <strong>Canais</strong>, <strong>Alinhamento</strong>, e <strong>Calibração</strong>.</p>
+<h5>Canais <strong>Guia</strong></h5>
+<p>A estrutura Empilhamento de imagens aparece como grupos de imagens. Cada linha representa um grupo a ser tratado como uma imagem multiespectral. As linhas são alinhadas para que cada imagem dentro de uma linha seja tratada de forma consistente.</p>
+<ul>
+<li>Dentro de um grupo, você pode reordenar (arrastar e soltar) ou remover imagens (ícone de lixeira).</li>
+<li>Entre grupos, você pode reordenar (arrastar e soltar) ou remover grupos (ícone de lixeira).</li>
+<li>Você pode criar um novo grupo.</li>
+<li>Use o ícone de configurações na parte inferior para escolher se deseja usar todos os canais (R, G, B) ou deixar o Argiope selecionar automaticamente um único melhor canal.</li>
+<li>Especifique CWL (comprimento de onda central) e FWHM (largura total na metade do máximo) para cada canal. A entrada aceita números (por exemplo, 450) ou rótulos (por exemplo, UV). Embora não seja estritamente necessária para calibração, a interpretação precisa das métricas de cores depende dos valores corretos do comprimento de onda.</li>
+</ul>
+</section>
+<section class="mt-2" id="cal-alignment">
+<h5>Alinhamento <strong>Guia</strong></h5>
+<p>Alinha as imagens umas em relação às outras para que todos os canais espectrais se sobreponham corretamente para composição multiespectral. Existem três opções: 
+              <strong>Correspondência de recursos + homografia</strong>, <strong>Correção de fase</strong> ou <strong>Manual</strong>. O alinhamento automático funciona na maioria dos casos.
             </p>
-
-          <section id="cal-calibration" class="mt-2">
-            <h5>Calibration <strong>Tab</strong></h5>
-            <ul>
-              <li><strong>Color Standards</strong>
-                <ul>
-                  <li>Select or add the color standard used in your images. These values drive the conversion from pixel intensities to calibrated reflectance. You may add, remove, or edit standards, including the number of reference samples.</li>
-                </ul>
-              </li>
-              <li><strong>Color standard coordinates</strong>
-                <ul>
-                  <li>Argiope needs the locations of reference samples to extract intensities. Options:
+<section class="mt-2" id="cal-calibration">
+<h5>Calibração <strong>Guia</strong></h5>
+<ul>
+<li><strong>Padrões de cores</strong>
+<ul>
+<li>Selecione ou adicione o padrão de cores usado em suas imagens. Esses valores conduzem a conversão de intensidades de pixel para refletância calibrada. Você pode adicionar, remover ou editar padrões, incluindo o número de amostras de referência.</li>
+</ul>
+</li>
+<li><strong>Coordenadas padrão de cores</strong>
+<ul>
+<li>Argiope precisa das localizações das amostras de referência para extrair intensidades. Opções:
                     <ul>
-                      <li>Indicate locations in every image (fully manual);</li>
-                      <li>Indicate locations in the first image of each group (others inherit after alignment);</li>
-                      <li>Use the first image of the first group as reference (other groups inherit the same layout);</li>
-                      <li>Use an <strong>AI-assisted</strong> detector. Click <em>AI Models</em> to configure.</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li><strong>AI Model</strong> button
+<li>Indicar localizações em cada imagem (totalmente manual);</li>
+<li>Indique localizações na primeira imagem de cada grupo (outras herdam após alinhamento);</li>
+<li>Utilize a primeira imagem do primeiro grupo como referência (os demais grupos herdam o mesmo layout);</li>
+<li>Use um detector <strong>assistido por IA</strong>. Clique <em>Modelos de IA</em> para configurar.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Modelo de IA</strong> botão
                 <ul>
-                  <li>Add a trained model to automatically detect the color standard.</li>
-                </ul>
-              </li>
-
-              <section id="cal-ai" class="mt-2">
-            <h5>AI Models for Color-Standard Coordinates</h5>
-            <p>You may use a trained model to automatically detect reference standards. Argiope integrates with the Roboflow Web App (<a href="https://roboflow.com">https://roboflow.com</a>) to run inference.
-            Roboflow offers a user-friendly workflow for training models. The model should locate each individual color-standard patch used for calibration.</p>
-            <p>Click <em>AI Models</em> to configure:</p>
-            <ul>
-              <li><strong>URL</strong>: provide the Roboflow model path (e.g. <code>colorchecker-segmentation/3</code>).</li>
-              <li><strong>API Key</strong>: required for Roboflow inference. Your API key is personal and confidential (available in your Roboflow account).</li>
-              <li><strong>Detection Threshold</strong>: detections below this confidence are discarded.</li>
-              <li><strong>Buffer (%)</strong>: edge offset applied to detected polygons. Positive values dilate outward; negative values erode inward. The percentage is applied per border (e.g., -10 removes about 10% from each side).</li>
-            </ul>
-          </section>
-
-            </ul>
-            <p>2) If you chose <strong>Separate images</strong>, two tabs are available: <strong>Channels</strong> and <strong>Calibration</strong>.</p>
-            <h5>Channels <strong>Tab</strong></h5>
-            <p>Images appear as thumbnails. The R, G, and B channels of each image will be calibrated. Use arrow controls, or drag and drop thumbnails to change image order (useful when the first image is the calibration reference).</p>
-            <p><strong>Calibration Tab</strong></p>
-            <p>Same options as above.</p>
-          </section>
-          
-          <section id="cal-export" class="section-card">
-            <h5>Export Options</h5>
-            <p>Select the File Type (TIF or ENVI) and the Data Type (8-bit or 32-bit). An 8-bit file is smaller (0 to 255 integers) but cannot store decimals or negative values. A 32-bit file stores decimals and both negative/positive values at the cost of larger size. Unless storage is constrained, 32-bit is recommended.</p>
-          </section>
-
-          <section id="cal-progress" class="section-card">
-            <h5>Processing &amp; Progress</h5>
-            <p>Click <em>Process</em> to start standardization. A modal displays status text and a live progress bar. You can abort at any time. When complete, the <em>Results</em> button opens the review page.</p>
-          </section>
-        </section>
-      </section>
-
-      <section id="review" class="section-card">
-        <h4>Review Results</h4>
-        <ul>
-          <li>An error alert lists any processing failures.</li>
-          <li>A gallery displays each image with its report.</li>
-          <li>A graph shows the regression used to convert pixel values to standardized values, along with equations and R<sup>2</sup>.</li>
-          <li>Use <em>Redo image standardization</em> to adjust parameters or <em>Finish</em> to return home.</li>
-        </ul>
-      </section>
-
-      <section id="cal-workflow" class="section-card">
-        <h4>Technical Details on the Standardization Workflow</h4>
-        <p>The Argiope algorithm for Image Standardization goes through the following steps:</p>
-        <ol>
-          <li>Open the first RAW image.</li>
-          <li>Using the color-standard coordinates, compute the mean pixel intensity for each patch.</li>
-          <li>Pair these measurements with the reference values defined in the Color Standards section.</li>
-          <li>Fit a least-squares linear model with <i>color-standard reference values</i> as the response and <i>mean pixel intensities</i> as the predictor. Fit R, G, and B channels independently.</li>
-          <li>Apply each model to convert every pixel from original intensity to calibrated value.</li>
-          <li>If <i>Best Channel</i> is selected, choose the channel according to:
+<li>Adicione um modelo treinado para detectar automaticamente o padrão de cores.</li>
+</ul>
+</li>
+<section class="mt-2" id="cal-ai">
+<h5>Modelos de IA para coordenadas padrão de cores</h5>
+<p>Você pode usar um modelo treinado para detectar automaticamente padrões de referência. Argiope integra-se com o aplicativo da web Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) para executar a inferência.
+            Roboflow oferece um fluxo de trabalho fácil de usar para modelos de treinamento. O modelo deve localizar cada amostra de padrão de cor individual usada para calibração.</p>
+<p>Clique <em>Modelos de IA</em> para configurar:</p>
+<ul>
+<li><strong>URL</strong>: forneça o caminho do modelo Roboflow (por exemplo, <code>colorchecker-segmentation/3</code>).</li>
+<li><strong>Chave API</strong>: necessário para inferência Roboflow. Sua chave API é pessoal e confidencial (disponível em sua conta Roboflow).</li>
+<li><strong>Limite de detecção</strong>: as detecções abaixo desta confiança são descartadas.</li>
+<li><strong>Tampão (%)</strong>: deslocamento da borda aplicado aos polígonos detectados. Os valores positivos dilatam-se para fora; valores negativos sofrem erosão para dentro. A porcentagem é aplicada por borda (por exemplo, -10 remove cerca de 10% de cada lado).</li>
+</ul>
+</section>
+</ul>
+<p>2) Se você escolheu <strong>Imagens separadas</strong>, duas guias estão disponíveis: <strong>Canais</strong> e <strong>Calibração</strong>.</p>
+<h5>Canais <strong>Guia</strong></h5>
+<p>As imagens aparecem como miniaturas. Os canais R, G e B de cada imagem serão calibrados. Use os controles de seta ou arraste e solte miniaturas para alterar a ordem das imagens (útil quando a primeira imagem é a referência de calibração).</p>
+<p><strong>Guia Calibração</strong></p>
+<p>Mesmas opções acima.</p>
+</section>
+<section class="section-card" id="cal-export">
+<h5>Opções de exportação</h5>
+<p>Selecione o tipo de arquivo (TIF ou ENVI) e o tipo de dados (8 bits ou 32 bits). Um arquivo de 8 bits é menor (0 a 255 números inteiros), mas não pode armazenar decimais ou valores negativos. Um arquivo de 32 bits armazena decimais e valores negativos/positivos ao custo de um tamanho maior. A menos que o armazenamento seja restrito, recomenda-se 32 bits.</p>
+</section>
+<section class="section-card" id="cal-progress">
+<h5>Processamento e Progresso</h5>
+<p>Clique <em>Processo</em> para iniciar a padronização. Um modal exibe texto de status e uma barra de progresso ao vivo. Você pode abortar a qualquer momento. Quando concluído, o <em>Resultados</em> botão abre a página de revisão.</p>
+</section>
+</section>
+</section>
+<section class="section-card" id="review">
+<h4>Revise os resultados</h4>
+<ul>
+<li>Um alerta de erro lista quaisquer falhas de processamento.</li>
+<li>Uma galeria exibe cada imagem com seu relatório.</li>
+<li>Um gráfico mostra a regressão usada para converter valores de pixels em valores padronizados, juntamente com equações e R<sup>2</sup>.</li>
+<li>Usar <em>Refazer a padronização da imagem</em> para ajustar parâmetros ou <em>Terminar</em> para voltar para casa.</li>
+</ul>
+</section>
+<section class="section-card" id="cal-workflow">
+<h4>Detalhes técnicos sobre o fluxo de trabalho de padronização</h4>
+<p>O algoritmo Argiope para padronização de imagens passa pelas seguintes etapas:</p>
+<ol>
+<li>Abra a primeira imagem RAW.</li>
+<li>Usando as coordenadas padrão de cores, calcule a intensidade média de pixel para cada patch.</li>
+<li>Combine essas medidas com os valores de referência definidos na seção Padrões de cores.</li>
+<li>Ajuste um modelo linear de mínimos quadrados com <i>valores de referência padrão de cores</i> como a resposta e <i>intensidades médias de pixels</i> como o preditor. Ajuste os canais R, G e B de forma independente.</li>
+<li>Aplique cada modelo para converter cada pixel da intensidade original em valor calibrado.</li>
+<li>Se <i>Melhor canal</i> estiver selecionado, escolha o canal de acordo com:
             <ol>
-              <li>Model R<sup>2</sup> &gt; 0.97;</li>
-              <li>Highest value measured, non-saturated intensity (a sample is non-saturated if its maximum measured intensity &lt; 65,535);</li>
-              <li>If neither (1) nor (2) is met, select the channel with the highest R<sup>2</sup>.</li>
-            </ol>
-          </li>
-          <li>If generating a multispectral image (directories), repeat the steps for each image in the group.
+<li>Modelo R<sup>2</sup> &gt; 0.97;</li>
+<li>Maior valor medido, intensidade não saturada (uma amostra é não saturada se sua intensidade máxima medida &lt; 65.535);</li>
+<li>Se nem (1) nem (2) forem atendidos, selecione o canal com o R mais alto<sup>2</sup>.</li>
+</ol>
+</li>
+<li>Se estiver gerando uma imagem multiespectral (diretórios), repita as etapas para cada imagem do grupo.
             <ol>
-              <li>If selected, apply alignment by registering the current image to the first image (before intensity calculation).</li>
-            </ol>
-          </li>
-          <li>If the first image/group is set as reference, apply the model(s) to the remaining images; otherwise, repeat the steps for each image/group.</li>
-          <li>Store the generated coefficients and fit statistics as metadata for later review and reproducibility.</li>
-        </ol>
-
-        <p>*RAW images are processed as provided by the camera. Lens-distortion correction is not applied, so small geometric differences may occur depending on the lens.</p>
-      </section>
-
-      <section id="analyze" class="section-card">
-        <h3>Analyze Images</h3>
-        <section id="analysis-import" class="mt-2">
-          <h4>Importing Images</h4>
-          <p>Open the Analyze Images page and click <em>Import images</em>. If an Argiope-generated annotation file is in the same folder, polygons, image tags, and polygon tags are loaded automatically.</p>
-          <p>
-            <strong class="text-danger">Important</strong>
-            If the files you added are stored on an external source that requires an internet connection, make sure your connection is stable. An unstable connection may affect the software's performance.
-          </p>  
-        </section>
-        <section id="analysis-gallery" class="mt-2">
-          <h4>Managing the Object Gallery</h4>
-          <p>Each imported file appears as a <em>file card</em> with a thumbnail, title, remove icon, and checkbox.</p>
-          <ul>
-            <li><strong>Select all</strong> and <strong>Clear selection</strong> toggle bulk selections.</li>
-            <li>Removing a card deletes the image from the session.</li>
-            <li>Clicking elsewhere on a card opens the image.</li>
-          </ul>
-        </section>
-
-        <section id="analysis-viewer" class="section-card">
-          <h4>Viewing Objects &amp; Editing Features</h4>
-          <p>Opening a file card launches a full-screen modal with tabs for image interaction and analysis summaries.</p>
-          <section id="analysis-tools" class="mt-2">
-            <h5>Toolbar Tools</h5>
-            <p>The floating toolbar above the canvas includes:</p>
-            <ul>
-              <li><strong>Reset view</strong>: Restores the original zoom and position.</li>
-              <li><strong>Feature selector</strong>: Enables selection mode for existing polygons.</li>
-              <li><strong>SAM Tool</strong>: Uses the Segment Anything Model for automatic segmentation.
+<li>Se selecionado, aplique o alinhamento registrando a imagem atual na primeira imagem (antes do cálculo da intensidade).</li>
+</ol>
+</li>
+<li>Se a primeira imagem/grupo for definida como referência, aplique o(s) modelo(s) às imagens restantes; caso contrário, repita as etapas para cada imagem/grupo.</li>
+<li>Armazene os coeficientes gerados e as estatísticas de ajuste como metadados para posterior revisão e reprodutibilidade.</li>
+</ol>
+<p>*As imagens RAW são processadas conforme fornecidas pela câmera. A correção de distorção da lente não é aplicada, portanto podem ocorrer pequenas diferenças geométricas dependendo da lente.</p>
+</section>
+<section class="section-card" id="analyze">
+<h3>Analisar Imagens</h3>
+<section class="mt-2" id="analysis-import">
+<h4>Importando Imagens</h4>
+<p>Abra a página Analisar Imagens e clique em <em>Importar imagens</em>. Se um arquivo de anotação gerado por Argiope estiver na mesma pasta, polígonos, tags de imagem e tags de polígono serão carregados automaticamente.</p>
+<p>
+<strong class="text-danger">Importante</strong>
+            Se os arquivos adicionados estiverem armazenados em uma fonte externa que requer conexão com a Internet, certifique-se de que sua conexão esteja estável. Uma conexão instável pode afetar o desempenho do software.
+          </p>
+</section>
+<section class="mt-2" id="analysis-gallery">
+<h4>Gerenciando a Galeria de Objetos</h4>
+<p>Cada arquivo importado aparece como um <em>cartão de arquivo</em> com miniatura, título, ícone de remoção e caixa de seleção.</p>
+<ul>
+<li><strong>Selecionar tudo</strong> e <strong>Limpar seleção</strong> alternar seleções em massa.</li>
+<li>A remoção de um cartão exclui a imagem da sessão.</li>
+<li>Clicar em outro lugar em um cartão abre a imagem.</li>
+</ul>
+</section>
+<section class="section-card" id="analysis-viewer">
+<h4>Visualizando objetos e recursos de edição</h4>
+<p>Abrir um cartão de arquivo inicia um modal de tela inteira com guias para interação de imagens e resumos de análise.</p>
+<section class="mt-2" id="analysis-tools">
+<h5>Ferramentas da barra de ferramentas</h5>
+<p>A barra de ferramentas flutuante acima da tela inclui:</p>
+<ul>
+<li><strong>Redefinir visualização</strong>: Restaura o zoom e a posição originais.</li>
+<li><strong>Seletor de recursos</strong>: ativa o modo de seleção para polígonos existentes.</li>
+<li><strong>Ferramenta SAM</strong>: usa o modelo Segment Anything para segmentação automática.
                 <ul>
-                  <li>Place two points inside the object of interest; Argiope will detect and segment it. A polygon is generated and added to the Objects list.</li>
-                </ul>
-              </li>
-              <li><strong>Polygon draw</strong>: Manually trace regions of interest.</li>
-              <li><strong>Line draw</strong>: Manually trace regions of interest.</li>
-              <li><strong>Undo</strong>, and <strong>Redo</strong>: Undo and redo the last 10 changes applied to polygons.</li>
-              <li><strong>Zoom in</strong>, <strong>Zoom out</strong>, and <strong>Pan</strong>: Adjust the viewport. Holding <kbd>Shift</kbd> is a shortcut for <em>Pan</em>.</li>
-              <li><strong>Import feature file</strong>: Add annotations directly from the viewer. Import a JSON in the <a href="https://cocodataset.org/#format-data">COCO format</a> or an ImageJ ROI file (<a href="https://imagej.net/ij/">https://imagej.net/ij/</a>). For ImageJ ROIs, unzip the file first and select the desired objects.</li>
-              <li><strong>Export feature file</strong>: Export a JSON in the <a href="https://cocodataset.org/#format-data">COCO format</a> or an ImageJ ROI file (<a href="https://imagej.net/ij/">https://imagej.net/ij/</a>).</li>
-              <li><strong>Select model</strong>: Choose which AI model to apply; <strong>Generate features (AI)</strong> executes it on the current image.</li>
-            </ul>
-          </section>
-          <section id="analysis-features" class="mt-2">
-            <h5>Objects List &amp; Tags</h5>
-            <p>The side panel lists every object. You may add tags to classify the image or individual objects.</p>
-          </section>
-        </section>
-
-
-        <section id="analysis-ai" class="section-card">
-          <h4>AI Models &amp; Feature Generation</h4>
-          <p>Use built-in models or connect external services to generate features such as polygons (segmentation), bounding boxes (detection), or image-level labels (classification).</p>
-          <h5>Supported Model Types</h5>
-          <ul>
-            <li><strong>Zero-shot Segmentation</strong>: detects and segments objects from one or a few descriptive words. Runs locally.</li>
-            <li><strong>Zero-shot Detection</strong>: same as above but returns bounding boxes. Runs locally.</li>
-            <li><strong>Roboflow Segmentation</strong>: uses a model trained in Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) via their inference servers. Roboflow is a user-friendly app for AI model training that also provide inference servers.</li>
-            <li><strong>Roboflow Classification</strong>: uses a Roboflow model for image classification; returns labels added to Image Tags.</li>
-            <li><strong>Gemini Classification</strong>: uses Google Gemini model for image classification based on a prompt; returns labels added to Image Tags.</li>
-          </ul>
-
-        <section id="analysis-ai-how" class="mt-2">
-        <h5>AI Models: How to Add Models</h5>
-          <ul>
-            <li>Click <strong>AI Models</strong>. To add a model, type a name and select the model type:
+<li>Coloque dois pontos dentro do objeto de interesse; Argiope irá detectá-lo e segmentá-lo. Um polígono é gerado e adicionado à lista de Objetos.</li>
+</ul>
+</li>
+<li><strong>Desenho de polígono</strong>: Rastreie manualmente regiões de interesse.</li>
+<li><strong>Desenhar linha</strong>: Rastreie manualmente regiões de interesse.</li>
+<li><strong>Desfazer</strong>, e <strong>Refazer</strong>: desfaz e refaz as últimas 10 alterações aplicadas aos polígonos.</li>
+<li><strong>Ampliar</strong>, <strong>Diminuir zoom</strong>, e <strong>Frigideira</strong>: ajuste a janela de visualização. Contenção <kbd>Shift</kbd> é um atalho para <em>Frigideira</em>.</li>
+<li><strong>Importar arquivo de recurso</strong>: adicione anotações diretamente do visualizador. Importe um JSON no <a href="https://cocodataset.org/#format-data">Formato COCO</a> ou um arquivo ROI ImageJ (<a href="https://imagej.net/ij/">https://imagej.net/ij/</a>). Para ROIs ImageJ, descompacte o arquivo primeiro e selecione os objetos desejados.</li>
+<li><strong>Exportar arquivo de recurso</strong>: Exporte um JSON no <a href="https://cocodataset.org/#format-data">Formato COCO</a> ou um arquivo ROI ImageJ (<a href="https://imagej.net/ij/">https://imagej.net/ij/</a>).</li>
+<li><strong>Selecione o modelo</strong>: Escolha qual modelo de IA aplicar; <strong>Gerar recursos (IA)</strong> executa-o na imagem atual.</li>
+</ul>
+</section>
+<section class="mt-2" id="analysis-features">
+<h5>Lista de objetos e tags</h5>
+<p>O painel lateral lista todos os objetos. Você pode adicionar tags para classificar a imagem ou objetos individuais.</p>
+</section>
+</section>
+<section class="section-card" id="analysis-ai">
+<h4>Modelos de IA e geração de objetos</h4>
+<p>Use modelos integrados ou conecte serviços externos para gerar recursos como polígonos (segmentação), caixas delimitadoras (detecção) ou rótulos em nível de imagem (classificação).</p>
+<h5>Tipos de modelos suportados</h5>
+<ul>
+<li><strong>Segmentação Zero-shot</strong>: detecta e segmenta objetos de uma ou algumas palavras descritivas. Executa localmente.</li>
+<li><strong>Detecção Zero-shot</strong>: igual ao acima, mas retorna caixas delimitadoras. Executa localmente.</li>
+<li><strong>Segmentação Roboflow</strong>: usa um modelo treinado em Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) por meio de seus servidores de inferência. Roboflow é um aplicativo fácil de usar para treinamento de modelos de IA que também fornece servidores de inferência.</li>
+<li><strong>Classificação Roboflow</strong>: utiliza um modelo Roboflow para classificação de imagens; retorna rótulos adicionados às tags de imagem.</li>
+<li><strong>Classificação Gemini</strong>: usa o modelo Google Gemini para classificação de imagens com base em um prompt; retorna rótulos adicionados às tags de imagem.</li>
+</ul>
+<section class="mt-2" id="analysis-ai-how">
+<h5>Modelos de IA: como adicionar modelos</h5>
+<ul>
+<li>Clique <strong>Modelos de IA</strong>. Para adicionar um modelo, digite um nome e selecione o tipo de modelo:
               <ul>
-                <li><strong>Zero-shot Segmentation</strong>:
+<li><strong>Segmentação Zero-shot</strong>:
                   <ul>
-                    <li><strong>Objects list</strong>: add keywords describing targets (comma-separated), e.g., <em>butterfly, small green square, big circle</em>. Try variants for robust performance.</li>
-                    <li><strong>Detection threshold</strong>: per-object confidence threshold (comma-separated). Very low thresholds (e.g., 0.001%) can help during exploration.</li>
-                    <li><strong>Max. number of features</strong>: maximum objects per type to retain (comma-separated). Keeps the highest-confidence results.</li>
-                    <li><strong>Buffer (%)</strong>: edge offset applied to polygons. Positive values dilate outward; negative values erode inward. The percentage is applied per border (e.g., -10 removes about 10% from each side).</li>
-                  </ul>
-                </li>
-                <li><strong>Zero-shot Detection</strong>: same as above but returns bounding boxes.</li>
-                <li><strong>Roboflow Segmentation</strong>:
+<li><strong>Lista de objetos</strong>: adicione palavras-chave que descrevem alvos (separados por vírgula), por exemplo, <em>borboleta, pequeno quadrado verde, grande círculo</em>. Experimente variantes para um desempenho robusto.</li>
+<li><strong>Limite de detecção</strong>: limite de confiança por objeto (separado por vírgula). Limites muito baixos (por exemplo, 0,001%) podem ajudar durante a exploração.</li>
+<li><strong>Máx. número de recursos</strong>: máximo de objetos por tipo a serem retidos (separados por vírgula). Mantém os resultados de maior confiança.</li>
+<li><strong>Tampão (%)</strong>: deslocamento de borda aplicado a polígonos. Os valores positivos dilatam-se para fora; valores negativos sofrem erosão para dentro. A porcentagem é aplicada por borda (por exemplo, -10 remove cerca de 10% de cada lado).</li>
+</ul>
+</li>
+<li><strong>Detecção Zero-shot</strong>: igual ao acima, mas retorna caixas delimitadoras.</li>
+<li><strong>Segmentação Roboflow</strong>:
                   <ul>
-                    <li><strong>URL</strong>: provide the roboflow model URL address; e.g., <code>colorchecker-segmentation/3</code></li>
-                    <li><strong>API Key</strong>: required for Roboflow inference (kept personal and confidential). To locate you API Key go to your user account in the Roboflow WebApp</li>
-                    <li><strong>Detection threshold (%)</strong>: minimum confidence. Only detection with confidence values above the threshold will be kept.</li>
-                    <li><strong>Max. number of features</strong>: maximum objects per image.</li>
-                    <li><strong>Buffer (%)</strong>: edge offset applied to polygons. Positive values dilate outward; negative values erode inward. The percentage is applied per border (e.g., -10 removes about 10% from each side).
+<li><strong>URL</strong>: forneça o endereço do modelo roboflow URL; por exemplo, <code>colorchecker-segmentation/3</code></li>
+<li><strong>Chave API</strong>: necessário para inferência Roboflow (mantido pessoal e confidencial). Para localizar sua chave API, acesse sua conta de usuário no Roboflow WebApp</li>
+<li><strong>Limite de detecção (%)</strong>: confiança mínima. Somente a detecção com valores de confiança acima do limite será mantida.</li>
+<li><strong>Máx. número de recursos</strong>: máximo de objetos por imagem.</li>
+<li><strong>Tampão (%)</strong>: deslocamento de borda aplicado a polígonos. Os valores positivos dilatam-se para fora; valores negativos sofrem erosão para dentro. A porcentagem é aplicada por borda (por exemplo, -10 remove cerca de 10% de cada lado).
                     </li>
-                  </ul>
-                </li>
-                <li><strong>Roboflow Classification</strong>:.
+</ul>
+</li>
+<li><strong>Classificação Roboflow</strong>:.
                   <ul>
-                    <li><strong>URL</strong> and <strong>API Key</strong> as above.</li>
-                  </ul>
-                </li>
-                <li><strong>Gemini Classification</strong>:.
+<li><strong>URL</strong> e <strong>Chave API</strong> como acima.</li>
+</ul>
+</li>
+<li><strong>Classificação Gemini</strong>:.
                   <ul>
-                    <li><strong>API Key</strong>: required for Gemini inference (kept personal and confidential). To locate you API Key go to your user account in the Google AI for Developers (<a href="https://ai.google.dev/">https://ai.google.dev/</a>).</li>
-                    <li><strong>Model</strong>: select Gemini model.</li>
-                    <li><strong>Prompt</strong>: type a prompt for the Gemini model. For instance, "<i>read the label on this image and return its content.</i>"</li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </section>          
-        </section>
-
-        <section id="image-lists" class="section-card">
-          <h4>Image Lists</h4>
-          <p>An <strong>Image List</strong> is a saved <code>.json</code> file that records the paths of all images loaded in a session. Opening a list restores the full set of images in one click, without re-importing them manually.</p>
-          <p></p>When a list is opened, Argiope automatically loads each image's companion COCO file and restores all features.</p>
-          <p>Use the <strong>Image lists</strong> button in the top bar to open, save, or close a list. An amber dot next to the list name indicates unsaved changes.</p>
-        </section>
-
-        <section id="analysis-run" class="section-card">
-          <h4>Running Analysis</h4>
-          <p>Select one or more images and press <em>Analyze selection</em>. Data are extracted for each object in each image and stored in a tab-delimited spreadsheet file (<i>.txt</i>). The file can be opened in any spreadsheet software (e.g. Excel) or statistical software (<i>tip</i>: in R use function <code>read.delim</code>).</p>
-          <p>Columns exported by default:</p>
-          <ul>
-            <li><strong>file_name</strong>, <strong>image_path</strong>: source file info and tags attached to the image. </li> 
-            <li><strong>object_name</strong>, <strong>object_id</strong>, <strong></strong>: object label, and object unique id within an image.</li>
-            <li><strong>object_tags</strong>: tags at the object level (object classification).</li>
-            <li><strong>object_coordinates</strong>: x and y coordinates of object vertices.</li>
-            <li><strong>object_N_Pixels</strong>: number of pixels inside the mask. It can be used to calculate objects actual sizes based on a known scale.</li>
-            <li><strong>object_hasInf</strong>, <strong>object_hasNA</strong>: flags for infinite or NaN values after masking.</li>
-            <li><strong>area</strong>, <strong>area_unit</strong>, <strong>length</strong>, <strong>length_unit</strong>: calculated sizes based on the reference scale provided by the user (ruler icon in object panel).</li>
-          </ul>
-          
-                  <p><strong>Polygon images</strong></p>
-          <p>After the analysis, an <i>argiope_data</i> folder is created in the same directory where the image is.
-            Inside this folder additional folders are created with image names where one image file of each polygon is saved.</p>
-          <p>Object <strong> image file names are saved with a <i>object_name + object_id</i> structure </strong> so that users can easily refer to them in the spreadsheet file.</p>
-        <p></p>Furthermore, polygon images can be opened in other softwares (e.g. <i>imageJ, Adobe Photoshop, R, Python</i>) for additional data extraction at the polygon level.</p>
-
-
-
-        
-        <section id="analysis-additional" class="mt-2">
-          <h5>Analyses</h5>
-          <p>Use the <strong>Analyses</strong> to append statistics to the exported table. All outputs are written per object; results that create images also attach previews inside the session folder.</p>
-          
-          <h6 class="mt-3">Basic Statistics</h6>
-          <ul>
-            <li><strong>Raw Values Stats</strong>: object_overall_max/min/mean/std/median/mad* and mean std**. Summary stats of all pixel values merged across channels in the object.</li>
-            <li><strong>Square root-transformed</strong> Stats and <strong>Natural logarithm-transformed(ln+1) Stats</strong>: the same stats after transforming pixels values by the square root or the natural logarithm + 1.</li>
-            
-            <li><strong>Kernel Density Estimation</strong>: KDE-based mode estimation (highest-density point) for the object (column 'object_multimax'). These represent the most common combination of pixel channel values. For instance, in an RGB image KDE will estimate the most common combination of R, G and B values.</li>
-            
-            <li><strong>Channel-level Stats:</strong></li>
-            <ul>
-            <li><strong>channel_CWL</strong> and <strong>channel_FWHM</strong>: Center Wavelength and Full Width at Half Maximum from image metadata; one pair per channel.</li>
-            <li><strong>channel_mean</strong>, <strong>channel_std</strong>, <strong>channel_median</strong>, <strong>channel_mad</strong>, <strong>channel_max</strong>, <strong>channel_min</strong>: per-channel statistics of the polygon.</li>
-            <li><strong>channel_relative_intensity</strong>: mean relative intensity of the channel (channel value divided by the per-pixel channel sum, then averaged over all pixels). For instance, in an RGB image, R<sub>relative</sub> = R/(R+G+B),  G<sub>relative</sub> = G/(R+G+B) and B<sub>relative</sub> = B/(R+G+B); then 
-             R<sub>relative</sub>,  G<sub>relative</sub>, and  B<sub>relative</sub> are averaged across the polygon.</li>
-            <li>Each line of the spreadsheet represents <strong>one spectral channel inside one polygon</strong>. Metrics that belong to the whole polygon (number of pixels, overall mean, etc.) are repeated on every line for convenience.</li>
-            </ul>
-
-          </ul>
-          <p>*The median absolute deviation (mad) is a measure of variability calculated as 1.4826*median(abs(x<sub>i</sub>-median(x)))</p>
-          <p>**object_overall_mean_std, object_ln1_overall_mean_std, object_sqrt_overall_mean_std: the mean standard deviation of channels at the pixel level. For instance, in an RGB image, this will be calculated as mean(std(R,G,B)).</p>
-
-          <h6 class="mt-3">Shape Descriptors</h6>
-          <p>Select only the shape descriptors you want to export. These metrics are calculated from the polygon mask, independently of pixel intensity values.</p>
-          <ul>
-            <li><strong>Circularity</strong>: exports <code>object_Circ</code>. Calculated as 4*pi*area/perimeter^2. Values closer to 1 indicate a more circular shape; values closer to 0 indicate a more elongated shape.</li>
-            <li><strong>Aspect Ratio</strong>: exports <code>object_AR</code>. Calculated as major_axis/minor_axis from the fitted ellipse axes.</li>
-            <li><strong>Roundness</strong>: exports <code>object_Round</code>. Calculated as 4*area/(pi*major_axis^2).</li>
-            <li><strong>Solidity</strong>: exports <code>object_Solidity</code>. Calculated as area/convex area.</li>
-            <li><strong>Centroid</strong>: exports <code>object_X</code> and <code>object_Y</code>. These are the average x and y coordinates of all pixels inside the polygon mask.</li>
-            <li><strong>Perimeter</strong>: exports <code>object_Perim</code>. This is the perimeter of the polygon mask in pixel units.</li>
-            <li><strong>Bounding Box</strong>: exports <code>object_BX</code>, <code>object_BY</code>, <code>object_Width</code>, and <code>object_Height</code>. These describe the smallest axis-aligned rectangle containing the polygon mask.</li>
-          </ul>
-
-          <h6 class="mt-3">Principal Component Analysis (PCA)</h6>
-          <ul>
-            <li>Computes eigenvalues and eigenvectors from the masked pixels (requires at least two channels and enough pixels).</li>
-            <li>Exports PC1 and PC2 eigenvalues (<code>object_PC1</code>, <code>object_PC2</code>)
-              and the eigenvalues sum (<code>object_PC_sum</code>).</li>
-            <li>A JSON file with all eigenvalues/vectors, covariance, and sample count is saved on the image folder inside the polygon folder.</li>
-          </ul>
-          <h6 class="mt-3">Moran's I on PCA</h6>
-          <ul>
-            <li>Measures spatial autocorrelation on PC1 and PC2 rasters derived from the polygon.</li>
-            <li>Exports <code>moran_I_PC1</code> and <code>moran_I_PC2</code>; higher positive values indicate clustering, negative values indicate dispersion.</li>
-          </ul>
-          <h6 class="mt-3">K-Means Clustering</h6>
-          <ul>
-            <li>Segments the pixels inside the polygon into hard clusters. Manual mode uses the chosen <em>n clusters</em>; automatic mode tests up to <em>max clusters</em> using silhouette score.</li>
-            <li>Exports cluster labels (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, cluster centers, proportions, and <code>kmeans_patch_diversity_relative</code> (color diversity).
-              Color diversity is calculated as (1/sum(cluster proportion^2)) / number of clusters.</li>
-            <li>The best cluster count in automatic mode is the one with the highest silhouette score, balancing compactness and separation.</li>
-            <li>A JSON file is saved on image folder inside the polygon folder with details on the analysis.</li>
-            <li>An image file with clusters and cluster centers is saved on image folder inside the polygon folder. </li>
-          </ul>
-          <h6 class="mt-3">Gaussian Mixture Model (GMM)</h6>
-          <ul>
-            <li>Fits a diagonal-covariance mixture model. Manual mode uses the provided component count; automatic mode selects the best up to <em>max components</em> using BIC. Optionally scale inputs before fitting.</li>
-            <li>Exports <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, cluster means/weights, and <code>gmm_patch_diversity_relative</code>.
-              Color diversity is calculated as (1/sum(cluster proportion^2)) / number of clusters.</li>
-            <li><em>Note:</em> <code>gmm_labels_img</code> may display fewer visible clusters than the model components if some components receive no pixels.</li>
-            <li>BIC chooses the simplest model that explains the data.</li>
-            <li>A JSON file is saved on image folder inside the polygon folder with details on the analysis.</li>
-            <li>An image file with clusters and clusters means is saved on image folder inside the polygon folder. </li>
-          </ul>
-          <h6 class="mt-3">User Defined Formulas</h6>
-          <ul>
-            <li>Create custom metrics per polygon at the pixel level. For each formula, provide a <em>name</em> and <em>expression</em>; results are exported as <code>User_{name}</code>.</li>
-            <li>Click <i>Read channels</i> to detect the channel names of the selected images. If no image is selected, it reads the channel names of all images.</li>
-            <li>Refer to channels by their labels (e.g., <code>R</code>, <code>band1</code>) or with <code>band("label")</code>.
-              Supported math/stat helpers include <code>mean</code>, <code>median</code>, <code>std</code>, <code>min</code>, <code>max</code>, <code>sum</code>, <code>count</code>, <code>exp</code>, <code>log</code>,
-              basic arithmetic symbols (<code>+ - * / ^</code>), and comparisons (<code>&gt; &lt; &gt;= &lt;= == !=</code>).</li>
-            <li>Example: <code>count(R &gt; 0.5)</code> counts pixels inside the polygon where <code>R</code> is greater than <code>0.5</code>.</li>
-            <li>Example: <code>(R - G) / (R + G)</code> computes a normalized difference at the pixel level and calcutes the avegare across pixels inside the polygon.</li>
-          </ul>
-        </section>
-        </section>
-
-        <section id="analysis-results" class="mt-2"></section>
-      </section>
-
-      <section id="limitations" class="section-card">
-        <h3>Known Limitations</h3>
-        <li>Due to system limitations, very long paths may cause issues with file access or saving results.</li>
-        <li>Argiope relies on rawpy(LibRaw) to decode Nikon NEF files, so it can only read NEFs that LibRaw supports. Some newer Nikon NEF variants (notably certain Z8/Z9 High Efficiency modes) may fail to decode, even when the file itself is intact.</li>
-        <li>Images have a maximum size of 178956970 pixels (~180 megapixels). Larger images will not be processed.</li>
-
-      </section>
-
-      <section id="support" class="section-card">
-        <h3>Support</h3>
-        <p>For assistance or to report issues, contact the Argiope development team: <a href="https://github.com/argiopeLab/Argiope/issues/">https://github.com/argiopeLab/Argiope/issues/</a></p>
-      </section>
-
-      <section id="terminology" class="section-card">
-        <h3>Glossary</h3>
-        <dl>
-          <dt>CWL (Center Wavelength)</dt>
-          <dd>The central wavelength of a spectral channel. Accurate CWL values are required to interpret each channel's data correctly.</dd>
-          <dt>FWHM (Full Width at Half Maximum)</dt>
-          <dd>The width of a spectral channel measured at half of its peak intensity. Together with CWL, it defines each channel's sensitivity range.</dd>
-          <dt>Color Standard</dt>
-          <dd>A reference chart with known reflectance values. Including it in photographs enables Argiope to standardize pixel values, ensuring measurements are comparable across sessions.</dd>
-          <dt>Calibration Model</dt>
-          <dd>The statistical model (typically a general linear model) that maps camera intensity values to standardized reflectance values.</dd>
-          <dt>Image Segmentation</dt>
-          <dd>A computer-vision process that partitions an image into distinct regions or objects by grouping pixels with similar characteristics.</dd>
-          <dt>Image Classification</dt>
-          <dd>A computer-vision task that assigns a label or category to an entire image based on its visual content. Models learn patterns and features and then categorize images into predefined classes.</dd>
-        </dl>
-      </section>
-
-      <div class="d-grid d-sm-flex gap-3 justify-content-center align-items-center w-100 mt-4">
-        <a class="btn btn-outline-secondary btn-lg px-4" href="#top" role="button"><i class="fa-solid fa-arrow-up"></i> Back to top</a>
-      </div>
-
-    </div>
-  </main>
-
-  <button id="toTop" type="button" class="btn btn-primary btn-lg rounded-pill shadow" aria-label="Back to Top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
-
-  <footer class="help-footer">
-    <div><a href="index.html"><img src="assets/argiope-logo.png" alt="" width="42" height="42"><strong>argiope</strong></a><span>Central de Ajuda · Universidade de Brasília</span></div>
-    <a href="https://github.com/argiopeLab/Argiope/issues/" target="_blank" rel="noreferrer">Suporte no GitHub ↗</a>
-  </footer>
-
-  <script>
+<li><strong>Chave API</strong>: necessário para inferência Gemini (mantido pessoal e confidencial). Para localizar sua chave API, acesse sua conta de usuário no Google AI for Developers (<a href="https://ai.google.dev/">https://ai.google.dev/</a>).</li>
+<li><strong>Modelo</strong>: selecione o modelo Gemini.</li>
+<li><strong>Incitar</strong>: digite um prompt para o modelo Gemini. Por exemplo, "<i>leia o rótulo desta imagem e retorne seu conteúdo.</i>"</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section class="section-card" id="image-lists">
+<h4>Listas de imagens</h4>
+<p>Um <strong>Lista de imagens</strong> é um salvo <code>.json</code> arquivo que registra os caminhos de todas as imagens carregadas em uma sessão. Abrir uma lista restaura o conjunto completo de imagens com um clique, sem reimportá-las manualmente.</p>
+<p>Quando uma lista é aberta, Argiope carrega automaticamente o arquivo COCO complementar de cada imagem e restaura todos os recursos.</p>
+<p>Use o <strong>Listas de imagens</strong> botão na barra superior para abrir, salvar ou fechar uma lista. Um ponto âmbar próximo ao nome da lista indica alterações não salvas.</p>
+</section>
+<section class="section-card" id="analysis-run">
+<h4>Executando Análise</h4>
+<p>Selecione uma ou mais imagens e pressione <em>Analisar seleção</em>. Os dados são extraídos para cada objeto em cada imagem e armazenados em um arquivo de planilha delimitado por tabulações (<i>.TXT</i>). O arquivo pode ser aberto em qualquer software de planilha (por exemplo, Excel) ou software estatístico (<i>dica</i>: em R usar função <code>read.delim</code>).</p>
+<p>Colunas exportadas por padrão:</p>
+<ul>
+<li><strong>file_name</strong>, <strong>image_path</strong>: informações do arquivo de origem e tags anexadas à imagem. </li>
+<li><strong>object_name</strong>, <strong>object_id</strong>, <strong></strong>: rótulo do objeto e ID exclusivo do objeto em uma imagem.</li>
+<li><strong>object_tags</strong>: tags no nível do objeto (classificação do objeto).</li>
+<li><strong>object_coordinates</strong>: coordenadas x e y dos vértices do objeto.</li>
+<li><strong>object_N_Pixels</strong>: número de pixels dentro da máscara. Ele pode ser usado para calcular o tamanho real de objetos com base em uma escala conhecida.</li>
+<li><strong>object_hasInf</strong>, <strong>object_hasNA</strong>: sinalizadores para valores infinitos ou NaN após o mascaramento.</li>
+<li><strong>área</strong>, <strong>area_unit</strong>, <strong>comprimento</strong>, <strong>length_unit</strong>: tamanhos calculados com base na escala de referência fornecida pelo usuário (ícone de régua no painel de objetos).</li>
+</ul>
+<p><strong>Imagens poligonais</strong></p>
+<p>Após a análise, um <i>argiope_data</i> pasta é criada no mesmo diretório onde está a imagem.
+            Dentro desta pasta são criadas pastas adicionais com nomes de imagens onde é salvo um arquivo de imagem de cada polígono.</p>
+<p>Objeto <strong> os nomes dos arquivos de imagem são salvos com um <i>nome_objeto + id_objeto</i> estrutura </strong> para que os usuários possam consultá-los facilmente no arquivo de planilha.</p>
+<p>Além disso, imagens poligonais podem ser abertas em outros softwares (por exemplo, <i>imagemJ, Adobe Photoshop, R, Python</i>) para extração de dados adicionais no nível do polígono.</p>
+<section class="mt-2" id="analysis-additional">
+<h5>Análises</h5>
+<p>Use o <strong>Análises</strong> para anexar estatísticas à tabela exportada. Todas as saídas são gravadas por objeto; os resultados que criam imagens também anexam visualizações dentro da pasta da sessão.</p>
+<h6 class="mt-3">Estatísticas Básicas</h6>
+<ul>
+<li><strong>Estatísticas de valores brutos</strong>: object_overall_max/min/mean/std/median/mad* e média std**. Estatísticas resumidas de todos os valores de pixel mesclados entre canais no objeto.</li>
+<li><strong>Raiz quadrada transformada</strong> Estatísticas e <strong>Estatísticas transformadas em logaritmo natural (ln+1)</strong>: as mesmas estatísticas após transformar os valores dos pixels pela raiz quadrada ou pelo logaritmo natural + 1.</li>
+<li><strong>Estimativa de densidade do kernel</strong>: estimativa do modo baseado em KDE (ponto de maior densidade) para o objeto (coluna 'object_multimax'). Estes representam a combinação mais comum de valores de canal de pixel. Por exemplo, em uma imagem RGB, KDE estimará a combinação mais comum de valores R, G e B.</li>
+<li><strong>Estatísticas em nível de canal:</strong></li>
+<ul>
+<li><strong>channel_CWL</strong> e <strong>channel_FWHM</strong>: comprimento de onda central e largura total na metade do máximo dos metadados da imagem; um par por canal.</li>
+<li><strong>channel_mean</strong>, <strong>channel_std</strong>, <strong>channel_median</strong>, <strong>channel_mad</strong>, <strong>channel_max</strong>, <strong>channel_min</strong>: estatísticas por canal do polígono.</li>
+<li><strong>channel_relative_intensity</strong>: intensidade relativa média do canal (valor do canal dividido pela soma do canal por pixel e, em seguida, calculada a média de todos os pixels). Por exemplo, em uma imagem RGB, R<sub>relativo</sub> = R/(R+G+B), G<sub>relativo</sub> = G/(R+G+B) e B<sub>relativo</sub> =B/(R+G+B); então 
+             R<sub>relativo</sub>, G<sub>relativo</sub>e B<sub>relativo</sub> são calculados em média através do polígono.</li>
+<li>Cada linha da planilha representa <strong>um canal espectral dentro de um polígono</strong>. As métricas que pertencem a todo o polígono (número de pixels, média geral, etc.) são repetidas em cada linha por conveniência.</li>
+</ul>
+</ul>
+<p>*O desvio absoluto mediano (mad) é uma medida de variabilidade calculada como 1,4826*median(abs(x<sub>eu</sub>-mediana(x)))</p>
+<p>**object_overall_mean_std, object_ln1_overall_mean_std, object_sqrt_overall_mean_std: o desvio padrão médio dos canais no nível do pixel. Por exemplo, em uma imagem RGB, isso será calculado como média(std(R,G,B)).</p>
+<h6 class="mt-3">Descritores de forma</h6>
+<p>Selecione apenas os descritores de forma que deseja exportar. Essas métricas são calculadas a partir da máscara poligonal, independentemente dos valores de intensidade de pixel.</p>
+<ul>
+<li><strong>Circularidade</strong>: exportações <code>object_Circ</code>. Calculado como 4*pi*área/perímetro^2. Valores mais próximos de 1 indicam formato mais circular; valores mais próximos de 0 indicam uma forma mais alongada.</li>
+<li><strong>Razão de aspecto</strong>: exportações <code>object_AR</code>. Calculado como major_axis/minor_axis a partir dos eixos da elipse ajustados.</li>
+<li><strong>Arredondamento</strong>: exportações <code>object_Round</code>. Calculado como 4*área/(pi*major_axis^2).</li>
+<li><strong>Solidez</strong>: exportações <code>object_Solidity</code>. Calculado como área/área convexa.</li>
+<li><strong>Centróide</strong>: exportações <code>object_X</code> e <code>object_Y</code>. Estas são as coordenadas x e y médias de todos os pixels dentro da máscara poligonal.</li>
+<li><strong>Perímetro</strong>: exportações <code>object_Perim</code>. Este é o perímetro da máscara poligonal em unidades de pixel.</li>
+<li><strong>Caixa delimitadora</strong>: exportações <code>object_BX</code>, <code>object_BY</code>, <code>object_Width</code>, e <code>object_Height</code>. Eles descrevem o menor retângulo alinhado ao eixo que contém a máscara poligonal.</li>
+</ul>
+<h6 class="mt-3">Análise de Componentes Principais (PCA)</h6>
+<ul>
+<li>Calcula autovalores e autovetores a partir dos pixels mascarados (requer pelo menos dois canais e pixels suficientes).</li>
+<li>Exporta autovalores PC1 e PC2 (<code>object_PC1</code>, <code>object_PC2</code>)
+              e a soma dos autovalores (<code>object_PC_sum</code>).</li>
+<li>Um arquivo JSON com todos os autovalores/vetores, covariância e contagem de amostras é salvo na pasta de imagens dentro da pasta polígono.</li>
+</ul>
+<h6 class="mt-3">Moran's I em PCA</h6>
+<ul>
+<li>Mede a autocorrelação espacial em rasters PC1 e PC2 derivados do polígono.</li>
+<li>Exportações <code>moran_I_PC1</code> e <code>moran_I_PC2</code>; valores positivos mais altos indicam agrupamento, valores negativos indicam dispersão.</li>
+</ul>
+<h6 class="mt-3">Agrupamento K-Means</h6>
+<ul>
+<li>Segmenta os pixels dentro do polígono em clusters rígidos. O modo manual usa o escolhido <em>n agrupamentos</em>; o modo automático testa até <em>máximo de clusters</em> usando pontuação de silhueta.</li>
+<li>Exporta rótulos de cluster (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, centros de cluster, proporções e <code>kmeans_patch_diversity_relative</code> (diversidade de cores).
+              A diversidade de cores é calculada como (1/soma(proporção de cluster^2))/número de clusters.</li>
+<li>A melhor contagem de clusters no modo automático é aquela com a pontuação de silhueta mais alta, equilibrando compacidade e separação.</li>
+<li>Um arquivo JSON é salvo na pasta de imagens dentro da pasta do polígono com detalhes da análise.</li>
+<li>Um arquivo de imagem com clusters e centros de cluster é salvo na pasta de imagens dentro da pasta polígono. </li>
+</ul>
+<h6 class="mt-3">Modelo de mistura gaussiana (GMM)</h6>
+<ul>
+<li>Ajusta-se a um modelo de mistura de covariância diagonal. O modo manual usa a contagem de componentes fornecida; o modo automático seleciona o melhor até <em>máximo de componentes</em> usando BIC. Opcionalmente, dimensione as entradas antes de ajustar.</li>
+<li>Exportações <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, médias/pesos do cluster e <code>gmm_patch_diversity_relative</code>.
+              A diversidade de cores é calculada como (1/soma(proporção de cluster^2))/número de clusters.</li>
+<li><em>Observação:</em> <code>gmm_labels_img</code> pode exibir menos clusters visíveis do que os componentes do modelo se alguns componentes não receberem pixels.</li>
+<li>BIC escolhe o modelo mais simples que explica os dados.</li>
+<li>Um arquivo JSON é salvo na pasta de imagens dentro da pasta do polígono com detalhes da análise.</li>
+<li>Um arquivo de imagem com clusters e meios de cluster é salvo na pasta de imagens dentro da pasta polígono. </li>
+</ul>
+<h6 class="mt-3">Fórmulas definidas pelo usuário</h6>
+<ul>
+<li>Crie métricas personalizadas por polígono no nível do pixel. Para cada fórmula, forneça um <em>nome</em> e <em>expressão</em>; os resultados são exportados como <code>User_{name}</code>.</li>
+<li>Clique <i>Ler canais</i> para detectar os nomes dos canais das imagens selecionadas. Se nenhuma imagem for selecionada, ele lê os nomes dos canais de todas as imagens.</li>
+<li>Consulte os canais pelos seus rótulos (por exemplo, <code>R</code>, <code>band1</code>) ou com <code>band("label")</code>.
+              Ajudantes matemáticos/estatísticos suportados incluem <code>mean</code>, <code>median</code>, <code>std</code>, <code>min</code>, <code>max</code>, <code>sum</code>, <code>count</code>, <code>exp</code>, <code>log</code>,
+              símbolos aritméticos básicos (<code>+ - * / ^</code>) e comparações (<code>&gt; &lt; &gt;= &lt;= == !=</code>).</li>
+<li>Exemplo: <code>count(R &gt; 0.5)</code> conta pixels dentro do polígono onde <code>R</code> é maior que <code>0.5</code>.</li>
+<li>Exemplo: <code>(R - G) / (R + G)</code> calcula uma diferença normalizada no nível do pixel e calcula a média entre os pixels dentro do polígono.</li>
+</ul>
+</section>
+</section>
+<section class="mt-2" id="analysis-results"></section>
+</section>
+<section class="section-card" id="limitations">
+<h3>Limitações conhecidas</h3>
+<li>Devido às limitações do sistema, caminhos muito longos podem causar problemas no acesso a arquivos ou no salvamento de resultados.</li>
+<li>Argiope depende de rawpy (LibRaw) para decodificar arquivos NEF da Nikon, portanto, ele só pode ler NEFs compatíveis com LibRaw. Algumas variantes NEF mais recentes da Nikon (principalmente certos modos de alta eficiência Z8/Z9) podem falhar na decodificação, mesmo quando o arquivo em si está intacto.</li>
+<li>As imagens têm tamanho máximo de 178956970 pixels (~180 megapixels). Imagens maiores não serão processadas.</li>
+</section>
+<section class="section-card" id="support">
+<h3>Suporte</h3>
+<p>Para obter assistência ou relatar problemas, entre em contato com a equipe de desenvolvimento do Argiope: <a href="https://github.com/argiopeLab/Argiope/issues/">https://github.com/argiopeLab/Argiope/issues/</a></p>
+</section>
+<section class="section-card" id="terminology">
+<h3>Glossário</h3>
+<dl>
+<dt>CWL (comprimento de onda central)</dt>
+<dd>O comprimento de onda central de um canal espectral. Valores CWL precisos são necessários para interpretar os dados de cada canal corretamente.</dd>
+<dt>FWHM (largura total na metade do máximo)</dt>
+<dd>A largura de um canal espectral medida na metade de sua intensidade de pico. Juntamente com CWL, define a faixa de sensibilidade de cada canal.</dd>
+<dt>Padrão de cores</dt>
+<dd>Um gráfico de referência com valores de refletância conhecidos. Incluí-lo nas fotografias permite que o Argiope padronize os valores dos pixels, garantindo que as medições sejam comparáveis ​​entre as sessões.</dd>
+<dt>Modelo de calibração</dt>
+<dd>O modelo estatístico (normalmente um modelo linear geral) que mapeia os valores de intensidade da câmera para valores de refletância padronizados.</dd>
+<dt>Segmentação de imagens</dt>
+<dd>Um processo de visão computacional que particiona uma imagem em regiões ou objetos distintos, agrupando pixels com características semelhantes.</dd>
+<dt>Classificação de imagens</dt>
+<dd>Uma tarefa de visão computacional que atribui um rótulo ou categoria a uma imagem inteira com base em seu conteúdo visual. Os modelos aprendem padrões e recursos e depois categorizam as imagens em classes predefinidas.</dd>
+</dl>
+</section>
+<div class="d-grid d-sm-flex gap-3 justify-content-center align-items-center w-100 mt-4">
+<a class="btn btn-outline-secondary btn-lg px-4" href="#top" role="button"><i class="fa-solid fa-arrow-up"></i> Voltar ao topo</a>
+</div>
+</section></div>
+</main>
+<button aria-label="Voltar ao topo" class="btn btn-primary btn-lg rounded-pill shadow" id="toTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+</button>
+<footer class="help-footer">
+<div><a href="index-pt.html"><img alt="" height="42" src="assets/argiope-logo.png" width="42"/><strong>argiope</strong></a><span>Central de Ajuda · Universidade de Brasília</span></div>
+<a href="https://github.com/argiopeLab/Argiope/issues/" rel="noreferrer" target="_blank">Suporte no GitHub ↗</a>
+</footer>
+<script>
     // Back-to-top visibility
     const toTop = document.getElementById('toTop');
     const onScroll = () => {
@@ -718,7 +672,6 @@
     document.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   </script>
-
-  <script src="help.js"></script>
+<script src="help.js"></script>
 </body>
 </html>

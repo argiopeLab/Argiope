@@ -12,6 +12,8 @@ function render(replacements) {
 }
 
 const english = [
+  ['ajuda.html#', 'help-en.html#'],
+  ['href="ajuda.html"', 'href="help-en.html"'],
   ['<html lang="pt-BR">', '<html lang="en">'],
   ['<meta name="description" content="Argiope: padronização, segmentação e análise quantitativa de imagens RGB, multiespectrais e hiperespectrais.">', '<meta name="description" content="Argiope: standardization, segmentation, and quantitative analysis of RGB, multispectral, and hyperspectral images.">'],
   ['<meta property="og:locale" content="pt_BR">', '<meta property="og:locale" content="en_US">'],
@@ -158,6 +160,8 @@ const english = [
 ];
 
 const spanish = [
+  ['ajuda.html#', 'ayuda.html#'],
+  ['href="ajuda.html"', 'href="ayuda.html"'],
   ['<html lang="pt-BR">', '<html lang="es">'],
   ['<meta name="description" content="Argiope: padronização, segmentação e análise quantitativa de imagens RGB, multiespectrais e hiperespectrais.">', '<meta name="description" content="Argiope: estandarización, segmentación y análisis cuantitativo de imágenes RGB, multiespectrales e hiperespectrales.">'],
   ['<meta property="og:locale" content="pt_BR">', '<meta property="og:locale" content="es_ES">'],

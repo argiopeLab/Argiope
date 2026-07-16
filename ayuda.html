@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="script-src 'unsafe-inline' 'self';" http-equiv="Content-Security-Policy"/>
+<title>Argiope | Ayuda y tutorial</title>
+<link href="ajuda.html" hreflang="pt-BR" rel="alternate"/>
+<link href="help-en.html" hreflang="en" rel="alternate"/>
+<link href="ayuda.html" hreflang="es" rel="alternate"/>
+<!-- Preloads -->
+<link as="font" crossorigin="" href="assets/help/fontawesome/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link href="assets/help/main.css" rel="stylesheet"/>
+<link href="assets/help/custom.css" rel="stylesheet"/>
+<link href="assets/help/fontawesome/css/all.min.css" rel="stylesheet"/>
+<noscript>
+<link href="assets/help/main.css" rel="stylesheet"/>
+<link href="assets/help/fontawesome/css/all.min.css" rel="stylesheet"/>
+<link href="assets/help/custom.css" rel="stylesheet"/>
+</noscript>
+<script defer="" src="assets/help/bootstrap.bundle.min.js"></script>
+<style>
+    /* Typography */
+    @font-face {
+      font-family: "IBM Plex Sans";
+      src: url("assets/IBMPlexSans.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 100 700;
+      font-stretch: 100%;
+      font-display: swap;
+    }
+
+    :root {
+      color-scheme: light;
+
+      --font-sans: "IBM Plex Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --radius: 16px;
+      --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.06);
+      --shadow-2: 0 6px 20px rgba(0,0,0,.12);
+      --bg: #ffffff;
+      --bg-soft: #f7f8fa;
+      --bg-elev: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --primary: #0d6efd; /* Bootstrap primary */
+      --link: #0d6efd;
+      --border: #e5e7eb;
+      --toc-width: 310px;
+    }
+
+    
+
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); }
+    .topbar .navbar, .offcanvas { display: none !important; }
+
+    /* Topbar */
+    .topbar {
+      position: sticky; top: 0; z-index: 1040;
+      backdrop-filter: saturate(180%) blur(6px);
+      background: color-mix(in oklab, var(--bg), transparent 10%);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand img { width: 36px; height: 36px; aspect-ratio: 1 / 1; object-fit: contain; }
+    .help-search { display: flex; align-items: center; gap: .35rem; }
+    .help-search-input {
+      height: 32px;
+      width: 180px;
+      padding: .25rem .65rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg);
+      font-size: .9rem;
+    }
+    .help-search-input:focus { outline: 2px solid color-mix(in srgb, var(--primary) 35%, transparent); }
+    .help-search-btn {
+      height: 32px; width: 32px; padding: 0;
+      border-radius: 999px;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    @media (max-width: 767.98px) {
+      .help-search-input { width: 120px; }
+    }
+
+    /* Layout */
+    .page {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    @media (min-width: 992px) {
+      .page { grid-template-columns: var(--toc-width) minmax(0, 1fr); }
+    }
+
+    /* Sidebar TOC */
+    aside.toc {
+      position: sticky; top: 84px; align-self: start; max-height: calc(100dvh - 96px);
+      overflow: auto; padding: 1rem; border: 1px solid var(--border);
+      border-radius: var(--radius); background: var(--bg-elev); box-shadow: var(--shadow-1);
+    }
+    aside.toc h2 { font-size: 1.1rem; margin-bottom: .75rem; color: var(--muted); }
+    aside.toc ol { margin: 0; padding-left: 1.1rem; }
+    aside.toc a { text-decoration: none; color: var(--text); }
+    aside.toc a:hover { color: var(--link); }
+    aside.toc ol ol { margin-top: .25rem; }
+
+    /* Content cards */
+    .section-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-1);
+      padding: 1.25rem 1.25rem;
+    }
+    .section-card + .section-card { margin-top: 1rem; }
+
+    header.hero {
+      text-align: center; padding: 2.25rem 1rem 1.5rem; margin-bottom: 1rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    header.hero h1 { font-size: clamp(1.75rem, 2.2vw + 1.2rem, 2.5rem); margin: .75rem 0 .25rem; }
+    header.hero p { color: var(--muted); margin: 0; }
+
+    h2, h3, h4, h5 { scroll-margin-top: 96px; }
+    section[id], header[id] { scroll-margin-top: 112px; }
+
+    /* Callouts */
+    .callout { border-left: 4px solid var(--primary); background: color-mix(in srgb, var(--primary) 6%, var(--bg)); padding: 1rem; border-radius: 8px; }
+
+    /* Lists & code */
+    code, kbd { background: color-mix(in oklab, var(--text), var(--bg) 85%); color: inherit; border-radius: 6px; padding: .15rem .35rem; }
+    ul { padding-left: 1.2rem; }
+
+    /* Footer logos */
+    .logos img { height: 44px; object-fit: contain; filter: saturate(0.9); }
+
+    /* Back to top */
+    #toTop { position: fixed; right: 1rem; bottom: 1rem; opacity: 0; visibility: hidden; transition: .25s ease; }
+    #toTop.show { opacity: 1; visibility: visible; }
+
+    /* Glossary */
+    dl dt { font-weight: 600; }
+    dl dd { margin-bottom: .5rem; color: var(--muted); }
+    mark.help-search-hit { background: #fff3bf; padding: 0 .15rem; border-radius: 4px; }
+    mark.help-search-hit.active { outline: 2px solid #f59f00; }
+  </style>
+<link href="help.css" rel="stylesheet"/>
+</head>
+<body data-bs-smooth-scroll="true" data-bs-spy="scroll" data-bs-target="#tocNav" tabindex="0">
+<!-- Topbar -->
+<nav class="topbar py-2">
+<div class="container d-flex align-items-center justify-content-between">
+<div class="navbar">
+<button aria-controls="offcanvasExample" class="navbar-toggler" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+</div>
+<div class="d-flex align-items-center gap-3">
+<a class="brand d-flex align-items-center gap-2 text-decoration-none" href="index-es.html">
+<img alt="Logotipo de Argiope" height="32" src="assets/argiope-logo.png" width="32"/>
+<strong class="text-body">argiope <span>/ ayuda</span></strong>
+</a>
+<form aria-label="Buscar página de ayuda" class="help-search" id="helpSearchForm" role="search">
+<input aria-label="Buscar ayuda" autocomplete="off" class="help-search-input" id="helpSearchInput" placeholder="Buscar ayuda" type="search"/>
+<button class="btn btn-outline-secondary btn-sm help-search-btn" id="helpSearchBtn" title="Buscar" type="submit">
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+</form>
+<div aria-label="Seleccionar idioma" class="help-language-switcher">
+<a href="ajuda.html" hreflang="pt-BR" lang="pt-BR">PT</a>
+<a href="help-en.html" hreflang="en" lang="en">EN</a>
+<a aria-current="page" href="ayuda.html" hreflang="es" lang="es">ES</a>
+</div>
+</div>
+<div class="d-none d-md-flex gap-3 small">
+<a class="btn btn-outline-secondary btn-sm px-4" href="#analyze">Analizar</a>
+<a class="btn btn-outline-secondary btn-sm px-4" href="#standardize">Estandarizar</a>
+<a class="btn btn-outline-secondary btn-sm px-4" href="https://www.youtube.com/playlist?list=PLUFucDpEwd5Pwd0zafdGdwaZ3mjYi294B" rel="noreferrer" target="_blank">Tutoriales ↗</a>
+<a class="btn btn-outline-secondary btn-sm px-4" href="#support">Soporte</a>
+<a class="btn btn-outline-primary btn-sm px-4" href="index-es.html" role="button"><i class="fa-solid fa-arrow-left"></i> Volver al sitio</a>
+</div>
+</div>
+</nav>
+<main class="container my-4 page">
+<div aria-labelledby="offcanvasExampleLabel" class="offcanvas offcanvas-start" id="offcanvasExample" tabindex="-1">
+<div class="offcanvas-header">
+<h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5>
+<button aria-label="Cerca" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body d-flex flex-column">
+<h5 class="mb-2" id="username"></h5>
+<button class="btn btn-tertiary mb-2" id="btnLoadHomePage"><i class="fa-solid fa-home"></i>  pagina de inicio  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadAnalysisPage"><i class="fa-solid fa-eye-dropper"></i>  Analizar  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadCalibrationPage"><i class="fa-solid fa-layer-group"></i>  Estandarizar  </button>
+<button class="btn btn-tertiary mb-2" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i>  Cerrar sesión  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadHelpPage"><i class="fa-regular fa-circle-question"></i>  Ayuda  </button>
+<button class="btn btn-tertiary mb-2" id="btnLoadAboutPage"><i class="fa-solid fa-circle-info"></i>  Acerca de  </button>
+</div>
+</div>
+<!-- TOC -->
+<aside aria-label="Tabla de contenido" class="toc" id="tocNav">
+<h2 class="fw-semibold mb-2"><i aria-hidden="true" class="fa-solid fa-list"></i> Tabla de contenido</h2>
+<!-- Original TOC preserved -->
+<ol>
+<li><a href="#introduction">Introducción</a></li>
+<li><a href="#home">Página de inicio</a></li>
+<li><a href="#access">Acceso y cuentas</a>
+<ol>
+<li><a href="#login">Iniciar sesión</a></li>
+<li><a href="#create-user">Creando usuarios</a></li>
+<li><a href="#update-password">Actualización de contraseñas</a></li>
+<li><a href="#guest">Acceso de invitados</a></li>
+</ol>
+</li>
+<li><a href="#analyze">Analizando imágenes</a>
+<ol>
+<li><a href="#analysis-import">Importar imágenes</a></li>
+<li><a href="#analysis-gallery">Administrar la galería de objetos</a></li>
+<li><a href="#analysis-viewer">Visualización de objetos y funciones de edición</a></li>
+<li><a href="#analysis-ai">Modelos de IA y generación de objetos</a></li>
+<li><a href="#analysis-ai-how">Modelos de IA: cómo agregar modelos</a></li>
+<li><a href="#image-lists">Listas de imágenes</a></li>
+<li><a href="#analysis-run">Análisis de ejecución</a>
+<ol>
+<li><a href="#analysis-additional">Análisis</a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a href="#standardize">Estandarización de imágenes</a>
+<ol>
+<li><a href="#calibration">Configuración de calibración</a>
+<ol>
+<li><a href="#cal-channels">Pestaña Canales</a></li>
+<li><a href="#cal-alignment">Pestaña de alineación</a></li>
+<li><a href="#cal-calibration">Pestaña Calibración</a></li>
+<li><a href="#cal-ai">Modelos de IA y estándares de color</a></li>
+<li><a href="#cal-export">Opciones de exportación</a></li>
+<li><a href="#cal-progress">Procesamiento y progreso</a></li>
+</ol>
+</li>
+<li><a href="#review">Revisar resultados</a></li>
+<li><a href="#cal-workflow">Flujo de trabajo de calibración técnica</a></li>
+</ol>
+</li>
+<li><a href="#limitations">Limitaciones conocidas</a></li>
+<li><a href="#support">Soporte</a></li>
+<li><a href="#terminology">Glosario</a></li>
+</ol>
+</aside>
+<div id="helpContent">
+<!-- Hero -->
+<header class="hero section-card" id="top">
+<img alt="Logotipo de Argiope" height="120" src="assets/argiope-logo.png" width="120"/>
+<h1>Ayuda y tutorial</h1>
+<p class="lead">Guía de características y conceptos técnicos del Argiope</p>
+</header>
+<a class="help-tutorial-banner" href="https://www.youtube.com/playlist?list=PLUFucDpEwd5Pwd0zafdGdwaZ3mjYi294B" rel="noreferrer" target="_blank"><span><i class="fa-brands fa-youtube"></i></span><div><small>LISTA DE REPRODUCCIÓN TUTORIAL</small><strong>¿Prefieres seguirlo en vídeo?</strong><p>Vea las características de Argiope en demostraciones paso a paso.</p></div><b>Abrir en YouTube ↗</b></a>
+<!-- Sections -->
+<section class="section-card" id="introduction">
+<h3>Introducción</h3>
+<p>Argiope es una suite de escritorio para <strong>analizando</strong> y <strong>estandarizando</strong> imágenes. Las herramientas asistidas por IA están integradas en ambos módulos para admitir la segmentación, clasificación y calibración de imágenes. Argiope admite imágenes RGB, multiespectrales e hiperespectrales. El <strong>Analizar imágenes</strong> y <strong>Estandarizar imágenes</strong> Los módulos son independientes.</p>
+<p><strong>Analizar imágenes</strong> proporciona herramientas para segmentación de imágenes, detección de objetos, clasificación de imágenes y extracción de datos de imágenes en imágenes RGB, multiespectrales e hiperespectrales. Los métodos asistidos por IA admiten clasificación, detección de cuadros delimitadores y segmentación. También puedes dibujar polígonos y anotar imágenes o formas individuales manualmente. Los formatos admitidos incluyen JPEG, PNG, ENVI, TIFF, GeoTIFF, CR2, DNG, NEF, entre muchos otros tipos.</p>
+<p><strong>Estandarizar imágenes</strong> realiza la calibración de la imagen, convirtiendo la salida sin procesar de la cámara en valores proporcionales a las verdaderas propiedades ópticas de la escena para que los colores sean comparables entre dispositivos. La calibración elimina los sesgos específicos de la cámara y la escena (por ejemplo, iluminación, balance de blancos, procesamiento en la cámara) y asigna intensidades de píxeles a valores estandarizados. El objetivo es que una superficie con una reflectancia determinada produzca valores consistentes independientemente de la cámara, la lente o la iluminación.</p>
+</section>
+<section class="section-card" id="home">
+<h3>Página de inicio</h3>
+<ul>
+<li><strong>Analizar imágenes:</strong> Inicia el módulo de análisis.</li>
+<li><strong>Estandarizar imágenes:</strong> Inicia el módulo de estandarización.</li>
+<li><strong>Iniciar sesión/Cerrar sesión:</strong> Finaliza la sesión y regresa a la página de inicio de sesión.</li>
+</ul>
+</section>
+<section class="section-card" id="access">
+<h3>Acceso y cuentas</h3>
+<p>El <strong>Acceso</strong> La página gestiona la autenticación de usuarios y la creación de cuentas locales. La configuración del usuario y los modelos de IA se almacenan por cuenta. Algunos modelos de IA requieren claves personales API. La creación de una cuenta garantiza que las claves API se almacenen de forma segura y que su configuración persista.</p>
+<section class="mt-3" id="login">
+<h4>Iniciar sesión</h4>
+<ol>
+<li>Ingrese su nombre de usuario. Un menú desplegable enumera las cuentas creadas previamente para una selección rápida.</li>
+<li>Escriba su contraseña. Usar <em>Espectáculo</em> para alternar la visibilidad y evitar errores tipográficos.</li>
+<li>Prensa <em>Acceso</em> para iniciar una sesión.</li>
+</ol>
+</section>
+<section class="mt-3" id="create-user">
+<h4>Crear y eliminar usuarios</h4>
+<p>Seleccionar <em>Crear usuario</em> para abrir un modal con campos para nombre de usuario y contraseña. Puede dejar el campo de contraseña vacío. La nueva cuenta se guarda localmente y aparece en la lista de sugerencias. Seleccionar <em>Eliminar usuario</em> y escriba una contraseña para eliminar permanentemente un usuario.</p>
+</section>
+<section class="mt-3" id="update-password">
+<h4>Actualización de contraseñas</h4>
+<p>Haga clic <em>Cambiar la contraseña</em> para abrir un modal precargado con el nombre de usuario que inició sesión. Proporcione la contraseña anterior, ingrese y confirme la nueva, luego haga clic en <em>Actualizar contraseña</em>. El cambio entra en vigor inmediatamente.</p>
+</section>
+<section class="mt-3" id="guest">
+<h4>Acceso de invitados</h4>
+<p>Argiope se abre automáticamente como Invitado. Usar <em>Accede como invitado</em> para explorar funciones sin credenciales. Las sesiones de invitados también conservan los datos del usuario, incluidas las claves API.</p>
+</section>
+</section>
+<section class="section-card" id="standardize">
+<h3>Estandarización de imágenes</h3>
+<p>Este procedimiento de varios pasos convierte fotografías RAW en archivos con corrección de color utilizando un estándar de referencia.</p>
+<p>Solo se aceptan como entrada los formatos de imagen RAW. La mayoría de los proveedores de cámaras son compatibles, incluidos Canon, Nikon, Sony, Samsung, Panasonic y Olympus. Debido a que los archivos RAW conservan mediciones de sensores mínimamente procesadas (negativos digitales), brindan máxima flexibilidad y precisión para la calibración.</p>
+<p>Se requiere un estándar de referencia con valores de reflectancia conocidos (por ejemplo, X-Rite ColorChecker Passport o Labsphere Diffuse Reflectance Standards). El estándar se utiliza para ajustar la regresión que asigna intensidades de píxeles a valores calibrados. La referencia puede aparecer en todas las fotografías o sólo en una; en este último caso, esa foto debe compartir las mismas condiciones que las demás (iluminación, ángulo y configuración de la cámara).</p>
+<p>Las imágenes calibradas se guardan como archivos TIFF o ENVI. Las imágenes ENVI se componen de dos archivos (<em>.hdr</em> y <em>.dat</em>).</p>
+<p>Las imágenes no pasan por correcciones de barril, lo que puede introducir pequeñas distorsiones según el tipo de lente.</p>
+<section class="section-card" id="calibration">
+<h4>Configuración de calibración</h4>
+<p>Puede tratar las imágenes de forma independiente (modo de procesamiento <code>Separate images</code>) o como grupos (modo de procesamiento <code>Stacking images</code>). La agrupación está pensada cuando el mismo objeto fue fotografiado varias veces (por ejemplo, con filtros UV, RGB e IR) y desea fusionarlos en una imagen multiespectral.</p>
+<section class="mt-2" id="fm-add">
+<h5>Agregar y organizar archivos</h5>
+<ul>
+<li><strong>Agregar archivos</strong> o <strong>Agregar carpeta</strong> para importar desde el disco.
+              </li><li>Los elementos importados aparecen como miniaturas. Puede arrastrar y soltar tarjetas para reordenarlas.</li>
+<li>
+<strong class="text-danger">Importante:</strong>
+                Si los archivos que agregó están almacenados en una fuente externa que requiere una conexión a Internet, asegúrese de que su conexión sea estable. Una conexión inestable puede afectar el rendimiento del software.
+              </li>
+</ul>
+</section>
+<section class="mt-2" id="cal-channels">
+<p>1) Si eliges <strong>Apilar imágenes</strong>, hay tres pestañas disponibles: <strong>Canales</strong>, <strong>Alineación</strong>, y <strong>Calibración</strong>.</p>
+<h5>Canales <strong>Pestaña</strong></h5>
+<p>La estructura de imágenes apiladas aparece como grupos de imágenes. Cada fila representa un grupo que se tratará como una imagen multiespectral. Las filas están alineadas para que cada imagen dentro de una fila se maneje de manera consistente.</p>
+<ul>
+<li>Dentro de un grupo, puede reordenar (arrastrar y soltar) o eliminar (icono de papelera) las imágenes.</li>
+<li>Entre grupos, puede reordenar (arrastrar y soltar) o eliminar (icono de papelera).</li>
+<li>Puedes crear un nuevo grupo.</li>
+<li>Utilice el icono de configuración en la parte inferior para elegir si desea utilizar todos los canales (R, G, B) o dejar que Argiope seleccione automáticamente el mejor canal.</li>
+<li>Especifique CWL (longitud de onda central) y FWHM (ancho total a la mitad del máximo) para cada canal. La entrada acepta números (por ejemplo, 450) o etiquetas (por ejemplo, UV). Si bien no es estrictamente necesario para la calibración, la interpretación precisa de las métricas de color depende de los valores correctos de longitud de onda.</li>
+</ul>
+</section>
+<section class="mt-2" id="cal-alignment">
+<h5>Alineación <strong>Pestaña</strong></h5>
+<p>Alinea las imágenes entre sí para que todos los canales espectrales se superpongan correctamente para una composición multiespectral. Hay tres opciones: 
+              <strong>Coincidencia de características + homografía</strong>, <strong>Corrección de fase</strong> o <strong>Manual</strong>. La alineación automática funciona en la mayoría de los casos.
+            </p>
+<section class="mt-2" id="cal-calibration">
+<h5>Calibración <strong>Pestaña</strong></h5>
+<ul>
+<li><strong>Estándares de color</strong>
+<ul>
+<li>Seleccione o agregue el estándar de color utilizado en sus imágenes. Estos valores impulsan la conversión de intensidades de píxeles a reflectancia calibrada. Puede agregar, eliminar o editar estándares, incluida la cantidad de muestras de referencia.</li>
+</ul>
+</li>
+<li><strong>Coordenadas estándar de color</strong>
+<ul>
+<li>Argiope necesita las ubicaciones de las muestras de referencia para extraer intensidades. Opciones:
+                    <ul>
+<li>Indique ubicaciones en cada imagen (completamente manual);</li>
+<li>Indicar ubicaciones en la primera imagen de cada grupo (otros heredan después de la alineación);</li>
+<li>Utilice la primera imagen del primer grupo como referencia (otros grupos heredan el mismo diseño);</li>
+<li>Utilice un detector <strong>asistido por IA</strong>. Haga clic <em>Modelos de IA</em> para configurar.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Modelo de IA</strong> botón
+                <ul>
+<li>Agregue un modelo entrenado para detectar automáticamente el estándar de color.</li>
+</ul>
+</li>
+<section class="mt-2" id="cal-ai">
+<h5>Modelos de IA para coordenadas de color estándar</h5>
+<p>Puede utilizar un modelo entrenado para detectar automáticamente estándares de referencia. Argiope se integra con la aplicación web Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) para ejecutar la inferencia.
+            Roboflow ofrece un flujo de trabajo fácil de usar para modelos de entrenamiento. El modelo debe ubicar cada parche de estándar de color individual utilizado para la calibración.</p>
+<p>Haga clic <em>Modelos de IA</em> para configurar:</p>
+<ul>
+<li><strong>URL</strong>: proporcione la ruta del modelo Roboflow (p. ej. <code>colorchecker-segmentation/3</code>).</li>
+<li><strong>Clave API</strong>: requerido para la inferencia Roboflow. Su clave API es personal y confidencial (disponible en su cuenta Roboflow).</li>
+<li><strong>Umbral de detección</strong>: las detecciones por debajo de esta confianza se descartan.</li>
+<li><strong>Tampón (%)</strong>: desplazamiento de borde aplicado a los polígonos detectados. Los valores positivos se dilatan hacia afuera; los valores negativos se erosionan hacia adentro. El porcentaje se aplica por borde (por ejemplo, -10 elimina aproximadamente el 10 % de cada lado).</li>
+</ul>
+</section>
+</ul>
+<p>2) Si eliges <strong>Imágenes separadas</strong>, hay dos pestañas disponibles: <strong>Canales</strong> y <strong>Calibración</strong>.</p>
+<h5>Canales <strong>Pestaña</strong></h5>
+<p>Las imágenes aparecen como miniaturas. Se calibrarán los canales R, G y B de cada imagen. Utilice los controles de flecha o arrastre y suelte miniaturas para cambiar el orden de las imágenes (útil cuando la primera imagen es la referencia de calibración).</p>
+<p><strong>Pestaña Calibración</strong></p>
+<p>Mismas opciones que las anteriores.</p>
+</section>
+<section class="section-card" id="cal-export">
+<h5>Opciones de exportación</h5>
+<p>Seleccione el tipo de archivo (TIF o ENVI) y el tipo de datos (8 bits o 32 bits). Un archivo de 8 bits es más pequeño (de 0 a 255 enteros) pero no puede almacenar decimales ni valores negativos. Un archivo de 32 bits almacena decimales y valores tanto negativos como positivos a costa de un mayor tamaño. A menos que el almacenamiento esté limitado, se recomiendan 32 bits.</p>
+</section>
+<section class="section-card" id="cal-progress">
+<h5>Procesamiento y progreso</h5>
+<p>Haga clic <em>Proceso</em> para iniciar la estandarización. Un modal muestra texto de estado y una barra de progreso en vivo. Puedes cancelar en cualquier momento. Cuando esté completo, el <em>Resultados</em> El botón abre la página de revisión.</p>
+</section>
+</section>
+</section>
+<section class="section-card" id="review">
+<h4>Revisar resultados</h4>
+<ul>
+<li>Una alerta de error enumera cualquier error de procesamiento.</li>
+<li>Una galería muestra cada imagen con su informe.</li>
+<li>Un gráfico muestra la regresión utilizada para convertir valores de píxeles en valores estandarizados, junto con ecuaciones y R.<sup>2</sup>.</li>
+<li>Usar <em>Rehacer la estandarización de imágenes</em> para ajustar parámetros o <em>Finalizar</em> para volver a casa.</li>
+</ul>
+</section>
+<section class="section-card" id="cal-workflow">
+<h4>Detalles técnicos sobre el flujo de trabajo de estandarización</h4>
+<p>El algoritmo Argiope para la estandarización de imágenes pasa por los siguientes pasos:</p>
+<ol>
+<li>Abra la primera imagen de RAW.</li>
+<li>Utilizando las coordenadas estándar de color, calcule la intensidad media de píxeles para cada parche.</li>
+<li>Empareje estas medidas con los valores de referencia definidos en la sección Estándares de color.</li>
+<li>Ajustar un modelo lineal de mínimos cuadrados con <i>valores de referencia estándar de color</i> como respuesta y <i>intensidades medias de píxeles</i> como predictor. Ajuste los canales R, G y B de forma independiente.</li>
+<li>Aplique cada modelo para convertir cada píxel de la intensidad original al valor calibrado.</li>
+<li>Si <i>Mejor canal</i> está seleccionado, elija el canal de acuerdo con:
+            <ol>
+<li>Modelo R<sup>2</sup> &gt; 0.97;</li>
+<li>Valor más alto medido, intensidad no saturada (una muestra no está saturada si su intensidad máxima medida &lt;65,535);</li>
+<li>Si no se cumple ni (1) ni (2), seleccione el canal con el R más alto<sup>2</sup>.</li>
+</ol>
+</li>
+<li>Si genera una imagen multiespectral (directorios), repita los pasos para cada imagen del grupo.
+            <ol>
+<li>Si se selecciona, aplique la alineación registrando la imagen actual en la primera imagen (antes del cálculo de intensidad).</li>
+</ol>
+</li>
+<li>Si la primera imagen/grupo se establece como referencia, aplique los modelos a las imágenes restantes; de lo contrario, repita los pasos para cada imagen/grupo.</li>
+<li>Almacene los coeficientes generados y las estadísticas de ajuste como metadatos para su posterior revisión y reproducibilidad.</li>
+</ol>
+<p>*Las imágenes RAW se procesan según lo dispuesto por la cámara. No se aplica la corrección de la distorsión de la lente, por lo que pueden ocurrir pequeñas diferencias geométricas dependiendo de la lente.</p>
+</section>
+<section class="section-card" id="analyze">
+<h3>Analizar imágenes</h3>
+<section class="mt-2" id="analysis-import">
+<h4>Importar imágenes</h4>
+<p>Abra la página Analizar imágenes y haga clic <em>Importar imágenes</em>. Si un archivo de anotación generado por Argiope está en la misma carpeta, los polígonos, las etiquetas de imagen y las etiquetas de polígonos se cargan automáticamente.</p>
+<p>
+<strong class="text-danger">Importante</strong>
+            Si los archivos que agregó están almacenados en una fuente externa que requiere una conexión a Internet, asegúrese de que su conexión sea estable. Una conexión inestable puede afectar el rendimiento del software.
+          </p>
+</section>
+<section class="mt-2" id="analysis-gallery">
+<h4>Administrar la galería de objetos</h4>
+<p>Cada archivo importado aparece como un <em>tarjeta de archivo</em> con una miniatura, título, icono de eliminación y casilla de verificación.</p>
+<ul>
+<li><strong>Seleccionar todo</strong> y <strong>Borrar selección</strong> alternar selecciones masivas.</li>
+<li>Quitar una tarjeta elimina la imagen de la sesión.</li>
+<li>Al hacer clic en otro lugar de una tarjeta se abre la imagen.</li>
+</ul>
+</section>
+<section class="section-card" id="analysis-viewer">
+<h4>Visualización de objetos y funciones de edición</h4>
+<p>Al abrir una tarjeta de archivo, se abre un modo de pantalla completa con pestañas para interacción de imágenes y resúmenes de análisis.</p>
+<section class="mt-2" id="analysis-tools">
+<h5>Herramientas de la barra de herramientas</h5>
+<p>La barra de herramientas flotante sobre el lienzo incluye:</p>
+<ul>
+<li><strong>Restablecer vista</strong>: Restaura el zoom y la posición originales.</li>
+<li><strong>Selector de funciones</strong>: Habilita el modo de selección para polígonos existentes.</li>
+<li><strong>Herramienta SAM</strong>: Utiliza el modelo Segment Anything para la segmentación automática.
+                <ul>
+<li>Coloque dos puntos dentro del objeto de interés; Argiope lo detectará y segmentará. Se genera un polígono y se agrega a la lista de Objetos.</li>
+</ul>
+</li>
+<li><strong>Sorteo de polígonos</strong>: rastrea manualmente las regiones de interés.</li>
+<li><strong>dibujo de linea</strong>: rastrea manualmente las regiones de interés.</li>
+<li><strong>Deshacer</strong>, y <strong>Rehacer</strong>: deshace y rehace los últimos 10 cambios aplicados a los polígonos.</li>
+<li><strong>Dar un golpe de zoom</strong>, <strong>alejar</strong>, y <strong>Cacerola</strong>: ajusta la ventana gráfica. Tenencia <kbd>Shift</kbd> es un atajo para <em>Cacerola</em>.</li>
+<li><strong>Importar archivo de características</strong>: agregue anotaciones directamente desde el visor. Importar un JSON en el <a href="https://cocodataset.org/#format-data">Formato COCO</a> o un archivo ROI ImageJ (<a href="https://imagej.net/ij/">https://imagej.net/ij/</a>). Para las ROI ImageJ, primero descomprima el archivo y seleccione los objetos deseados.</li>
+<li><strong>Exportar archivo de características</strong>: Exportar un JSON en el <a href="https://cocodataset.org/#format-data">Formato COCO</a> o un archivo ROI ImageJ (<a href="https://imagej.net/ij/">https://imagej.net/ij/</a>).</li>
+<li><strong>Seleccionar modelo</strong>: elija qué modelo de IA aplicar; <strong>Generar funciones (IA)</strong> lo ejecuta en la imagen actual.</li>
+</ul>
+</section>
+<section class="mt-2" id="analysis-features">
+<h5>Lista de objetos y etiquetas</h5>
+<p>El panel lateral enumera todos los objetos. Puede agregar etiquetas para clasificar la imagen u objetos individuales.</p>
+</section>
+</section>
+<section class="section-card" id="analysis-ai">
+<h4>Modelos de IA y generación de objetos</h4>
+<p>Utilice modelos integrados o conecte servicios externos para generar características como polígonos (segmentación), cuadros delimitadores (detección) o etiquetas a nivel de imagen (clasificación).</p>
+<h5>Tipos de modelos admitidos</h5>
+<ul>
+<li><strong>Segmentación Zero-shot</strong>: detecta y segmenta objetos a partir de una o varias palabras descriptivas. Se ejecuta localmente.</li>
+<li><strong>Detección Zero-shot</strong>: igual que el anterior pero devuelve cuadros delimitadores. Se ejecuta localmente.</li>
+<li><strong>Segmentación Roboflow</strong>: utiliza un modelo entrenado en Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) a través de sus servidores de inferencia. Roboflow es una aplicación fácil de usar para el entrenamiento de modelos de IA que también proporciona servidores de inferencia.</li>
+<li><strong>Clasificación Roboflow</strong>: utiliza un modelo Roboflow para la clasificación de imágenes; devuelve etiquetas agregadas a Etiquetas de imagen.</li>
+<li><strong>Clasificación Gemini</strong>: utiliza el modelo Gemini de Google para la clasificación de imágenes según un mensaje; devuelve etiquetas agregadas a Etiquetas de imagen.</li>
+</ul>
+<section class="mt-2" id="analysis-ai-how">
+<h5>Modelos de IA: cómo agregar modelos</h5>
+<ul>
+<li>Haga clic <strong>Modelos de IA</strong>. Para agregar un modelo, escriba un nombre y seleccione el tipo de modelo:
+              <ul>
+<li><strong>Segmentación Zero-shot</strong>:
+                  <ul>
+<li><strong>Lista de objetos</strong>: agregue palabras clave que describan objetivos (separadas por comas), por ejemplo, <em>mariposa, pequeño cuadrado verde, círculo grande</em>. Pruebe variantes para obtener un rendimiento sólido.</li>
+<li><strong>Umbral de detección</strong>: umbral de confianza por objeto (separado por comas). Umbrales muy bajos (por ejemplo, 0,001%) pueden ayudar durante la exploración.</li>
+<li><strong>Máx. número de características</strong>: máximo de objetos por tipo para retener (separados por comas). Mantiene los resultados de mayor confianza.</li>
+<li><strong>Tampón (%)</strong>: desplazamiento de borde aplicado a polígonos. Los valores positivos se dilatan hacia afuera; los valores negativos se erosionan hacia adentro. El porcentaje se aplica por borde (por ejemplo, -10 elimina aproximadamente el 10 % de cada lado).</li>
+</ul>
+</li>
+<li><strong>Detección Zero-shot</strong>: igual que el anterior pero devuelve cuadros delimitadores.</li>
+<li><strong>Segmentación Roboflow</strong>:
+                  <ul>
+<li><strong>URL</strong>: proporcione la dirección del modelo de roboflow URL; p.ej., <code>colorchecker-segmentation/3</code></li>
+<li><strong>Clave API</strong>: requerido para la inferencia Roboflow (se mantiene personal y confidencial). Para localizar su clave API vaya a su cuenta de usuario en la WebApp Roboflow</li>
+<li><strong>Umbral de detección (%)</strong>: confianza mínima. Sólo se mantendrá la detección con valores de confianza superiores al umbral.</li>
+<li><strong>Máx. número de características</strong>: máximo de objetos por imagen.</li>
+<li><strong>Tampón (%)</strong>: desplazamiento de borde aplicado a polígonos. Los valores positivos se dilatan hacia afuera; los valores negativos se erosionan hacia adentro. El porcentaje se aplica por borde (por ejemplo, -10 elimina aproximadamente el 10 % de cada lado).
+                    </li>
+</ul>
+</li>
+<li><strong>Clasificación Roboflow</strong>:.
+                  <ul>
+<li><strong>URL</strong> y <strong>Clave API</strong> como arriba.</li>
+</ul>
+</li>
+<li><strong>Clasificación Gemini</strong>:.
+                  <ul>
+<li><strong>Clave API</strong>: requerido para la inferencia Gemini (se mantiene personal y confidencial). Para ubicar su clave API, vaya a su cuenta de usuario en Google AI for Developers (<a href="https://ai.google.dev/">https://ai.google.dev/</a>).</li>
+<li><strong>Modelo</strong>: seleccione el modelo Gemini.</li>
+<li><strong>Inmediato</strong>: escriba un mensaje para el modelo Gemini. Por ejemplo, "<i>lee la etiqueta de esta imagen y devuelve su contenido.</i>"</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section class="section-card" id="image-lists">
+<h4>Listas de imágenes</h4>
+<p>Un <strong>Lista de imágenes</strong> es un salvo <code>.json</code> Archivo que registra las rutas de todas las imágenes cargadas en una sesión. Al abrir una lista se restaura el conjunto completo de imágenes con un solo clic, sin volver a importarlas manualmente.</p>
+<p>Cuando se abre una lista, Argiope carga automáticamente el archivo COCO complementario de cada imagen y restaura todas las funciones.</p>
+<p>Utilice el <strong>Listas de imágenes</strong> en la barra superior para abrir, guardar o cerrar una lista. Un punto ámbar junto al nombre de la lista indica cambios no guardados.</p>
+</section>
+<section class="section-card" id="analysis-run">
+<h4>Análisis de ejecución</h4>
+<p>Seleccione una o más imágenes y presione <em>Analizar selección</em>. Los datos se extraen para cada objeto en cada imagen y se almacenan en un archivo de hoja de cálculo delimitado por tabulaciones (<i>.TXT</i>). El archivo se puede abrir en cualquier software de hoja de cálculo (por ejemplo, Excel) o software estadístico (<i>consejo</i>: en la función de uso R <code>read.delim</code>).</p>
+<p>Columnas exportadas por defecto:</p>
+<ul>
+<li><strong>file_name</strong>, <strong>image_path</strong>: información del archivo fuente y etiquetas adjuntas a la imagen. </li>
+<li><strong>object_name</strong>, <strong>object_id</strong>, <strong></strong>: etiqueta de objeto e identificación única del objeto dentro de una imagen.</li>
+<li><strong>object_tags</strong>: etiquetas a nivel de objeto (clasificación de objetos).</li>
+<li><strong>object_coordinates</strong>: Coordenadas x e y de los vértices del objeto.</li>
+<li><strong>object_N_Pixels</strong>: número de píxeles dentro de la máscara. Se puede utilizar para calcular el tamaño real de objetos basándose en una escala conocida.</li>
+<li><strong>object_hasInf</strong>, <strong>object_hasNA</strong>: indicadores para valores infinitos o NaN después del enmascaramiento.</li>
+<li><strong>área</strong>, <strong>area_unit</strong>, <strong>longitud</strong>, <strong>length_unit</strong>: tamaños calculados en base a la escala de referencia proporcionada por el usuario (icono de regla en el panel de objetos).</li>
+</ul>
+<p><strong>Imágenes de polígonos</strong></p>
+<p>Después del análisis, un <i>argiope_data</i> La carpeta se crea en el mismo directorio donde está la imagen.
+            Dentro de esta carpeta se crean carpetas adicionales con nombres de imágenes donde se guarda un archivo de imagen de cada polígono.</p>
+<p>Objeto <strong> Los nombres de los archivos de imagen se guardan con un <i>nombre_objeto + id_objeto</i> estructura </strong> para que los usuarios puedan consultarlos fácilmente en el archivo de hoja de cálculo.</p>
+<p>Además, las imágenes poligonales se pueden abrir en otros software (p. ej. <i>imagenJ, Adobe Photoshop, R, Python</i>) para extracción de datos adicionales a nivel de polígono.</p>
+<section class="mt-2" id="analysis-additional">
+<h5>Análisis</h5>
+<p>Utilice el <strong>Análisis</strong> para agregar estadísticas a la tabla exportada. Todas las salidas se escriben por objeto; Los resultados que crean imágenes también adjuntan vistas previas dentro de la carpeta de la sesión.</p>
+<h6 class="mt-3">Estadísticas Básicas</h6>
+<ul>
+<li><strong>Estadísticas de valores brutos</strong>: object_overall_max/min/mean/std/median/mad* y media std**. Estadísticas resumidas de todos los valores de píxeles combinados en los canales del objeto.</li>
+<li><strong>Transformada con raíz cuadrada</strong> Estadísticas y <strong>Estadísticas de logaritmo natural transformado (ln+1)</strong>: las mismas estadísticas después de transformar los valores de los píxeles por la raíz cuadrada o el logaritmo natural + 1.</li>
+<li><strong>Estimación de densidad del kernel</strong>: Estimación del modo basado en KDE (punto de mayor densidad) para el objeto (columna 'object_multimax'). Estos representan la combinación más común de valores de canales de píxeles. Por ejemplo, en una imagen RGB, KDE estimará la combinación más común de valores R, G y B.</li>
+<li><strong>Estadísticas a nivel de canal:</strong></li>
+<ul>
+<li><strong>channel_CWL</strong> y <strong>channel_FWHM</strong>: longitud de onda central y ancho total a la mitad del máximo a partir de metadatos de imagen; un par por canal.</li>
+<li><strong>channel_mean</strong>, <strong>channel_std</strong>, <strong>channel_median</strong>, <strong>channel_mad</strong>, <strong>channel_max</strong>, <strong>channel_min</strong>: estadísticas por canal del polígono.</li>
+<li><strong>channel_relative_intensity</strong>: intensidad relativa media del canal (valor del canal dividido por la suma del canal por píxel y luego promediado sobre todos los píxeles). Por ejemplo, en una imagen RGB, R<sub>relativo</sub> = R/(R+G+B), GRAMO<sub>relativo</sub> = G/(R+G+B) y B<sub>relativo</sub> = B/(R+G+B); entonces 
+             R<sub>relativo</sub>, GRAMO<sub>relativo</sub>y B<sub>relativo</sub> se promedian a lo largo del polígono.</li>
+<li>Cada línea de la hoja de cálculo representa <strong>un canal espectral dentro de un polígono</strong>. Las métricas que pertenecen a todo el polígono (número de píxeles, media general, etc.) se repiten en cada línea por conveniencia.</li>
+</ul>
+</ul>
+<p>*La desviación absoluta mediana (mad) es una medida de variabilidad calculada como 1,4826*mediana(abs(x<sub>i</sub>-mediana(x)))</p>
+<p>**object_overall_mean_std, object_ln1_overall_mean_std, object_sqrt_overall_mean_std: la desviación estándar media de los canales a nivel de píxel. Por ejemplo, en una imagen RGB, esto se calculará como media (estándar (R, G, B)).</p>
+<h6 class="mt-3">Descriptores de forma</h6>
+<p>Seleccione solo los descriptores de forma que desea exportar. Estas métricas se calculan a partir de la máscara poligonal, independientemente de los valores de intensidad de píxeles.</p>
+<ul>
+<li><strong>Circularidad</strong>: exportaciones <code>object_Circ</code>. Calculado como 4*pi*área/perímetro^2. Los valores más cercanos a 1 indican una forma más circular; los valores más cercanos a 0 indican una forma más alargada.</li>
+<li><strong>Relación de aspecto</strong>: exportaciones <code>object_AR</code>. Calculado como major_axis/minor_axis a partir de los ejes de elipse ajustados.</li>
+<li><strong>Redondez</strong>: exportaciones <code>object_Round</code>. Calculado como 4*área/(pi*major_axis^2).</li>
+<li><strong>Solidez</strong>: exportaciones <code>object_Solidity</code>. Calculado como área/área convexa.</li>
+<li><strong>centroide</strong>: exportaciones <code>object_X</code> y <code>object_Y</code>. Estas son las coordenadas x e y promedio de todos los píxeles dentro de la máscara poligonal.</li>
+<li><strong>Perímetro</strong>: exportaciones <code>object_Perim</code>. Este es el perímetro de la máscara poligonal en unidades de píxeles.</li>
+<li><strong>Cuadro delimitador</strong>: exportaciones <code>object_BX</code>, <code>object_BY</code>, <code>object_Width</code>, y <code>object_Height</code>. Estos describen el rectángulo alineado con el eje más pequeño que contiene la máscara poligonal.</li>
+</ul>
+<h6 class="mt-3">Análisis de componentes principales (PCA)</h6>
+<ul>
+<li>Calcula valores propios y vectores propios a partir de los píxeles enmascarados (requiere al menos dos canales y suficientes píxeles).</li>
+<li>Exporta valores propios de PC1 y PC2 (<code>object_PC1</code>, <code>object_PC2</code>)
+              y la suma de valores propios (<code>object_PC_sum</code>).</li>
+<li>Un archivo JSON con todos los valores propios/vectores, covarianza y recuento de muestras se guarda en la carpeta de imágenes dentro de la carpeta del polígono.</li>
+</ul>
+<h6 class="mt-3">I de Moran en PCA</h6>
+<ul>
+<li>Mide la autocorrelación espacial en rásteres PC1 y PC2 derivados del polígono.</li>
+<li>Exportaciones <code>moran_I_PC1</code> y <code>moran_I_PC2</code>; los valores positivos más altos indican agrupamiento, los valores negativos indican dispersión.</li>
+</ul>
+<h6 class="mt-3">Agrupación K-Means</h6>
+<ul>
+<li>Segmenta los píxeles dentro del polígono en grupos duros. El modo manual utiliza el elegido <em>n grupos</em>; pruebas en modo automático hasta <em>grupos máximos</em> usando puntuación de silueta.</li>
+<li>Exporta etiquetas de clúster (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, centros de conglomerados, proporciones y <code>kmeans_patch_diversity_relative</code> (diversidad de colores).
+              La diversidad de colores se calcula como (1/suma (proporción de conglomerados^2)) / número de conglomerados.</li>
+<li>El mejor número de grupos en modo automático es el que tiene la puntuación de silueta más alta, equilibrando compacidad y separación.</li>
+<li>Se guarda un archivo JSON en la carpeta de imágenes dentro de la carpeta del polígono con detalles sobre el análisis.</li>
+<li>Un archivo de imagen con grupos y centros de grupos se guarda en la carpeta de imágenes dentro de la carpeta del polígono. </li>
+</ul>
+<h6 class="mt-3">Modelo de mezcla gaussiana (GMM)</h6>
+<ul>
+<li>Se ajusta a un modelo de mezcla de covarianza diagonal. El modo manual utiliza el recuento de componentes proporcionado; El modo automático selecciona el mejor hasta <em>componentes máximos</em> usando BIC. Opcionalmente escale las entradas antes de instalarlas.</li>
+<li>Exportaciones <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, medias/pesos del grupo, y <code>gmm_patch_diversity_relative</code>.
+              La diversidad de colores se calcula como (1/suma (proporción de conglomerados^2)) / número de conglomerados.</li>
+<li><em>Nota:</em> <code>gmm_labels_img</code> puede mostrar menos grupos visibles que los componentes del modelo si algunos componentes no reciben píxeles.</li>
+<li>BIC elige el modelo más simple que explica los datos.</li>
+<li>Se guarda un archivo JSON en la carpeta de imágenes dentro de la carpeta del polígono con detalles sobre el análisis.</li>
+<li>Un archivo de imagen con grupos y medios de grupos se guarda en la carpeta de imágenes dentro de la carpeta del polígono. </li>
+</ul>
+<h6 class="mt-3">Fórmulas definidas por el usuario</h6>
+<ul>
+<li>Cree métricas personalizadas por polígono a nivel de píxel. Para cada fórmula, proporcione una <em>nombre</em> y <em>expresión</em>; Los resultados se exportan como <code>User_{name}</code>.</li>
+<li>Haga clic <i>Leer canales</i> para detectar los nombres de los canales de las imágenes seleccionadas. Si no se selecciona ninguna imagen, lee los nombres de los canales de todas las imágenes.</li>
+<li>Consulte los canales por sus etiquetas (p. ej., <code>R</code>, <code>band1</code>) o con <code>band("label")</code>.
+              Los ayudantes de matemáticas/estadísticas admitidos incluyen <code>mean</code>, <code>median</code>, <code>std</code>, <code>min</code>, <code>max</code>, <code>sum</code>, <code>count</code>, <code>exp</code>, <code>log</code>,
+              símbolos aritméticos básicos (<code>+ - * / ^</code>), y comparaciones (<code>&gt; &lt; &gt;= &lt;= == !=</code>).</li>
+<li>Ejemplo: <code>count(R &gt; 0.5)</code> cuenta los píxeles dentro del polígono donde <code>R</code> es mayor que <code>0.5</code>.</li>
+<li>Ejemplo: <code>(R - G) / (R + G)</code> calcula una diferencia normalizada a nivel de píxel y calcula el promedio entre píxeles dentro del polígono.</li>
+</ul>
+</section>
+</section>
+<section class="mt-2" id="analysis-results"></section>
+</section>
+<section class="section-card" id="limitations">
+<h3>Limitaciones conocidas</h3>
+<li>Debido a limitaciones del sistema, las rutas muy largas pueden causar problemas con el acceso a archivos o al guardar resultados.</li>
+<li>Argiope se basa en rawpy(LibRaw) para decodificar archivos NEF de Nikon, por lo que solo puede leer NEF que admita LibRaw. Es posible que algunas variantes más nuevas de Nikon NEF (en particular, ciertos modos de alta eficiencia Z8/Z9) no se puedan decodificar, incluso cuando el archivo en sí está intacto.</li>
+<li>Las imágenes tienen un tamaño máximo de 178956970 píxeles (~180 megapíxeles). No se procesarán imágenes más grandes.</li>
+</section>
+<section class="section-card" id="support">
+<h3>Soporte</h3>
+<p>Para obtener ayuda o informar problemas, comuníquese con el equipo de desarrollo de Argiope: <a href="https://github.com/argiopeLab/Argiope/issues/">https://github.com/argiopeLab/Argiope/issues/</a></p>
+</section>
+<section class="section-card" id="terminology">
+<h3>Glosario</h3>
+<dl>
+<dt>CWL (longitud de onda central)</dt>
+<dd>La longitud de onda central de un canal espectral. Se requieren valores precisos de CWL para interpretar correctamente los datos de cada canal.</dd>
+<dt>FWHM (ancho completo a la mitad del máximo)</dt>
+<dd>El ancho de un canal espectral medido a la mitad de su intensidad máxima. Junto con CWL, define el rango de sensibilidad de cada canal.</dd>
+<dt>Estándar de color</dt>
+<dd>Una tabla de referencia con valores de reflectancia conocidos. Incluirlo en fotografías permite a Argiope estandarizar los valores de píxeles, garantizando que las mediciones sean comparables entre sesiones.</dd>
+<dt>Modelo de calibración</dt>
+<dd>El modelo estadístico (normalmente un modelo lineal general) que asigna los valores de intensidad de la cámara a valores de reflectancia estandarizados.</dd>
+<dt>Segmentación de imágenes</dt>
+<dd>Un proceso de visión por computadora que divide una imagen en distintas regiones u objetos agrupando píxeles con características similares.</dd>
+<dt>Clasificación de imágenes</dt>
+<dd>Una tarea de visión por computadora que asigna una etiqueta o categoría a una imagen completa en función de su contenido visual. Los modelos aprenden patrones y características y luego clasifican las imágenes en clases predefinidas.</dd>
+</dl>
+</section>
+<div class="d-grid d-sm-flex gap-3 justify-content-center align-items-center w-100 mt-4">
+<a class="btn btn-outline-secondary btn-lg px-4" href="#top" role="button"><i class="fa-solid fa-arrow-up"></i> Volver arriba</a>
+</div>
+</section></div>
+</main>
+<button aria-label="Volver al principio" class="btn btn-primary btn-lg rounded-pill shadow" id="toTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+</button>
+<footer class="help-footer">
+<div><a href="index-es.html"><img alt="" height="42" src="assets/argiope-logo.png" width="42"/><strong>argiope</strong></a><span>Centro de Ayuda · Universidad de Brasilia</span></div>
+<a href="https://github.com/argiopeLab/Argiope/issues/" rel="noreferrer" target="_blank">Soporte en GitHub ↗</a>
+</footer>
+<script>
+    // Back-to-top visibility
+    const toTop = document.getElementById('toTop');
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      toTop.classList.toggle('show', y > 600);
+    };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+<script src="help.js"></script>
+</body>
+</html>

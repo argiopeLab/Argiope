@@ -233,6 +233,13 @@
             <li><a href="#analysis-run">Running Analysis</a>
               <ol>
                 <li><a href="#analysis-additional">Analyses</a></li>
+                <li><a href="#analysis-basic-statistics">Basic Statistics</a></li>
+                <li><a href="#analysis-shape-descriptors">Shape Descriptors</a></li>
+                <li><a href="#analysis-pca">Principal Component Analysis (PCA)</a></li>
+                <li><a href="#analysis-moran">Moran's I on PCA</a></li>
+                <li><a href="#analysis-kmeans">K-Means Clustering</a></li>
+                <li><a href="#analysis-gmm">Gaussian Mixture Model (GMM)</a></li>
+                <li><a href="#analysis-formulas">User Defined Formulas</a></li>
               </ol>
             </li>
           </ol>
@@ -511,8 +518,12 @@
             <li><strong>Zero-shot Detection</strong>: same as above but returns bounding boxes. Runs locally.</li>
             <li><strong>Roboflow Segmentation</strong>: uses a model trained in Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) via their inference servers. Roboflow is a user-friendly app for AI model training that also provide inference servers.</li>
             <li><strong>Roboflow Classification</strong>: uses a Roboflow model for image classification; returns labels added to Image Tags.</li>
+            <li><strong>Roboflow Workflow</strong>: runs a Workflow published through Roboflow Deploy. Results can be applied as editable segmentation polygons or as image tags.</li>
             <li><strong>Gemini Classification</strong>: uses Google Gemini model for image classification based on a prompt; returns labels added to Image Tags.</li>
+            <li><strong>ChatGPT Classification</strong>: uses an image-capable OpenAI model and a prompt; returns the model text as image tags.</li>
+            <li><strong>Claude Classification</strong>: uses an image-capable Anthropic Claude model and a prompt; returns the model text as image tags.</li>
           </ul>
+          <p>For Gemini, ChatGPT, and Claude classification, formats that are not accepted directly by the API, such as HDR and CR2, are automatically converted to an RGB JPEG before upload. User-provided API keys are stored encrypted in the local profile.</p>
 
         <section id="analysis-ai-how" class="mt-2">
         <h5>AI Models: How to Add Models</h5>
@@ -543,11 +554,36 @@
                     <li><strong>URL</strong> and <strong>API Key</strong> as above.</li>
                   </ul>
                 </li>
+                <li><strong>Roboflow Workflow</strong>:
+                  <ul>
+                    <li><strong>Workspace name</strong>: the slug shown in the Roboflow workspace URL, for example, <code>evolutionary-ecology-lab</code>.</li>
+                    <li><strong>Workflow ID</strong>: the ID or URL slug of the Workflow published in Roboflow Deploy.</li>
+                    <li><strong>API Key</strong>: the personal Roboflow account key used to run the Workflow.</li>
+                    <li><strong>Image input name</strong>: the name assigned to the Workflow image input; normally <code>image</code>.</li>
+                    <li><strong>Apply results as</strong>: choose <code>segmentation</code> to create editable polygons or <code>tags</code> to add image labels.</li>
+                    <li><strong>Workflow output key</strong>: optional. Leave blank to detect the predictions output automatically; use a dot-separated path only when the Workflow has multiple outputs, for example, <code>output.predictions</code>.</li>
+                    <li><strong>Buffer (%)</strong>: expansion or contraction applied to polygons when using segmentation results.</li>
+                  </ul>
+                </li>
                 <li><strong>Gemini Classification</strong>:.
                   <ul>
                     <li><strong>API Key</strong>: required for Gemini inference (kept personal and confidential). To locate you API Key go to your user account in the Google AI for Developers (<a href="https://ai.google.dev/">https://ai.google.dev/</a>).</li>
                     <li><strong>Model</strong>: select Gemini model.</li>
                     <li><strong>Prompt</strong>: type a prompt for the Gemini model. For instance, "<i>read the label on this image and return its content.</i>"</li>
+                  </ul>
+                </li>
+                <li><strong>ChatGPT Classification</strong>:
+                  <ul>
+                    <li><strong>API Key</strong>: create or access a key on the OpenAI platform (<a href="https://platform.openai.com/api-keys">https://platform.openai.com/api-keys</a>). ChatGPT subscriptions and API credits are separate services.</li>
+                    <li><strong>Model</strong>: select or enter an OpenAI model that supports image input.</li>
+                    <li><strong>Prompt</strong>: describe the desired classification and response format, for example, "<i>identify the species and return only its scientific name.</i>"</li>
+                  </ul>
+                </li>
+                <li><strong>Claude Classification</strong>:
+                  <ul>
+                    <li><strong>API Key</strong>: create or access a key in the Anthropic Console (<a href="https://console.anthropic.com/settings/keys">https://console.anthropic.com/settings/keys</a>). The account must have API credits available.</li>
+                    <li><strong>Model</strong>: select or enter a Claude model that supports image input.</li>
+                    <li><strong>Prompt</strong>: describe the desired classification and response format.</li>
                   </ul>
                 </li>
               </ul>
@@ -590,7 +626,7 @@
           <h5>Analyses</h5>
           <p>Use the <strong>Analyses</strong> to append statistics to the exported table. All outputs are written per object; results that create images also attach previews inside the session folder.</p>
           
-          <h6 class="mt-3">Basic Statistics</h6>
+          <h6 id="analysis-basic-statistics" class="mt-3">Basic Statistics</h6>
           <ul>
             <li><strong>Raw Values Stats</strong>: object_overall_max/min/mean/std/median/mad* and mean std**. Summary stats of all pixel values merged across channels in the object.</li>
             <li><strong>Square root-transformed</strong> Stats and <strong>Natural logarithm-transformed(ln+1) Stats</strong>: the same stats after transforming pixels values by the square root or the natural logarithm + 1.</li>
@@ -610,7 +646,7 @@
           <p>*The median absolute deviation (mad) is a measure of variability calculated as 1.4826*median(abs(x<sub>i</sub>-median(x)))</p>
           <p>**object_overall_mean_std, object_ln1_overall_mean_std, object_sqrt_overall_mean_std: the mean standard deviation of channels at the pixel level. For instance, in an RGB image, this will be calculated as mean(std(R,G,B)).</p>
 
-          <h6 class="mt-3">Shape Descriptors</h6>
+          <h6 id="analysis-shape-descriptors" class="mt-3">Shape Descriptors</h6>
           <p>Select only the shape descriptors you want to export. These metrics are calculated from the polygon mask, independently of pixel intensity values.</p>
           <ul>
             <li><strong>Circularity</strong>: exports <code>object_Circ</code>. Calculated as 4*pi*area/perimeter^2. Values closer to 1 indicate a more circular shape; values closer to 0 indicate a more elongated shape.</li>
@@ -622,19 +658,19 @@
             <li><strong>Bounding Box</strong>: exports <code>object_BX</code>, <code>object_BY</code>, <code>object_Width</code>, and <code>object_Height</code>. These describe the smallest axis-aligned rectangle containing the polygon mask.</li>
           </ul>
 
-          <h6 class="mt-3">Principal Component Analysis (PCA)</h6>
+          <h6 id="analysis-pca" class="mt-3">Principal Component Analysis (PCA)</h6>
           <ul>
             <li>Computes eigenvalues and eigenvectors from the masked pixels (requires at least two channels and enough pixels).</li>
             <li>Exports PC1 and PC2 eigenvalues (<code>object_PC1</code>, <code>object_PC2</code>)
               and the eigenvalues sum (<code>object_PC_sum</code>).</li>
             <li>A JSON file with all eigenvalues/vectors, covariance, and sample count is saved on the image folder inside the polygon folder.</li>
           </ul>
-          <h6 class="mt-3">Moran's I on PCA</h6>
+          <h6 id="analysis-moran" class="mt-3">Moran's I on PCA</h6>
           <ul>
             <li>Measures spatial autocorrelation on PC1 and PC2 rasters derived from the polygon.</li>
             <li>Exports <code>moran_I_PC1</code> and <code>moran_I_PC2</code>; higher positive values indicate clustering, negative values indicate dispersion.</li>
           </ul>
-          <h6 class="mt-3">K-Means Clustering</h6>
+          <h6 id="analysis-kmeans" class="mt-3">K-Means Clustering</h6>
           <ul>
             <li>Segments the pixels inside the polygon into hard clusters. Manual mode uses the chosen <em>n clusters</em>; automatic mode tests up to <em>max clusters</em> using silhouette score.</li>
             <li>Exports cluster labels (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, cluster centers, proportions, and <code>kmeans_patch_diversity_relative</code> (color diversity).
@@ -643,7 +679,7 @@
             <li>A JSON file is saved on image folder inside the polygon folder with details on the analysis.</li>
             <li>An image file with clusters and cluster centers is saved on image folder inside the polygon folder. </li>
           </ul>
-          <h6 class="mt-3">Gaussian Mixture Model (GMM)</h6>
+          <h6 id="analysis-gmm" class="mt-3">Gaussian Mixture Model (GMM)</h6>
           <ul>
             <li>Fits a diagonal-covariance mixture model. Manual mode uses the provided component count; automatic mode selects the best up to <em>max components</em> using BIC. Optionally scale inputs before fitting.</li>
             <li>Exports <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, cluster means/weights, and <code>gmm_patch_diversity_relative</code>.
@@ -653,14 +689,15 @@
             <li>A JSON file is saved on image folder inside the polygon folder with details on the analysis.</li>
             <li>An image file with clusters and clusters means is saved on image folder inside the polygon folder. </li>
           </ul>
-          <h6 class="mt-3">User Defined Formulas</h6>
+          <h6 id="analysis-formulas" class="mt-3">User Defined Formulas</h6>
           <ul>
             <li>Create custom metrics per polygon at the pixel level. For each formula, provide a <em>name</em> and <em>expression</em>; results are exported as <code>User_{name}</code>.</li>
             <li>Click <i>Read channels</i> to detect the channel names of the selected images. If no image is selected, it reads the channel names of all images.</li>
             <li>Refer to channels by their labels (e.g., <code>R</code>, <code>band1</code>) or with <code>band("label")</code>.
               Supported math/stat helpers include <code>mean</code>, <code>median</code>, <code>std</code>, <code>min</code>, <code>max</code>, <code>sum</code>, <code>count</code>, <code>exp</code>, <code>log</code>,
-              basic arithmetic symbols (<code>+ - * / ^</code>), and comparisons (<code>&gt; &lt; &gt;= &lt;= == !=</code>).</li>
-            <li>Example: <code>count(R &gt; 0.5)</code> counts pixels inside the polygon where <code>R</code> is greater than <code>0.5</code>.</li>
+              basic arithmetic symbols (<code>+ - * / ^</code>), comparisons (<code>&gt; &lt; &gt;= &lt;= == !=</code>), and logical operators
+              (<code>and</code>, <code>or</code>, <code>not</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>).</li>
+            <li>Example: <code>count(R &gt; 0.5 and G &lt; 0.4)</code> counts pixels inside the polygon where both conditions are true.</li>
             <li>Example: <code>(R - G) / (R + G)</code> computes a normalized difference at the pixel level and calcutes the avegare across pixels inside the polygon.</li>
           </ul>
         </section>

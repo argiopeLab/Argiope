@@ -307,133 +307,6 @@
 <p>Argiope é aberto automaticamente no modo Convidado. Use <em>Acessar como convidado</em> para explorar os recursos sem credenciais. As sessões de convidado também preservam os dados do usuário, incluindo chaves API.</p>
 </section>
 </section>
-<section class="section-card" id="standardize">
-<h3>Padronizar imagens</h3>
-<p>Este procedimento de várias etapas converte fotografias RAW em arquivos com correção de cor usando um padrão de referência.</p>
-<p>Somente formatos de imagem RAW são aceitos como entrada. A maioria dos fornecedores de câmeras é compatível, incluindo Canon, Nikon, Sony, Samsung, Panasonic e Olympus. Como os arquivos RAW preservam medições de sensores minimamente processadas (negativos digitais), eles fornecem máxima flexibilidade e precisão para calibração.</p>
-<p>É necessário um padrão de referência com valores de refletância conhecidos (por exemplo, X-Rite ColorChecker Passport ou Labsphere Diffuse Reflectance Standards). O padrão é usado para ajustar a regressão que mapeia as intensidades dos pixels para valores calibrados. A referência poderá aparecer em todas as fotos ou em apenas uma foto; neste último caso, essa foto deve compartilhar as mesmas condições das demais (iluminação, ângulo e configurações da câmera).</p>
-<p>As imagens calibradas são salvas como arquivos TIFF ou ENVI. As imagens ENVI são compostas por dois arquivos (<em>.hdr</em> e <em>.dat</em>).</p>
-<p>As imagens não passam por correção da distorção de barril; portanto, podem ocorrer pequenas diferenças geométricas dependendo da lente.</p>
-<section class="section-card" id="calibration">
-<h4>Configurações de calibração</h4>
-<p>Você pode processar as imagens de forma independente (modo <code>Separate images</code>) ou em grupos (modo <code>Stacking images</code>). O agrupamento é indicado quando o mesmo objeto foi fotografado várias vezes — por exemplo, com filtros UV, RGB e IR — e você deseja combinar as fotografias em uma imagem multiespectral.</p>
-<section class="mt-2" id="fm-add">
-<h5>Adicionando e organizando arquivos</h5>
-<ul>
-<li><strong>Adicionar arquivos</strong> ou <strong>Adicionar pasta</strong> para importar do disco.
-              </li><li>Os itens importados aparecem como miniaturas. Você pode arrastar e soltar os cartões para reordená-los.</li>
-<li>
-<strong class="text-danger">Importante:</strong>
-                Se os arquivos adicionados estiverem armazenados em uma fonte externa que requer conexão com a Internet, certifique-se de que sua conexão esteja estável. Uma conexão instável pode afetar o desempenho do software.
-              </li>
-</ul>
-</section>
-<section class="mt-2" id="cal-channels">
-<p>1) Se você escolheu <strong>Empilhar imagens</strong>, três abas estarão disponíveis: <strong>Canais</strong>, <strong>Alinhamento</strong> e <strong>Calibração</strong>.</p>
-<h5>Aba <strong>Canais</strong></h5>
-<p>A estrutura Empilhamento de imagens aparece como grupos de imagens. Cada linha representa um grupo a ser tratado como uma imagem multiespectral. As linhas são alinhadas para que cada imagem dentro de uma linha seja tratada de forma consistente.</p>
-<ul>
-<li>Dentro de um grupo, você pode reordenar (arrastar e soltar) ou remover imagens (ícone de lixeira).</li>
-<li>Entre grupos, você pode reordenar (arrastar e soltar) ou remover grupos (ícone de lixeira).</li>
-<li>Você pode criar um novo grupo.</li>
-<li>Use o ícone de configurações na parte inferior para escolher se deseja usar todos os canais (R, G, B) ou deixar o Argiope selecionar automaticamente um único melhor canal.</li>
-<li>Especifique CWL (comprimento de onda central) e FWHM (largura total na metade do máximo) para cada canal. A entrada aceita números (por exemplo, 450) ou rótulos (por exemplo, UV). Embora não seja estritamente necessária para calibração, a interpretação precisa das métricas de cores depende dos valores corretos do comprimento de onda.</li>
-</ul>
-</section>
-<section class="mt-2" id="cal-alignment">
-<h5>Aba <strong>Alinhamento</strong></h5>
-<p>Alinha as imagens umas em relação às outras para que todos os canais espectrais se sobreponham corretamente para composição multiespectral. Existem três opções: 
-              <strong>Correspondência de recursos + homografia</strong>, <strong>Correção de fase</strong> ou <strong>Manual</strong>. O alinhamento automático funciona na maioria dos casos.
-            </p>
-<section class="mt-2" id="cal-calibration">
-<h5>Aba <strong>Calibração</strong></h5>
-<ul>
-<li><strong>Padrões de cores</strong>
-<ul>
-<li>Selecione ou adicione o padrão de cores usado em suas imagens. Esses valores conduzem a conversão de intensidades de pixel para refletância calibrada. Você pode adicionar, remover ou editar padrões, incluindo o número de amostras de referência.</li>
-</ul>
-</li>
-<li><strong>Coordenadas padrão de cores</strong>
-<ul>
-<li>Argiope precisa das localizações das amostras de referência para extrair intensidades. Opções:
-                    <ul>
-<li>Indicar localizações em cada imagem (totalmente manual);</li>
-<li>Indique localizações na primeira imagem de cada grupo (outras herdam após alinhamento);</li>
-<li>Utilize a primeira imagem do primeiro grupo como referência (os demais grupos herdam o mesmo layout);</li>
-<li>Use um detector <strong>assistido por IA</strong>. Clique <em>Modelos de IA</em> para configurar.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Botão <strong>Modelo de IA</strong>
-                <ul>
-<li>Adicione um modelo treinado para detectar automaticamente o padrão de cores.</li>
-</ul>
-</li>
-<section class="mt-2" id="cal-ai">
-<h5>Modelos de IA para coordenadas padrão de cores</h5>
-<p>Você pode usar um modelo treinado para detectar automaticamente padrões de referência. Argiope integra-se com o aplicativo da web Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) para executar a inferência.
-            Roboflow oferece um fluxo de trabalho fácil de usar para modelos de treinamento. O modelo deve localizar cada amostra de padrão de cor individual usada para calibração.</p>
-<p>Clique <em>Modelos de IA</em> para configurar:</p>
-<ul>
-<li><strong>URL</strong>: forneça o caminho do modelo Roboflow (por exemplo, <code>colorchecker-segmentation/3</code>).</li>
-<li><strong>Chave API</strong>: necessária para a inferência no Roboflow. A chave é pessoal e confidencial e está disponível em sua conta Roboflow.</li>
-<li><strong>Limite de detecção</strong>: as detecções abaixo desta confiança são descartadas.</li>
-<li><strong>Buffer (%)</strong>: margem aplicada aos polígonos detectados. Valores positivos expandem o polígono; valores negativos o contraem. A porcentagem é aplicada a cada borda (por exemplo, -10 remove cerca de 10% de cada lado).</li>
-</ul>
-</section>
-</ul>
-<p>2) Se você escolheu <strong>Imagens separadas</strong>, duas abas estarão disponíveis: <strong>Canais</strong> e <strong>Calibração</strong>.</p>
-<h5>Aba <strong>Canais</strong></h5>
-<p>As imagens aparecem como miniaturas. Os canais R, G e B de cada imagem serão calibrados. Use os controles de seta ou arraste e solte miniaturas para alterar a ordem das imagens (útil quando a primeira imagem é a referência de calibração).</p>
-<p><strong>Aba Calibração</strong></p>
-<p>Apresenta as mesmas opções descritas acima.</p>
-</section>
-<section class="section-card" id="cal-export">
-<h5>Opções de exportação</h5>
-<p>Selecione o tipo de arquivo (TIF ou ENVI) e o tipo de dados (8 bits ou 32 bits). Um arquivo de 8 bits é menor (0 a 255 números inteiros), mas não pode armazenar decimais ou valores negativos. Um arquivo de 32 bits armazena decimais e valores negativos/positivos ao custo de um tamanho maior. A menos que o armazenamento seja restrito, recomenda-se 32 bits.</p>
-</section>
-<section class="section-card" id="cal-progress">
-<h5>Processamento e progresso</h5>
-<p>Clique em <em>Processar</em> para iniciar a padronização. Uma janela exibe o status e uma barra de progresso em tempo real. Você pode cancelar o processamento a qualquer momento. Ao final, o botão <em>Resultados</em> abre a página de revisão.</p>
-</section>
-</section>
-</section>
-<section class="section-card" id="review">
-<h4>Revisar os resultados</h4>
-<ul>
-<li>Um alerta de erro lista quaisquer falhas de processamento.</li>
-<li>Uma galeria exibe cada imagem com seu relatório.</li>
-<li>Um gráfico mostra a regressão usada para converter valores de pixels em valores padronizados, juntamente com equações e R<sup>2</sup>.</li>
-<li>Use <em>Refazer a padronização da imagem</em> para ajustar os parâmetros ou <em>Terminar</em> para voltar à página inicial.</li>
-</ul>
-</section>
-<section class="section-card" id="cal-workflow">
-<h4>Detalhes técnicos sobre o fluxo de trabalho de padronização</h4>
-<p>O algoritmo Argiope para padronização de imagens passa pelas seguintes etapas:</p>
-<ol>
-<li>Abra a primeira imagem RAW.</li>
-<li>Usando as coordenadas do padrão de cores, calcule a intensidade média dos pixels de cada amostra.</li>
-<li>Combine essas medidas com os valores de referência definidos na seção Padrões de cores.</li>
-<li>Ajuste um modelo linear de mínimos quadrados com <i>valores de referência padrão de cores</i> como a resposta e <i>intensidades médias de pixels</i> como o preditor. Ajuste os canais R, G e B de forma independente.</li>
-<li>Aplique cada modelo para converter cada pixel da intensidade original em valor calibrado.</li>
-<li>Se <i>Melhor canal</i> estiver selecionado, escolha o canal de acordo com:
-            <ol>
-<li>Modelo R<sup>2</sup> &gt; 0.97;</li>
-<li>Maior valor medido, intensidade não saturada (uma amostra é não saturada se sua intensidade máxima medida &lt; 65.535);</li>
-<li>Se nem (1) nem (2) forem atendidos, selecione o canal com o R mais alto<sup>2</sup>.</li>
-</ol>
-</li>
-<li>Se estiver gerando uma imagem multiespectral a partir de um grupo, repita as etapas para cada imagem desse grupo.
-            <ol>
-<li>Se selecionado, aplique o alinhamento registrando a imagem atual na primeira imagem (antes do cálculo da intensidade).</li>
-</ol>
-</li>
-<li>Se a primeira imagem/grupo for definida como referência, aplique o(s) modelo(s) às imagens restantes; caso contrário, repita as etapas para cada imagem/grupo.</li>
-<li>Armazene os coeficientes gerados e as estatísticas de ajuste como metadados para posterior revisão e reprodutibilidade.</li>
-</ol>
-<p>*As imagens RAW são processadas conforme fornecidas pela câmera. A correção de distorção da lente não é aplicada, portanto podem ocorrer pequenas diferenças geométricas dependendo da lente.</p>
-</section>
 <section class="section-card" id="analyze">
 <h3>Analisar imagens</h3>
 <section class="mt-2" id="analysis-import">
@@ -728,6 +601,133 @@
 </section>
 </section>
 <section class="mt-2" id="analysis-results"></section>
+</section>
+<section class="section-card" id="standardize">
+<h3>Padronizar imagens</h3>
+<p>Este procedimento de várias etapas converte fotografias RAW em arquivos com correção de cor usando um padrão de referência.</p>
+<p>Somente formatos de imagem RAW são aceitos como entrada. A maioria dos fornecedores de câmeras é compatível, incluindo Canon, Nikon, Sony, Samsung, Panasonic e Olympus. Como os arquivos RAW preservam medições de sensores minimamente processadas (negativos digitais), eles fornecem máxima flexibilidade e precisão para calibração.</p>
+<p>É necessário um padrão de referência com valores de refletância conhecidos (por exemplo, X-Rite ColorChecker Passport ou Labsphere Diffuse Reflectance Standards). O padrão é usado para ajustar a regressão que mapeia as intensidades dos pixels para valores calibrados. A referência poderá aparecer em todas as fotos ou em apenas uma foto; neste último caso, essa foto deve compartilhar as mesmas condições das demais (iluminação, ângulo e configurações da câmera).</p>
+<p>As imagens calibradas são salvas como arquivos TIFF ou ENVI. As imagens ENVI são compostas por dois arquivos (<em>.hdr</em> e <em>.dat</em>).</p>
+<p>As imagens não passam por correção da distorção de barril; portanto, podem ocorrer pequenas diferenças geométricas dependendo da lente.</p>
+<section class="section-card" id="calibration">
+<h4>Configurações de calibração</h4>
+<p>Você pode processar as imagens de forma independente (modo <code>Separate images</code>) ou em grupos (modo <code>Stacking images</code>). O agrupamento é indicado quando o mesmo objeto foi fotografado várias vezes — por exemplo, com filtros UV, RGB e IR — e você deseja combinar as fotografias em uma imagem multiespectral.</p>
+<section class="mt-2" id="fm-add">
+<h5>Adicionando e organizando arquivos</h5>
+<ul>
+<li><strong>Adicionar arquivos</strong> ou <strong>Adicionar pasta</strong> para importar do disco.
+              </li><li>Os itens importados aparecem como miniaturas. Você pode arrastar e soltar os cartões para reordená-los.</li>
+<li>
+<strong class="text-danger">Importante:</strong>
+                Se os arquivos adicionados estiverem armazenados em uma fonte externa que requer conexão com a Internet, certifique-se de que sua conexão esteja estável. Uma conexão instável pode afetar o desempenho do software.
+              </li>
+</ul>
+</section>
+<section class="mt-2" id="cal-channels">
+<p>1) Se você escolheu <strong>Empilhar imagens</strong>, três abas estarão disponíveis: <strong>Canais</strong>, <strong>Alinhamento</strong> e <strong>Calibração</strong>.</p>
+<h5>Aba <strong>Canais</strong></h5>
+<p>A estrutura Empilhamento de imagens aparece como grupos de imagens. Cada linha representa um grupo a ser tratado como uma imagem multiespectral. As linhas são alinhadas para que cada imagem dentro de uma linha seja tratada de forma consistente.</p>
+<ul>
+<li>Dentro de um grupo, você pode reordenar (arrastar e soltar) ou remover imagens (ícone de lixeira).</li>
+<li>Entre grupos, você pode reordenar (arrastar e soltar) ou remover grupos (ícone de lixeira).</li>
+<li>Você pode criar um novo grupo.</li>
+<li>Use o ícone de configurações na parte inferior para escolher se deseja usar todos os canais (R, G, B) ou deixar o Argiope selecionar automaticamente um único melhor canal.</li>
+<li>Especifique CWL (comprimento de onda central) e FWHM (largura total na metade do máximo) para cada canal. A entrada aceita números (por exemplo, 450) ou rótulos (por exemplo, UV). Embora não seja estritamente necessária para calibração, a interpretação precisa das métricas de cores depende dos valores corretos do comprimento de onda.</li>
+</ul>
+</section>
+<section class="mt-2" id="cal-alignment">
+<h5>Aba <strong>Alinhamento</strong></h5>
+<p>Alinha as imagens umas em relação às outras para que todos os canais espectrais se sobreponham corretamente para composição multiespectral. Existem três opções:
+              <strong>Correspondência de recursos + homografia</strong>, <strong>Correção de fase</strong> ou <strong>Manual</strong>. O alinhamento automático funciona na maioria dos casos.
+            </p>
+<section class="mt-2" id="cal-calibration">
+<h5>Aba <strong>Calibração</strong></h5>
+<ul>
+<li><strong>Padrões de cores</strong>
+<ul>
+<li>Selecione ou adicione o padrão de cores usado em suas imagens. Esses valores conduzem a conversão de intensidades de pixel para refletância calibrada. Você pode adicionar, remover ou editar padrões, incluindo o número de amostras de referência.</li>
+</ul>
+</li>
+<li><strong>Coordenadas padrão de cores</strong>
+<ul>
+<li>Argiope precisa das localizações das amostras de referência para extrair intensidades. Opções:
+                    <ul>
+<li>Indicar localizações em cada imagem (totalmente manual);</li>
+<li>Indique localizações na primeira imagem de cada grupo (outras herdam após alinhamento);</li>
+<li>Utilize a primeira imagem do primeiro grupo como referência (os demais grupos herdam o mesmo layout);</li>
+<li>Use um detector <strong>assistido por IA</strong>. Clique <em>Modelos de IA</em> para configurar.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Botão <strong>Modelo de IA</strong>
+                <ul>
+<li>Adicione um modelo treinado para detectar automaticamente o padrão de cores.</li>
+</ul>
+</li>
+<section class="mt-2" id="cal-ai">
+<h5>Modelos de IA para coordenadas padrão de cores</h5>
+<p>Você pode usar um modelo treinado para detectar automaticamente padrões de referência. Argiope integra-se com o aplicativo da web Roboflow (<a href="https://roboflow.com">https://roboflow.com</a>) para executar a inferência.
+            Roboflow oferece um fluxo de trabalho fácil de usar para modelos de treinamento. O modelo deve localizar cada amostra de padrão de cor individual usada para calibração.</p>
+<p>Clique <em>Modelos de IA</em> para configurar:</p>
+<ul>
+<li><strong>URL</strong>: forneça o caminho do modelo Roboflow (por exemplo, <code>colorchecker-segmentation/3</code>).</li>
+<li><strong>Chave API</strong>: necessária para a inferência no Roboflow. A chave é pessoal e confidencial e está disponível em sua conta Roboflow.</li>
+<li><strong>Limite de detecção</strong>: as detecções abaixo desta confiança são descartadas.</li>
+<li><strong>Buffer (%)</strong>: margem aplicada aos polígonos detectados. Valores positivos expandem o polígono; valores negativos o contraem. A porcentagem é aplicada a cada borda (por exemplo, -10 remove cerca de 10% de cada lado).</li>
+</ul>
+</section>
+</ul>
+<p>2) Se você escolheu <strong>Imagens separadas</strong>, duas abas estarão disponíveis: <strong>Canais</strong> e <strong>Calibração</strong>.</p>
+<h5>Aba <strong>Canais</strong></h5>
+<p>As imagens aparecem como miniaturas. Os canais R, G e B de cada imagem serão calibrados. Use os controles de seta ou arraste e solte miniaturas para alterar a ordem das imagens (útil quando a primeira imagem é a referência de calibração).</p>
+<p><strong>Aba Calibração</strong></p>
+<p>Apresenta as mesmas opções descritas acima.</p>
+</section>
+<section class="section-card" id="cal-export">
+<h5>Opções de exportação</h5>
+<p>Selecione o tipo de arquivo (TIF ou ENVI) e o tipo de dados (8 bits ou 32 bits). Um arquivo de 8 bits é menor (0 a 255 números inteiros), mas não pode armazenar decimais ou valores negativos. Um arquivo de 32 bits armazena decimais e valores negativos/positivos ao custo de um tamanho maior. A menos que o armazenamento seja restrito, recomenda-se 32 bits.</p>
+</section>
+<section class="section-card" id="cal-progress">
+<h5>Processamento e progresso</h5>
+<p>Clique em <em>Processar</em> para iniciar a padronização. Uma janela exibe o status e uma barra de progresso em tempo real. Você pode cancelar o processamento a qualquer momento. Ao final, o botão <em>Resultados</em> abre a página de revisão.</p>
+</section>
+</section>
+</section>
+<section class="section-card" id="review">
+<h4>Revisar os resultados</h4>
+<ul>
+<li>Um alerta de erro lista quaisquer falhas de processamento.</li>
+<li>Uma galeria exibe cada imagem com seu relatório.</li>
+<li>Um gráfico mostra a regressão usada para converter valores de pixels em valores padronizados, juntamente com equações e R<sup>2</sup>.</li>
+<li>Use <em>Refazer a padronização da imagem</em> para ajustar os parâmetros ou <em>Terminar</em> para voltar à página inicial.</li>
+</ul>
+</section>
+<section class="section-card" id="cal-workflow">
+<h4>Detalhes técnicos sobre o fluxo de trabalho de padronização</h4>
+<p>O algoritmo Argiope para padronização de imagens passa pelas seguintes etapas:</p>
+<ol>
+<li>Abra a primeira imagem RAW.</li>
+<li>Usando as coordenadas do padrão de cores, calcule a intensidade média dos pixels de cada amostra.</li>
+<li>Combine essas medidas com os valores de referência definidos na seção Padrões de cores.</li>
+<li>Ajuste um modelo linear de mínimos quadrados com <i>valores de referência padrão de cores</i> como a resposta e <i>intensidades médias de pixels</i> como o preditor. Ajuste os canais R, G e B de forma independente.</li>
+<li>Aplique cada modelo para converter cada pixel da intensidade original em valor calibrado.</li>
+<li>Se <i>Melhor canal</i> estiver selecionado, escolha o canal de acordo com:
+            <ol>
+<li>Modelo R<sup>2</sup> &gt; 0.97;</li>
+<li>Maior valor medido, intensidade não saturada (uma amostra é não saturada se sua intensidade máxima medida &lt; 65.535);</li>
+<li>Se nem (1) nem (2) forem atendidos, selecione o canal com o R mais alto<sup>2</sup>.</li>
+</ol>
+</li>
+<li>Se estiver gerando uma imagem multiespectral a partir de um grupo, repita as etapas para cada imagem desse grupo.
+            <ol>
+<li>Se selecionado, aplique o alinhamento registrando a imagem atual na primeira imagem (antes do cálculo da intensidade).</li>
+</ol>
+</li>
+<li>Se a primeira imagem/grupo for definida como referência, aplique o(s) modelo(s) às imagens restantes; caso contrário, repita as etapas para cada imagem/grupo.</li>
+<li>Armazene os coeficientes gerados e as estatísticas de ajuste como metadados para posterior revisão e reprodutibilidade.</li>
+</ol>
+<p>*As imagens RAW são processadas conforme fornecidas pela câmera. A correção de distorção da lente não é aplicada, portanto podem ocorrer pequenas diferenças geométricas dependendo da lente.</p>
 </section>
 <section class="section-card" id="limitations">
 <h3>Limitações conhecidas</h3>

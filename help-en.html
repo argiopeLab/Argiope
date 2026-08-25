@@ -322,145 +322,6 @@
       </section>
 
 
-      <section id="standardize" class="section-card">
-        <h3>Standardizing Images</h3>
-        <p>This multi-step procedure converts RAW photographs into color-corrected files using a reference standard.</p>
-        <p>Only RAW image formats are accepted as input. Most camera vendors are supported, including Canon, Nikon, Sony, Samsung, Panasonic, and Olympus. Because RAW files preserve minimally processed sensor measurements (digital negatives), they provide maximum flexibility and accuracy for calibration.</p>
-        <p>A reference standard with known reflectance values (e.g., X-Rite ColorChecker Passport or Labsphere Diffuse Reflectance Standards) is required. The standard is used to fit the regression that maps pixel intensities to calibrated values. The reference may appear in every photo or only one photo; in the latter case, that photo must share the same conditions as the others (illumination, angle, and camera settings).</p>
-        <p>Calibrated images are saved as either TIFF or ENVI files. ENVI images are composed of two files (<em>.hdr</em> and <em>.dat</em>).</p>
-        <p>Images do not go through barrel corrections which may introduce small distortions depending on the lens type</p>
-
-        <section id="calibration" class="section-card">
-          <h4>Calibration Settings</h4>
-          <p>You may treat images independently (processing mode <code>Separate images</code>) or as groups (processing mode <code>Stacking images</code>). Grouping is intended when the same object was photographed multiple times (e.g., with UV, RGB, and IR filters) and you want to merge them into a multispectral image.</p>
-          <section id="fm-add" class="mt-2">
-            <h5>Adding and Organizing Files</h5>
-            <ul>
-              <li><strong>Add files</strong> or <strong>Add folder</strong> to import from disk.
-              <li>Imported items appear as thumbnails. You may drag and drop cards to reorder them.</li>
-              <li>
-                <strong class="text-danger">Important:</strong>
-                If the files you added are stored on an external source that requires an internet connection, make sure your connection is stable. An unstable connection may affect the software’s performance.
-              </li>            
-            </ul>
-          </section>
-
-          <section id="cal-channels" class="mt-2">
-          <p>1) If you chose <strong>Stacking images</strong>, three tabs are available: <strong>Channels</strong>, <strong>Alignment</strong>, and <strong>Calibration</strong>.</p>
-            <h5>Channels <strong>Tab</strong></h5>
-            <p>The Stacking images structure appears as groups of images. Each row represents one group to be treated as a multispectral image. Rows are aligned so each image within a row is handled consistently.</p>
-            <ul>
-              <li>Within a group, you may reorder (drag and drop) or remove (trash icon) images.</li>
-              <li>Between groups, you may reorder (drag and drop) or remove (trash icon) groups.</li>
-              <li>You may create a new  group.</li>
-              <li>Use the settings icon at the bottom to choose whether to use all channels (R, G, B) or let Argiope automatically select a single best channel.</li>
-              <li>Specify CWL (center wavelength) and FWHM (full width at half maximum) for every channel. The input accepts numbers (e.g., 450) or labels (e.g., UV). While not strictly required for calibration, accurate interpretation of color metrics depends on correct wavelength values.</li>
-            </ul>
-          </section>
-
-          <section id="cal-alignment" class="mt-2">
-            <h5>Alignment <strong>Tab</strong></h5>
-            <p>Aligns images relative to each other so all spectral channels overlap correctly for multispectral composition. There are three options: 
-              <strong>Feature Matching + Homography</strong>, <strong>Phase correction</strong> or <strong>Manual</strong>. Automatic alignment works for most cases.
-            </p>
-
-          <section id="cal-calibration" class="mt-2">
-            <h5>Calibration <strong>Tab</strong></h5>
-            <ul>
-              <li><strong>Color Standards</strong>
-                <ul>
-                  <li>Select or add the color standard used in your images. These values drive the conversion from pixel intensities to calibrated reflectance. You may add, remove, or edit standards, including the number of reference samples.</li>
-                </ul>
-              </li>
-              <li><strong>Color standard coordinates</strong>
-                <ul>
-                  <li>Argiope needs the locations of reference samples to extract intensities. Options:
-                    <ul>
-                      <li>Indicate locations in every image (fully manual);</li>
-                      <li>Indicate locations in the first image of each group (others inherit after alignment);</li>
-                      <li>Use the first image of the first group as reference (other groups inherit the same layout);</li>
-                      <li>Use an <strong>AI-assisted</strong> detector. Click <em>AI Models</em> to configure.</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li><strong>AI Model</strong> button
-                <ul>
-                  <li>Add a trained model to automatically detect the color standard.</li>
-                </ul>
-              </li>
-
-              <section id="cal-ai" class="mt-2">
-            <h5>AI Models for Color-Standard Coordinates</h5>
-            <p>You may use a trained model to automatically detect reference standards. Argiope integrates with the Roboflow Web App (<a href="https://roboflow.com">https://roboflow.com</a>) to run inference.
-            Roboflow offers a user-friendly workflow for training models. The model should locate each individual color-standard patch used for calibration.</p>
-            <p>Click <em>AI Models</em> to configure:</p>
-            <ul>
-              <li><strong>URL</strong>: provide the Roboflow model path (e.g. <code>colorchecker-segmentation/3</code>).</li>
-              <li><strong>API Key</strong>: required for Roboflow inference. Your API key is personal and confidential (available in your Roboflow account).</li>
-              <li><strong>Detection Threshold</strong>: detections below this confidence are discarded.</li>
-              <li><strong>Buffer (%)</strong>: edge offset applied to detected polygons. Positive values dilate outward; negative values erode inward. The percentage is applied per border (e.g., -10 removes about 10% from each side).</li>
-            </ul>
-          </section>
-
-            </ul>
-            <p>2) If you chose <strong>Separate images</strong>, two tabs are available: <strong>Channels</strong> and <strong>Calibration</strong>.</p>
-            <h5>Channels <strong>Tab</strong></h5>
-            <p>Images appear as thumbnails. The R, G, and B channels of each image will be calibrated. Use arrow controls, or drag and drop thumbnails to change image order (useful when the first image is the calibration reference).</p>
-            <p><strong>Calibration Tab</strong></p>
-            <p>Same options as above.</p>
-          </section>
-          
-          <section id="cal-export" class="section-card">
-            <h5>Export Options</h5>
-            <p>Select the File Type (TIF or ENVI) and the Data Type (8-bit or 32-bit). An 8-bit file is smaller (0 to 255 integers) but cannot store decimals or negative values. A 32-bit file stores decimals and both negative/positive values at the cost of larger size. Unless storage is constrained, 32-bit is recommended.</p>
-          </section>
-
-          <section id="cal-progress" class="section-card">
-            <h5>Processing &amp; Progress</h5>
-            <p>Click <em>Process</em> to start standardization. A modal displays status text and a live progress bar. You can abort at any time. When complete, the <em>Results</em> button opens the review page.</p>
-          </section>
-        </section>
-      </section>
-
-      <section id="review" class="section-card">
-        <h4>Review Results</h4>
-        <ul>
-          <li>An error alert lists any processing failures.</li>
-          <li>A gallery displays each image with its report.</li>
-          <li>A graph shows the regression used to convert pixel values to standardized values, along with equations and R<sup>2</sup>.</li>
-          <li>Use <em>Redo image standardization</em> to adjust parameters or <em>Finish</em> to return home.</li>
-        </ul>
-      </section>
-
-      <section id="cal-workflow" class="section-card">
-        <h4>Technical Details on the Standardization Workflow</h4>
-        <p>The Argiope algorithm for Image Standardization goes through the following steps:</p>
-        <ol>
-          <li>Open the first RAW image.</li>
-          <li>Using the color-standard coordinates, compute the mean pixel intensity for each patch.</li>
-          <li>Pair these measurements with the reference values defined in the Color Standards section.</li>
-          <li>Fit a least-squares linear model with <i>color-standard reference values</i> as the response and <i>mean pixel intensities</i> as the predictor. Fit R, G, and B channels independently.</li>
-          <li>Apply each model to convert every pixel from original intensity to calibrated value.</li>
-          <li>If <i>Best Channel</i> is selected, choose the channel according to:
-            <ol>
-              <li>Model R<sup>2</sup> &gt; 0.97;</li>
-              <li>Highest value measured, non-saturated intensity (a sample is non-saturated if its maximum measured intensity &lt; 65,535);</li>
-              <li>If neither (1) nor (2) is met, select the channel with the highest R<sup>2</sup>.</li>
-            </ol>
-          </li>
-          <li>If generating a multispectral image (directories), repeat the steps for each image in the group.
-            <ol>
-              <li>If selected, apply alignment by registering the current image to the first image (before intensity calculation).</li>
-            </ol>
-          </li>
-          <li>If the first image/group is set as reference, apply the model(s) to the remaining images; otherwise, repeat the steps for each image/group.</li>
-          <li>Store the generated coefficients and fit statistics as metadata for later review and reproducibility.</li>
-        </ol>
-
-        <p>*RAW images are processed as provided by the camera. Lens-distortion correction is not applied, so small geometric differences may occur depending on the lens.</p>
-      </section>
-
       <section id="analyze" class="section-card">
         <h3>Analyze Images</h3>
         <section id="analysis-import" class="mt-2">
@@ -773,6 +634,145 @@
         </section>
 
         <section id="analysis-results" class="mt-2"></section>
+      </section>
+
+      <section id="standardize" class="section-card">
+        <h3>Standardizing Images</h3>
+        <p>This multi-step procedure converts RAW photographs into color-corrected files using a reference standard.</p>
+        <p>Only RAW image formats are accepted as input. Most camera vendors are supported, including Canon, Nikon, Sony, Samsung, Panasonic, and Olympus. Because RAW files preserve minimally processed sensor measurements (digital negatives), they provide maximum flexibility and accuracy for calibration.</p>
+        <p>A reference standard with known reflectance values (e.g., X-Rite ColorChecker Passport or Labsphere Diffuse Reflectance Standards) is required. The standard is used to fit the regression that maps pixel intensities to calibrated values. The reference may appear in every photo or only one photo; in the latter case, that photo must share the same conditions as the others (illumination, angle, and camera settings).</p>
+        <p>Calibrated images are saved as either TIFF or ENVI files. ENVI images are composed of two files (<em>.hdr</em> and <em>.dat</em>).</p>
+        <p>Images do not go through barrel corrections which may introduce small distortions depending on the lens type</p>
+
+        <section id="calibration" class="section-card">
+          <h4>Calibration Settings</h4>
+          <p>You may treat images independently (processing mode <code>Separate images</code>) or as groups (processing mode <code>Stacking images</code>). Grouping is intended when the same object was photographed multiple times (e.g., with UV, RGB, and IR filters) and you want to merge them into a multispectral image.</p>
+          <section id="fm-add" class="mt-2">
+            <h5>Adding and Organizing Files</h5>
+            <ul>
+              <li><strong>Add files</strong> or <strong>Add folder</strong> to import from disk.
+              <li>Imported items appear as thumbnails. You may drag and drop cards to reorder them.</li>
+              <li>
+                <strong class="text-danger">Important:</strong>
+                If the files you added are stored on an external source that requires an internet connection, make sure your connection is stable. An unstable connection may affect the software’s performance.
+              </li>
+            </ul>
+          </section>
+
+          <section id="cal-channels" class="mt-2">
+          <p>1) If you chose <strong>Stacking images</strong>, three tabs are available: <strong>Channels</strong>, <strong>Alignment</strong>, and <strong>Calibration</strong>.</p>
+            <h5>Channels <strong>Tab</strong></h5>
+            <p>The Stacking images structure appears as groups of images. Each row represents one group to be treated as a multispectral image. Rows are aligned so each image within a row is handled consistently.</p>
+            <ul>
+              <li>Within a group, you may reorder (drag and drop) or remove (trash icon) images.</li>
+              <li>Between groups, you may reorder (drag and drop) or remove (trash icon) groups.</li>
+              <li>You may create a new  group.</li>
+              <li>Use the settings icon at the bottom to choose whether to use all channels (R, G, B) or let Argiope automatically select a single best channel.</li>
+              <li>Specify CWL (center wavelength) and FWHM (full width at half maximum) for every channel. The input accepts numbers (e.g., 450) or labels (e.g., UV). While not strictly required for calibration, accurate interpretation of color metrics depends on correct wavelength values.</li>
+            </ul>
+          </section>
+
+          <section id="cal-alignment" class="mt-2">
+            <h5>Alignment <strong>Tab</strong></h5>
+            <p>Aligns images relative to each other so all spectral channels overlap correctly for multispectral composition. There are three options:
+              <strong>Feature Matching + Homography</strong>, <strong>Phase correction</strong> or <strong>Manual</strong>. Automatic alignment works for most cases.
+            </p>
+
+          <section id="cal-calibration" class="mt-2">
+            <h5>Calibration <strong>Tab</strong></h5>
+            <ul>
+              <li><strong>Color Standards</strong>
+                <ul>
+                  <li>Select or add the color standard used in your images. These values drive the conversion from pixel intensities to calibrated reflectance. You may add, remove, or edit standards, including the number of reference samples.</li>
+                </ul>
+              </li>
+              <li><strong>Color standard coordinates</strong>
+                <ul>
+                  <li>Argiope needs the locations of reference samples to extract intensities. Options:
+                    <ul>
+                      <li>Indicate locations in every image (fully manual);</li>
+                      <li>Indicate locations in the first image of each group (others inherit after alignment);</li>
+                      <li>Use the first image of the first group as reference (other groups inherit the same layout);</li>
+                      <li>Use an <strong>AI-assisted</strong> detector. Click <em>AI Models</em> to configure.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><strong>AI Model</strong> button
+                <ul>
+                  <li>Add a trained model to automatically detect the color standard.</li>
+                </ul>
+              </li>
+
+              <section id="cal-ai" class="mt-2">
+            <h5>AI Models for Color-Standard Coordinates</h5>
+            <p>You may use a trained model to automatically detect reference standards. Argiope integrates with the Roboflow Web App (<a href="https://roboflow.com">https://roboflow.com</a>) to run inference.
+            Roboflow offers a user-friendly workflow for training models. The model should locate each individual color-standard patch used for calibration.</p>
+            <p>Click <em>AI Models</em> to configure:</p>
+            <ul>
+              <li><strong>URL</strong>: provide the Roboflow model path (e.g. <code>colorchecker-segmentation/3</code>).</li>
+              <li><strong>API Key</strong>: required for Roboflow inference. Your API key is personal and confidential (available in your Roboflow account).</li>
+              <li><strong>Detection Threshold</strong>: detections below this confidence are discarded.</li>
+              <li><strong>Buffer (%)</strong>: edge offset applied to detected polygons. Positive values dilate outward; negative values erode inward. The percentage is applied per border (e.g., -10 removes about 10% from each side).</li>
+            </ul>
+          </section>
+
+            </ul>
+            <p>2) If you chose <strong>Separate images</strong>, two tabs are available: <strong>Channels</strong> and <strong>Calibration</strong>.</p>
+            <h5>Channels <strong>Tab</strong></h5>
+            <p>Images appear as thumbnails. The R, G, and B channels of each image will be calibrated. Use arrow controls, or drag and drop thumbnails to change image order (useful when the first image is the calibration reference).</p>
+            <p><strong>Calibration Tab</strong></p>
+            <p>Same options as above.</p>
+          </section>
+
+          <section id="cal-export" class="section-card">
+            <h5>Export Options</h5>
+            <p>Select the File Type (TIF or ENVI) and the Data Type (8-bit or 32-bit). An 8-bit file is smaller (0 to 255 integers) but cannot store decimals or negative values. A 32-bit file stores decimals and both negative/positive values at the cost of larger size. Unless storage is constrained, 32-bit is recommended.</p>
+          </section>
+
+          <section id="cal-progress" class="section-card">
+            <h5>Processing &amp; Progress</h5>
+            <p>Click <em>Process</em> to start standardization. A modal displays status text and a live progress bar. You can abort at any time. When complete, the <em>Results</em> button opens the review page.</p>
+          </section>
+        </section>
+      </section>
+
+      <section id="review" class="section-card">
+        <h4>Review Results</h4>
+        <ul>
+          <li>An error alert lists any processing failures.</li>
+          <li>A gallery displays each image with its report.</li>
+          <li>A graph shows the regression used to convert pixel values to standardized values, along with equations and R<sup>2</sup>.</li>
+          <li>Use <em>Redo image standardization</em> to adjust parameters or <em>Finish</em> to return home.</li>
+        </ul>
+      </section>
+
+      <section id="cal-workflow" class="section-card">
+        <h4>Technical Details on the Standardization Workflow</h4>
+        <p>The Argiope algorithm for Image Standardization goes through the following steps:</p>
+        <ol>
+          <li>Open the first RAW image.</li>
+          <li>Using the color-standard coordinates, compute the mean pixel intensity for each patch.</li>
+          <li>Pair these measurements with the reference values defined in the Color Standards section.</li>
+          <li>Fit a least-squares linear model with <i>color-standard reference values</i> as the response and <i>mean pixel intensities</i> as the predictor. Fit R, G, and B channels independently.</li>
+          <li>Apply each model to convert every pixel from original intensity to calibrated value.</li>
+          <li>If <i>Best Channel</i> is selected, choose the channel according to:
+            <ol>
+              <li>Model R<sup>2</sup> &gt; 0.97;</li>
+              <li>Highest value measured, non-saturated intensity (a sample is non-saturated if its maximum measured intensity &lt; 65,535);</li>
+              <li>If neither (1) nor (2) is met, select the channel with the highest R<sup>2</sup>.</li>
+            </ol>
+          </li>
+          <li>If generating a multispectral image (directories), repeat the steps for each image in the group.
+            <ol>
+              <li>If selected, apply alignment by registering the current image to the first image (before intensity calculation).</li>
+            </ol>
+          </li>
+          <li>If the first image/group is set as reference, apply the model(s) to the remaining images; otherwise, repeat the steps for each image/group.</li>
+          <li>Store the generated coefficients and fit statistics as metadata for later review and reproducibility.</li>
+        </ol>
+
+        <p>*RAW images are processed as provided by the camera. Lens-distortion correction is not applied, so small geometric differences may occur depending on the lens.</p>
       </section>
 
       <section id="limitations" class="section-card">

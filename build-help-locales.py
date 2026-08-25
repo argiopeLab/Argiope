@@ -48,6 +48,8 @@ OVERRIDES = {
         "Help Center · University of Brasília": "Central de Ajuda · Universidade de Brasília",
         "User Defined Formulas": "Fórmulas definidas pelo usuário",
         "AI Models & Feature Generation": "Modelos de IA e geração de objetos",
+        "Mask pair policy — Valid endpoints": "Política de pares da máscara — Extremidades válidas",
+        "Mask pair policy — Same connected component": "Política de pares da máscara — Mesmo componente conectado",
     },
     "es": {
         "Support": "Soporte",
@@ -55,6 +57,8 @@ OVERRIDES = {
         "Help Center · University of Brasília": "Centro de Ayuda · Universidad de Brasilia",
         "User Defined Formulas": "Fórmulas definidas por el usuario",
         "AI Models & Feature Generation": "Modelos de IA y generación de objetos",
+        "Mask pair policy — Valid endpoints": "Política de pares de la máscara — Extremos válidos",
+        "Mask pair policy — Same connected component": "Política de pares de la máscara — Mismo componente conectado",
     },
 }
 

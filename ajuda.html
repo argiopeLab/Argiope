@@ -230,8 +230,10 @@
 <li><a href="#analysis-shape-descriptors">Descritores de forma</a></li>
 <li><a href="#analysis-pca">Análise de Componentes Principais (PCA)</a></li>
 <li><a href="#analysis-moran">I de Moran na PCA</a></li>
+<li><a href="#analysis-semivariogram">Semivariograma de imagem</a></li>
 <li><a href="#analysis-kmeans">Agrupamento K-Means</a></li>
 <li><a href="#analysis-gmm">Modelo de mistura gaussiana (GMM)</a></li>
+<li><a href="#analysis-landscape-metrics">Métricas de configuração da paisagem</a></li>
 <li><a href="#analysis-formulas">Fórmulas definidas pelo usuário</a></li>
 </ol>
 </li>
@@ -462,8 +464,13 @@
 <li><strong>Seletor de objetos</strong>: ativa o modo de seleção de polígonos existentes.</li>
 <li><strong>Ferramenta SAM</strong>: usa o modelo Segment Anything para segmentação automática.
                 <ul>
-<li>Coloque dois pontos dentro do objeto de interesse; Argiope irá detectá-lo e segmentá-lo. Um polígono é gerado e adicionado à lista de Objetos.</li>
-</ul>
+<li>Selecione a ferramenta SAM e clique com o botão esquerdo dentro do objeto para adicionar um ponto positivo. Os pontos positivos aparecem como marcadores verdes com o sinal <strong>+</strong>. É necessário adicionar pelo menos um ponto positivo.</li>
+<li>Adicione mais pontos positivos para incluir áreas que ficaram de fora. A prévia da segmentação é atualizada automaticamente após cada alteração.</li>
+<li>Clique com o botão direito nas áreas que não pertencem ao objeto para adicionar pontos negativos, exibidos como marcadores vermelhos com o sinal <strong>−</strong>. Eles ajudam a remover áreas indesejadas da prévia.</li>
+<li>Pressione <code>Backspace</code> para remover o ponto adicionado mais recentemente. Continue adicionando ou removendo pontos até que a prévia corresponda ao objeto.</li>
+<li>Pressione <code>Enter</code> ou clique no botão <strong>✓</strong> para salvar a prévia atual como um polígono. Se o SAM ainda estiver processando, o Argiope aguardará a prévia mais recente antes de salvar. A ferramenta permanece ativa para que você possa iniciar outro objeto.</li>
+<li>Pressione <code>Esc</code> ou clique no botão <strong>×</strong> para cancelar a sessão atual do SAM sem salvar a prévia.</li>
+                </ul>
 </li>
 <li><strong>Desenhar polígono</strong>: delimita manualmente uma região de interesse.</li>
 <li><strong>Desenhar linha</strong>: traça manualmente uma linha de referência.</li>
@@ -586,6 +593,7 @@
 <section class="mt-2" id="analysis-additional">
 <h5>Análises</h5>
 <p>Use <strong>Análises</strong> para adicionar estatísticas à tabela exportada. Todas as saídas são registradas por objeto; as análises que produzem imagens também salvam visualizações na pasta da sessão.</p>
+<p>Em <strong>Canais usados nas análises</strong>, clique em <em>Ler canais</em> e marque uma vez as bandas que devem entrar nos cálculos. A seleção é aplicada a todas as imagens; canais escolhidos que não existam em uma imagem são ignorados para ela. Todas as bandas são usadas por padrão. A escolha também se aplica a PCA, agrupamentos, fórmulas e às imagens de polígonos exportadas.</p>
 <h6 class="mt-3" id="analysis-basic-statistics">Estatísticas básicas</h6>
 <ul>
 <li><strong>Estatísticas dos valores brutos</strong>: <code>object_overall_max/min/mean/std/median/mad</code>* e desvio padrão médio**. Resumem todos os valores de pixel combinados entre os canais do objeto.</li>
@@ -625,11 +633,51 @@
 <li>Mede a autocorrelação espacial em rasters PC1 e PC2 derivados do polígono.</li>
 <li>Exporta <code>moran_I_PC1</code> e <code>moran_I_PC2</code>; valores positivos mais altos indicam agrupamento, enquanto valores negativos indicam dispersão.</li>
 </ul>
+<h6 class="mt-3" id="analysis-semivariogram">Semivariograma de imagem</h6>
+<p>O semivariograma de imagem descreve como as diferenças entre os valores dos pixels mudam com a distância espacial dentro de cada objeto selecionado. Os pixels são tratados como medições multicanal contínuas; eles não são classificados nem convertidos em categorias. Cada objeto é analisado independentemente em sua grade regular, e nunca são formados pares entre imagens ou objetos diferentes.</p>
+<p>Para cada par de pixels, o Argiope calcula a diferença quadrática média entre os canais selecionados e divide o resultado por dois. Os pares são agrupados em classes de distância. A semivariância empírica de uma classe é a média ponderada pelo número real de pares. Com apenas um canal, o cálculo se reduz ao semivariograma escalar convencional.</p>
+<p><strong>Opções de cálculo</strong></p>
+<ul>
+<li><strong>Cálculo — Aproximado</strong>: recomendado para imagens grandes. Amostra deslocamentos e pares separadamente dentro de cada classe de distância, evitando que as maiores distâncias dominem. Uma nova semente aleatória é gerada em cada execução e registrada no JSON. Aumente <em>Máximo de pares amostrados por classe</em> ou <em>Repetições da amostragem</em> quando os resultados variarem excessivamente entre execuções.</li>
+<li><strong>Cálculo — Exato</strong>: avalia todos os pares válidos de cada deslocamento da grade regular sem construir uma matriz completa pixel por pixel. É mais lento e indicado para objetos pequenos, cálculos de referência ou validação do modo aproximado.</li>
+<li><strong>Nugget — Livre (estimado)</strong>: estima uma descontinuidade não negativa nas distâncias imediatamente acima de zero. Ela pode representar variação não resolvida em curta distância ou ruído de medição, mas pode apresentar alta correlação com sill e range.</li>
+<li><strong>Nugget — Fixado em zero</strong>: remove o nugget da otimização e ajusta um modelo cuja semivariância limite na origem é zero. Isso pode estabilizar os outros parâmetros quando o nugget livre é desprezível. Não deve ser usado automaticamente se as primeiras classes indicarem uma descontinuidade real.</li>
+<li><strong>Política de pares da máscara — Extremidades válidas</strong>: política convencional e padrão. O par é aceito quando os dois pixels das extremidades são válidos, mesmo que o segmento reto entre eles atravesse uma área fora da máscara.</li>
+<li><strong>Política de pares da máscara — Mesmo componente conectado</strong>: aceita o par somente quando os dois pixels pertencem ao mesmo componente 8-conectado da máscara. Impede pares entre regiões desconectadas, mas não rejeita um segmento que atravesse o exterior quando as extremidades continuam conectadas por outro caminho.</li>
+<li><strong>Mínimo de pares por classe</strong>: classes abaixo desse número permanecem na tabela empírica, são marcadas como insuficientes e não participam do ajuste.</li>
+<li><strong>Distância máxima</strong>: limita a extensão espacial do cálculo. Quando o campo fica vazio, o Argiope usa metade da diagonal da grade da imagem. A distância deve ser suficiente para mostrar o patamar; um range além da extensão analisada gera um aviso.</li>
+<li><strong>Largura da classe</strong>: controla a largura das classes de distância. Quando fica vazia, são criadas aproximadamente 40 classes, nunca mais estreitas que um passo da grade. Classes muito estreitas podem ter poucos pares; classes muito largas podem esconder estruturas de curta distância.</li>
+<li><strong>Máximo de pares amostrados por classe</strong>: orçamento de amostragem do modo aproximado para cada classe. Valores maiores reduzem o ruído amostral, mas aumentam o tempo de processamento.</li>
+<li><strong>Repetições da amostragem</strong>: repete a amostragem estratificada para estimar sua incerteza. Está disponível somente no modo aproximado. A saída separa <code>sampling_run_sd</code> (variação entre execuções individuais) e <code>sampling_mean_se</code> (erro-padrão da média das repetições).</li>
+<li><strong>Análise direcional</strong>: também analisa 0°, 45°, 90° e 135° nas coordenadas da imagem. A direção 0° acompanha o aumento das colunas e 90° o aumento das linhas. Os ranges direcionais são usados para indicar a direção de maior continuidade e a razão de anisotropia.</li>
+</ul>
+<p><strong>Modelos a ajustar</strong></p>
+<ul>
+<li><strong>Apenas nugget</strong>: modelo nulo ou de referência, sem estrutura espacial dependente da distância. Com o nugget fixado em zero, torna-se o semivariograma identicamente zero.</li>
+<li><strong>Esférico</strong>: atinge o sill em um range matemático finito.</li>
+<li><strong>Exponencial</strong>: aproxima-se do sill de forma assintótica e apresenta comportamento relativamente abrupto em distâncias curtas.</li>
+<li><strong>Gaussiano</strong>: aproxima-se do sill de forma assintótica, com origem mais suave.</li>
+<li><strong>Matérn</strong>: compara as suavidades ν = 0,5, 1,5 e 2,5. O ν selecionado é exportado; ν = 0,5 corresponde a uma correlação do tipo exponencial.</li>
+</ul>
+<p>Cada modelo escolhido pelo usuário é ajustado independentemente por mínimos quadrados ponderados de Cressie, com pesos proporcionais a <code>N(h) / gamma_model(h)^2</code>. O Argiope não ordena os modelos nem seleciona o melhor. Cabe ao usuário decidir qual modelo é cientificamente adequado após examinar a curva, os resíduos, a convergência, a estabilidade dos parâmetros, a extensão das distâncias observadas e os avisos. Um erro pequeno só é comparável entre análises com a mesma escala dos dados, canais, pesos, classes e configuração espacial.</p>
+<p><strong>Limitação dos intervalos de confiança:</strong> os pares de pixels de um semivariograma não são independentes, pois muitos pares compartilham pixels e ainda há dependência espacial entre observações. Os intervalos normais exibidos usam, portanto, um erro-padrão aproximado e devem ser tratados como descritivos, não como intervalos com cobertura calibrada de 95%. No modo aproximado, <code>sampling_mean_se</code> mede a incerteza de Monte Carlo da média das repetições; ele não inclui toda a incerteza espacial ou do processo.</p>
+<p><strong>Limitação da incerteza dos parâmetros:</strong> os erros-padrão dos parâmetros vêm do jacobiano local dos mínimos quadrados. As classes de distância podem ser correlacionadas, e essa aproximação não substitui um bootstrap espacial nem uma análise de verossimilhança no nível do campo. Trate esses erros-padrão e os avisos de correlação entre parâmetros como diagnósticos, especialmente para estimativas na fronteira, ranges além da extensão observada ou parâmetros fortemente correlacionados.</p>
+<p><strong>Interpretação e arquivos</strong></p>
+<ul>
+<li><strong>Nugget</strong>: descontinuidade modelada em curta distância; vale zero quando fixado.</li>
+<li><strong>Sill</strong>: soma do nugget e do partial sill, representando o patamar modelado da semivariância.</li>
+<li><strong>Range efetivo</strong>: distância em que a correlação prevista cai para 0,05; o modelo esférico também apresenta um range matemático finito.</li>
+<li><strong>PNG principal</strong>: pontos empíricos dimensionados pelo número de pares, incerteza e curvas de todos os modelos ajustados, sem destacar uma curva preferida.</li>
+<li><strong>PNG de validação</strong>: valores observados contra ajustados e resíduos de cada modelo convergente, além dos diagnósticos de erro sem ordenação automática.</li>
+<li><strong>CSV empírico</strong>: limites das classes, distância média, semivariância, números de pares, incerteza, direção e indicação de classe insuficiente.</li>
+<li><strong>CSV de modelos</strong>: todos os candidatos, convergência, erros, avisos, modo do nugget e parâmetros ajustados.</li>
+<li><strong>JSON</strong>: resultados completos e metadados de reprodutibilidade, incluindo canais, configuração, semente gerada, extensão da máscara, tempo, estimativa de memória e versão do algoritmo.</li>
+<li><strong>Tabela de resultados</strong>: uma linha para cada modelo e direção ajustados, com modo do nugget, nugget, sill, range efetivo, ν Matérn, anisotropia, qualidade do ajuste, convergência e avisos.</li>
+</ul>
 <h6 class="mt-3" id="analysis-kmeans">Agrupamento K-Means</h6>
 <ul>
 <li>Segmenta os pixels dentro do polígono em clusters rígidos. O modo manual usa o escolhido <em>n agrupamentos</em>; o modo automático testa até <em>máximo de clusters</em> usando pontuação de silhueta.</li>
-<li>Exporta os rótulos dos clusters (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, centros, proporções e <code>kmeans_patch_diversity_relative</code> (diversidade de cores).
-              A diversidade de cores é calculada como (1/soma(proporção de cluster^2))/número de clusters.</li>
+<li>Exporta os rótulos dos clusters (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, centros e proporções. As métricas de paisagem opcionais são selecionadas separadamente.</li>
 <li>A melhor contagem de clusters no modo automático é aquela com a pontuação de silhueta mais alta, equilibrando compacidade e separação.</li>
 <li>Um arquivo JSON é salvo na pasta de imagens dentro da pasta do polígono com detalhes da análise.</li>
 <li>Uma imagem com os clusters e seus centros é salva na pasta de imagens do polígono.</li>
@@ -637,12 +685,34 @@
 <h6 class="mt-3" id="analysis-gmm">Modelo de mistura gaussiana (GMM)</h6>
 <ul>
 <li>Ajusta-se a um modelo de mistura de covariância diagonal. O modo manual usa a contagem de componentes fornecida; o modo automático seleciona o melhor até <em>máximo de componentes</em> usando BIC. Opcionalmente, dimensione as entradas antes de ajustar.</li>
-<li>Exporta <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, médias e pesos dos clusters e <code>gmm_patch_diversity_relative</code>.
-              A diversidade de cores é calculada como (1/soma(proporção de cluster^2))/número de clusters.</li>
+<li>Exporta <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, médias e pesos dos clusters. As métricas de paisagem opcionais são selecionadas separadamente.</li>
 <li><em>Observação:</em> <code>gmm_labels_img</code> pode exibir menos clusters visíveis do que os componentes do modelo se alguns componentes não receberem pixels.</li>
 <li>BIC escolhe o modelo mais simples que explica os dados.</li>
 <li>Um arquivo JSON é salvo na pasta de imagens dentro da pasta do polígono com detalhes da análise.</li>
 <li>Uma imagem com os clusters e suas médias é salva na pasta de imagens do polígono.</li>
+</ul>
+<h6 class="mt-3" id="analysis-landscape-metrics">Métricas de configuração da paisagem</h6>
+<p>Depois que o K-Means ou o GMM converte cada pixel classificado em uma classe do mapa, ative as métricas de paisagem e selecione somente as medidas necessárias. Resultados por classe usam colunas como <code>kmeans_landscape_class_1_pland</code>; resultados da paisagem inteira usam colunas como <code>gmm_landscape_pielou_evenness</code>. As manchas usam conectividade de 8 vizinhos, as áreas são contagens de pixels e as bordas são contadas em lados de pixel. Considere <em>A</em> a área classificada total, <em>A<sub>i</sub></em> a área da classe <em>i</em>, <em>a</em> e <em>P</em> a área e o perímetro de uma mancha, <em>p<sub>i</sub> = A<sub>i</sub>/A</em> e <em>K</em> o número de classes.</p>
+<ul>
+<li><strong>Área total da classe</strong>: <em>A<sub>i</sub></em>, número de pixels classificados na classe.</li>
+<li><strong>PLAND</strong>: <em>100 A<sub>i</sub>/A</em>. Mede quanto do objeto é ocupado pela classe.</li>
+<li><strong>Número de manchas (NP)</strong>: número de componentes desconectados considerando 8 vizinhos. Valores altos indicam maior subdivisão.</li>
+<li><strong>Densidade de manchas (PD)</strong>: <em>100 NP/A</em>, expressa em manchas por 100 pixels classificados.</li>
+<li><strong>Área média, mediana e máxima das manchas</strong>: resumos das contagens de pixels das manchas da classe.</li>
+<li><strong>Maior índice de mancha (LPI)</strong>: <em>100 max(a)/A</em>. Mede a dominância da maior mancha na paisagem classificada inteira.</li>
+<li><strong>Comprimento total de borda (TE)</strong>: soma dos perímetros das manchas. Um lado contribui quando toca outra classe ou o exterior da máscara classificada.</li>
+<li><strong>Densidade de bordas (ED)</strong>: <em>TE/A</em>, quantidade de borda da classe por pixel classificado.</li>
+<li><strong>Razão perímetro-área média</strong>: média de <em>P/a</em>. Valores altos indicam mais borda em relação à área.</li>
+<li><strong>Índice de forma médio</strong>: média de <em>P/(4√a)</em>. Um quadrado compacto vale 1; manchas mais irregulares têm valores maiores.</li>
+<li><strong>Circularidade média</strong>: média de <em>4πa/P²</em>. Valores próximos de 1 indicam manchas mais circulares.</li>
+<li><strong>Dimensão fractal média</strong>: média de <em>2 ln(0,25P)/ln(a)</em>. Descreve a complexidade da borda; manchas de um pixel são excluídas porque a expressão logarítmica é indefinida.</li>
+<li><strong>Distância média ao vizinho mais próximo</strong>: média da menor distância euclidiana até outra mancha da mesma classe, medida entre os centros dos pixels de borda mais próximos. É indefinida quando existe apenas uma mancha.</li>
+<li><strong>Índice de proximidade médio</strong>: para cada mancha, soma <em>a<sub>j</sub>/d<sub>ij</sub>²</em> sobre todas as outras manchas da mesma classe, usando distâncias entre centros de pixels de borda, e calcula a média. A área de busca é toda a paisagem classificada; vale 0 quando não existe outra mancha da mesma classe.</li>
+<li><strong>Índice de agregação</strong>: <em>100 g<sub>ii</sub>/max(g<sub>ii</sub>)</em>, em que <em>g<sub>ii</sub></em> é o número de lados cardinais compartilhados entre pixels da classe e o denominador é o máximo possível para a área da classe. Valores altos indicam agregação.</li>
+<li><strong>Índice de contiguidade</strong>: média da contiguidade FRAGSTATS calculada por mancha. Uma matriz 3×3 atribui peso 2 aos vizinhos cardinais, 1 aos diagonais e 1 ao pixel focal; o valor de cada mancha é <em>((Σc/a)−1)/12</em>. Vale 0 para uma mancha de um pixel.</li>
+<li><strong>Clumpiness</strong>: considere <em>G<sub>i</sub></em> as adjacências cardinais iguais e direcionadas divididas por todas as superfícies cardinais dos pixels da classe, inclusive as voltadas ao fundo ou ao limite da paisagem. CLUMPY é <em>(G<sub>i</sub>−p<sub>i</sub>)/(1−p<sub>i</sub>)</em> quando <em>G<sub>i</sub>≥p<sub>i</sub></em> ou <em>p<sub>i</sub>≥0,5</em>; caso contrário, é <em>(G<sub>i</sub>−p<sub>i</sub>)/p<sub>i</sub></em>. É indefinido quando uma classe ocupa toda a paisagem.</li>
+<li><strong>Diversidade relativa de manchas</strong>: <em>(1/Σp<sub>i</sub>²)/K</em>, exportada como <code>kmeans_patch_diversity_relative</code> ou <code>gmm_patch_diversity_relative</code>. Aproxima-se de 1 quando as classes têm proporções iguais e de <em>1/K</em> quando uma classe domina.</li>
+<li><strong>Equitabilidade de Pielou</strong>: <em>J = H′/ln(K)</em>, em que <em>H′ = −Σp<sub>i</sub>ln(p<sub>i</sub>)</em>. Valores próximos de 1 indicam proporções iguais; é indefinida quando existe somente uma classe.</li>
 </ul>
 <h6 class="mt-3" id="analysis-formulas">Fórmulas definidas pelo usuário</h6>
 <ul>

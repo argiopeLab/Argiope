@@ -237,8 +237,10 @@
                 <li><a href="#analysis-shape-descriptors">Shape Descriptors</a></li>
                 <li><a href="#analysis-pca">Principal Component Analysis (PCA)</a></li>
                 <li><a href="#analysis-moran">Moran's I on PCA</a></li>
+                <li><a href="#analysis-semivariogram">Image Semivariogram</a></li>
                 <li><a href="#analysis-kmeans">K-Means Clustering</a></li>
                 <li><a href="#analysis-gmm">Gaussian Mixture Model (GMM)</a></li>
+                <li><a href="#analysis-landscape-metrics">Landscape configuration metrics</a></li>
                 <li><a href="#analysis-formulas">User Defined Formulas</a></li>
               </ol>
             </li>
@@ -490,7 +492,12 @@
               <li><strong>Feature selector</strong>: Enables selection mode for existing polygons.</li>
               <li><strong>SAM Tool</strong>: Uses the Segment Anything Model for automatic segmentation.
                 <ul>
-                  <li>Place two points inside the object of interest; Argiope will detect and segment it. A polygon is generated and added to the Objects list.</li>
+                  <li>Select the SAM tool, then left-click inside the object to add a positive point. Positive points appear as green <strong>+</strong> markers. At least one positive point is required.</li>
+                  <li>Add more positive points to include missing areas. The segmentation preview updates automatically after each change.</li>
+                  <li>Right-click areas that do not belong to the object to add negative points, shown as red <strong>−</strong> markers. Negative points help remove unwanted areas from the preview.</li>
+                  <li>Press <code>Backspace</code> to remove the most recently added point. You can continue adding or removing points until the preview matches the object.</li>
+                  <li>Press <code>Enter</code> or click the <strong>✓</strong> button to save the current preview as a polygon. If SAM is still processing, Argiope waits for the latest preview before saving. The tool remains active so you can start another object.</li>
+                  <li>Press <code>Esc</code> or click the <strong>×</strong> button to cancel the current SAM session without saving its preview.</li>
                 </ul>
               </li>
               <li><strong>Polygon draw</strong>: Manually trace regions of interest.</li>
@@ -670,11 +677,51 @@
             <li>Measures spatial autocorrelation on PC1 and PC2 rasters derived from the polygon.</li>
             <li>Exports <code>moran_I_PC1</code> and <code>moran_I_PC2</code>; higher positive values indicate clustering, negative values indicate dispersion.</li>
           </ul>
+          <h6 id="analysis-semivariogram" class="mt-3">Image Semivariogram</h6>
+          <p>The image semivariogram describes how differences between pixel values change with spatial distance inside each selected object. Pixels are treated as continuous multichannel measurements; they are not classified or converted into categories. Each object is analyzed independently on its regular image grid, and pairs are never formed between different images or objects.</p>
+          <p>For a pair of pixels, Argiope calculates the mean squared difference across the selected channels and divides it by two. Pixel pairs are grouped into distance classes (bins). The empirical semivariance for a class is the pair-count-weighted mean of those values. With one channel, this reduces to the conventional scalar semivariogram.</p>
+          <p><strong>Calculation options</strong></p>
+          <ul>
+            <li><strong>Calculation — Approximate</strong>: recommended for large images. It samples offsets and pixel pairs separately within each distance class, preventing long distances from dominating. A new random seed is generated for every analysis run and saved in the JSON metadata. Increase <em>Maximum sampled pairs/bin</em> or <em>Sampling repetitions</em> when results vary excessively between runs.</li>
+            <li><strong>Calculation — Exact</strong>: evaluates all valid pairs for every eligible regular-grid offset without building a complete pixel-by-pixel distance matrix. It is slower and is most useful for small objects, reference calculations, or validation of approximate results.</li>
+            <li><strong>Nugget — Free (estimated)</strong>: estimates a non-negative discontinuity at distances immediately above zero. It may represent unresolved short-range variation or measurement noise, but it can be strongly correlated with sill and range.</li>
+            <li><strong>Nugget — Fixed at zero</strong>: removes the nugget from the optimization and fits a model whose limiting semivariance at the origin is zero. This can stabilize the other parameters when the freely estimated nugget is negligible. It should not be used automatically when the first distance classes indicate a real discontinuity.</li>
+            <li><strong>Mask pair policy — Valid endpoints</strong>: the default conventional policy. A pair is accepted whenever both endpoint pixels are valid, even if the straight segment between them crosses an area outside the mask.</li>
+            <li><strong>Mask pair policy — Same connected component</strong>: accepts a pair only when both endpoint pixels belong to the same 8-connected mask component. It prevents pairs between disconnected regions, but does not reject pairs whose segment crosses outside the mask when the endpoints remain connected by another path.</li>
+            <li><strong>Minimum pairs/bin</strong>: classes below this pair count remain in the empirical table, are marked as insufficient, and are excluded from fitting.</li>
+            <li><strong>Maximum distance</strong>: limits the spatial extent of the calculation. If blank, Argiope uses half of the image-grid diagonal. The distance should be long enough to show the plateau; a range beyond the analyzed extent is flagged.</li>
+            <li><strong>Bin width</strong>: controls the width of the distance classes. If blank, approximately 40 classes are created, never narrower than one grid step. Very narrow bins can contain too few pairs; very wide bins can hide short-range structure.</li>
+            <li><strong>Maximum sampled pairs/bin</strong>: approximate-mode sampling budget for each distance class. Larger values reduce sampling noise but take longer.</li>
+            <li><strong>Sampling repetitions</strong>: repeats the stratified sampling to estimate sampling uncertainty. It is available only in approximate mode. The output separates <code>sampling_run_sd</code> (variation between individual runs) from <code>sampling_mean_se</code> (standard error of the mean across repetitions).</li>
+            <li><strong>Directional analysis</strong>: additionally analyzes 0°, 45°, 90°, and 135° in image coordinates. Direction 0° follows increasing columns and 90° follows increasing rows. Directional ranges are used to report the continuity direction and anisotropy ratio.</li>
+          </ul>
+          <p><strong>Models to fit</strong></p>
+          <ul>
+            <li><strong>Nugget only</strong>: a null/reference model with no distance-dependent spatial structure. With the nugget fixed at zero it becomes the zero semivariogram.</li>
+            <li><strong>Spherical</strong>: reaches its sill at a finite mathematical range.</li>
+            <li><strong>Exponential</strong>: approaches the sill asymptotically and has a relatively sharp short-distance behavior.</li>
+            <li><strong>Gaussian</strong>: approaches the sill asymptotically with a smoother origin.</li>
+            <li><strong>Matérn</strong>: compares the smoothness values ν = 0.5, 1.5, and 2.5. The selected ν is exported; ν = 0.5 corresponds to exponential-type correlation.</li>
+          </ul>
+          <p>Each model selected by the user is fitted independently by Cressie weighted least squares, with weights proportional to <code>N(h) / gamma_model(h)^2</code>. Argiope does not rank the models or select a best model. The user must decide which model is scientifically appropriate after examining the curve, residuals, convergence, parameter stability, observed distance range, and warnings. A small fit error is meaningful only when comparing the same data scale, channels, weights, bins, and spatial configuration.</p>
+          <p><strong>Confidence-interval limitation:</strong> pixel pairs in a semivariogram are not independent because many pairs share pixels and spatial dependence remains between observations. The displayed normal intervals therefore use an approximate standard error and must be treated as descriptive, not as calibrated 95% coverage intervals. In approximate mode, <code>sampling_mean_se</code> quantifies Monte Carlo uncertainty of the repeated sampling mean; it does not include all spatial/process uncertainty.</p>
+          <p><strong>Parameter-uncertainty limitation:</strong> parameter standard errors come from the local least-squares Jacobian. Distance classes can be correlated and the approximation does not replace a spatial bootstrap or a field-level likelihood analysis. Treat these standard errors and parameter-correlation warnings as diagnostics, especially for boundary estimates, ranges beyond the observed extent, or strongly correlated parameters.</p>
+          <p><strong>Interpretation and files</strong></p>
+          <ul>
+            <li><strong>Nugget</strong>: modeled short-distance discontinuity; zero when fixed.</li>
+            <li><strong>Sill</strong>: nugget plus partial sill, representing the modeled semivariance plateau.</li>
+            <li><strong>Effective range</strong>: distance where the predicted correlation falls to 0.05; the spherical model instead also has a finite mathematical range.</li>
+            <li><strong>Main PNG</strong>: empirical points sized by pair count, uncertainty, and all fitted model curves, with no preferred curve highlighted.</li>
+            <li><strong>Validation PNG</strong>: observed-versus-fitted values and residuals for every converged model, plus fitting-error diagnostics without automatic ranking.</li>
+            <li><strong>Empirical CSV</strong>: bin limits, mean distance, semivariance, pair counts, uncertainty, direction, and insufficient-class status.</li>
+            <li><strong>Models CSV</strong>: every candidate, convergence, errors, warnings, nugget mode, and fitted parameters.</li>
+            <li><strong>JSON</strong>: complete results and reproducibility metadata, including channels, configuration, generated seed, mask extent, timing, memory estimate, and algorithm version.</li>
+            <li><strong>Results table</strong>: one row for each fitted model and direction, with nugget mode, nugget, sill, effective range, Matérn ν, anisotropy, fit quality, convergence, and warnings.</li>
+          </ul>
           <h6 id="analysis-kmeans" class="mt-3">K-Means Clustering</h6>
           <ul>
             <li>Segments the pixels inside the polygon into hard clusters. Manual mode uses the chosen <em>n clusters</em>; automatic mode tests up to <em>max clusters</em> using silhouette score.</li>
-            <li>Exports cluster labels (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, cluster centers, proportions, and <code>kmeans_patch_diversity_relative</code> (color diversity).
-              Color diversity is calculated as (1/sum(cluster proportion^2)) / number of clusters.</li>
+            <li>Exports cluster labels (<code>kmeans_labels_img</code>), <code>kmeans_n_clusters</code>, cluster centers, and proportions. Optional landscape metrics are selected separately.</li>
             <li>The best cluster count in automatic mode is the one with the highest silhouette score, balancing compactness and separation.</li>
             <li>A JSON file is saved on image folder inside the polygon folder with details on the analysis.</li>
             <li>An image file with clusters and cluster centers is saved on image folder inside the polygon folder. </li>
@@ -682,12 +729,34 @@
           <h6 id="analysis-gmm" class="mt-3">Gaussian Mixture Model (GMM)</h6>
           <ul>
             <li>Fits a diagonal-covariance mixture model. Manual mode uses the provided component count; automatic mode selects the best up to <em>max components</em> using BIC. Optionally scale inputs before fitting.</li>
-            <li>Exports <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, cluster means/weights, and <code>gmm_patch_diversity_relative</code>.
-              Color diversity is calculated as (1/sum(cluster proportion^2)) / number of clusters.</li>
+            <li>Exports <code>gmm_labels_img</code>, <code>gmm_n_clusters</code>, and cluster means/weights. Optional landscape metrics are selected separately.</li>
             <li><em>Note:</em> <code>gmm_labels_img</code> may display fewer visible clusters than the model components if some components receive no pixels.</li>
             <li>BIC chooses the simplest model that explains the data.</li>
             <li>A JSON file is saved on image folder inside the polygon folder with details on the analysis.</li>
             <li>An image file with clusters and clusters means is saved on image folder inside the polygon folder. </li>
+          </ul>
+          <h6 id="analysis-landscape-metrics" class="mt-3">Landscape configuration metrics</h6>
+          <p>After K-Means or GMM converts every classified pixel into a map class, enable landscape metrics and select only the measurements you need. Class-level results use columns such as <code>kmeans_landscape_class_1_pland</code>; landscape-level results use columns such as <code>gmm_landscape_pielou_evenness</code>. Patches use 8-neighbor connectivity, areas are pixel counts, and edges are counted as pixel sides. Let <em>A</em> be the classified landscape area, <em>A<sub>i</sub></em> the area of class <em>i</em>, <em>a</em> and <em>P</em> a patch area and perimeter, <em>p<sub>i</sub> = A<sub>i</sub>/A</em>, and <em>K</em> the number of classes.</p>
+          <ul>
+            <li><strong>Total class area</strong>: <em>A<sub>i</sub></em>, the number of classified pixels in the class.</li>
+            <li><strong>PLAND</strong>: <em>100 A<sub>i</sub>/A</em>. It measures how much of the object is occupied by the class.</li>
+            <li><strong>Number of patches (NP)</strong>: number of disconnected 8-neighbor components of the class. Higher values indicate greater subdivision.</li>
+            <li><strong>Patch density (PD)</strong>: <em>100 NP/A</em>, reported as patches per 100 classified pixels.</li>
+            <li><strong>Mean, median, and maximum patch area</strong>: summaries of the pixel counts of the class patches.</li>
+            <li><strong>Largest patch index (LPI)</strong>: <em>100 max(a)/A</em>. It measures dominance of the largest patch in the whole classified landscape.</li>
+            <li><strong>Total edge (TE)</strong>: sum of class-patch perimeters. A pixel side contributes when it touches another class or the outside of the classified mask.</li>
+            <li><strong>Edge density (ED)</strong>: <em>TE/A</em>, the amount of class edge per classified pixel.</li>
+            <li><strong>Mean perimeter-area ratio</strong>: mean of <em>P/a</em>. Larger values indicate more edge relative to patch area.</li>
+            <li><strong>Mean shape index</strong>: mean of <em>P/(4√a)</em>. A compact square has value 1; more irregular patches have larger values.</li>
+            <li><strong>Mean circularity</strong>: mean of <em>4πa/P²</em>. Values nearer 1 indicate more circular patches.</li>
+            <li><strong>Mean fractal dimension</strong>: mean of <em>2 ln(0.25P)/ln(a)</em>. It describes boundary complexity; one-pixel patches are excluded because the logarithmic expression is undefined.</li>
+            <li><strong>Mean nearest-neighbor distance</strong>: mean of the shortest Euclidean distance to another patch of the same class, measured between the centers of the closest boundary pixels. It is undefined when the class has only one patch.</li>
+            <li><strong>Mean proximity index</strong>: for each patch, sums <em>a<sub>j</sub>/d<sub>ij</sub>²</em> over all other same-class patches using boundary-pixel center distances, then averages the sums. The search area is the full classified landscape; the value is 0 when no other same-class patch exists.</li>
+            <li><strong>Aggregation index</strong>: <em>100 g<sub>ii</sub>/max(g<sub>ii</sub>)</em>, where <em>g<sub>ii</sub></em> is the number of shared cardinal sides between class pixels and the denominator is the maximum possible for that class area. Larger values indicate aggregation.</li>
+            <li><strong>Contiguity index</strong>: mean patch-level FRAGSTATS contiguity. A 3×3 template weights cardinal neighbors by 2, diagonal neighbors by 1, and the focal pixel by 1; each patch value is <em>((Σc/a)−1)/12</em>. It equals 0 for a one-pixel patch.</li>
+            <li><strong>Clumpiness</strong>: let <em>G<sub>i</sub></em> be directed like cardinal adjacencies divided by all cardinal pixel surfaces of class <em>i</em>, including surfaces facing background or the landscape boundary. CLUMPY is <em>(G<sub>i</sub>−p<sub>i</sub>)/(1−p<sub>i</sub>)</em> when <em>G<sub>i</sub>≥p<sub>i</sub></em> or <em>p<sub>i</sub>≥0.5</em>; otherwise it is <em>(G<sub>i</sub>−p<sub>i</sub>)/p<sub>i</sub></em>. It is undefined when one class occupies the whole landscape.</li>
+            <li><strong>Relative patch diversity</strong>: <em>(1/Σp<sub>i</sub>²)/K</em>, exported as <code>kmeans_patch_diversity_relative</code> or <code>gmm_patch_diversity_relative</code>. It approaches 1 when classes occupy equal proportions and approaches <em>1/K</em> when one class dominates.</li>
+            <li><strong>Pielou evenness</strong>: <em>J = H′/ln(K)</em>, where <em>H′ = −Σp<sub>i</sub>ln(p<sub>i</sub>)</em>. Values near 1 indicate equal class proportions; it is undefined when only one class is present.</li>
           </ul>
           <h6 id="analysis-formulas" class="mt-3">User Defined Formulas</h6>
           <ul>

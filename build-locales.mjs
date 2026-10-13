@@ -12,6 +12,13 @@ function render(replacements) {
 }
 
 const english = [
+  ['href="privacy.html#pt"', 'href="privacy.html#en"'],
+  ['>Declaração de privacidade</a>', '>Privacy statement</a>'],
+  ['Marcas institucionais', 'Institutional brands'],
+  ['Símbolo da Universidade de Brasília', 'Symbol of the University of Brasília'],
+  ['CDT — Centro de Apoio ao Desenvolvimento Tecnológico', 'CDT — Center for Technological Development Support'],
+  ['Tecnologia desenvolvida pela UnB', 'Technology developed by UnB'],
+  ['ACT — Agência de Comercialização de Tecnologia', 'ACT — Technology Commercialization Agency'],
   ['ajuda.html#', 'help-en.html#'],
   ['href="ajuda.html"', 'href="help-en.html"'],
   ['<html lang="pt-BR">', '<html lang="en">'],
@@ -161,6 +168,13 @@ const english = [
 ];
 
 const spanish = [
+  ['href="privacy.html#pt"', 'href="privacy.html#es"'],
+  ['>Declaração de privacidade</a>', '>Declaración de privacidad</a>'],
+  ['Marcas institucionais', 'Marcas institucionales'],
+  ['Símbolo da Universidade de Brasília', 'Símbolo de la Universidad de Brasilia'],
+  ['CDT — Centro de Apoio ao Desenvolvimento Tecnológico', 'CDT — Centro de Apoyo al Desarrollo Tecnológico'],
+  ['Tecnologia desenvolvida pela UnB', 'Tecnología desarrollada por la UnB'],
+  ['ACT — Agência de Comercialização de Tecnologia', 'ACT — Agencia de Comercialización de Tecnología'],
   ['ajuda.html#', 'ayuda.html#'],
   ['href="ajuda.html"', 'href="ayuda.html"'],
   ['<html lang="pt-BR">', '<html lang="es">'],

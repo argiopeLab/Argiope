@@ -1,0 +1,111 @@
+.privacy-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.privacy-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 82px;
+}
+
+.privacy-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 13px;
+}
+
+.privacy-languages a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.privacy-languages a:hover,
+.privacy-back:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.privacy-page a:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: 5px;
+}
+
+.privacy-content {
+  max-width: 840px;
+  padding-block: 72px;
+}
+
+.privacy-content h1 {
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 550;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 48px;
+}
+
+.privacy-content h1 em {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: #5d55db;
+}
+
+.privacy-statement {
+  padding: 32px;
+  margin-bottom: 24px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fbfaf4;
+}
+
+.privacy-statement:target {
+  border-color: var(--violet);
+}
+
+.privacy-language {
+  display: block;
+  margin-bottom: 16px;
+  color: #5d55db;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.privacy-statement h2 {
+  margin-bottom: 16px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -.6px;
+}
+
+.privacy-statement p {
+  color: #4b5853;
+  font-size: 16px;
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+.privacy-back {
+  color: #5d55db;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.privacy-footer {
+  padding-block: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 760px) {
+  .privacy-nav { align-items: flex-start; flex-direction: column; gap: 18px; padding-block: 20px; }
+  .privacy-content { padding-block: 48px; }
+  .privacy-content h1 { margin-bottom: 32px; }
+  .privacy-statement { padding: 24px; }
+  .privacy-statement h2 { font-size: 23px; }
+}

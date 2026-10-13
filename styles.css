@@ -42,10 +42,10 @@
 
 .institutional-brands{display:flex;flex-direction:column;align-items:center;gap:34px;padding:38px 30px;margin-bottom:38px;background:#fff;border-radius:3px;color:var(--ink)}
 .institutional-brands img{display:block;max-width:100%;height:auto;object-fit:contain}
-.institutional-brand-primary{width:620px}
+.institutional-brand-primary{width:480px}
 .institutional-brands-secondary{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:32px 42px;width:100%}
 .institutional-brand-symbol{width:88px}
-.institutional-brand-cdt{width:200px}
-.institutional-brand-act{width:150px}
+.institutional-brand-cdt{width:180px}
+.institutional-brand-act{width:140px}
 .institutional-brand-technology{max-width:160px;margin:0;color:#003b71;font-size:13px;line-height:1.5;text-align:center}
 @media(max-width:760px){.institutional-brands{padding:28px 18px;gap:28px}.institutional-brands-secondary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;justify-items:center}.institutional-brand-symbol{width:66px}.institutional-brand-cdt{width:150px}.institutional-brand-act{width:120px}.institutional-brand-technology{font-size:11px}}

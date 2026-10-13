@@ -1,6 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 
-const base = await readFile(new URL('index-pt.html', import.meta.url), 'utf8');
+// A new CSS URL prevents published HTML from using a cached older stylesheet.
+const stylesheet = await readFile(new URL('styles.css', import.meta.url));
+const stylesheetVersion = createHash('sha256').update(stylesheet).digest('hex').slice(0, 12);
+const base = (await readFile(new URL('index-pt.html', import.meta.url), 'utf8'))
+  .replace(/href="styles\.css(?:\?v=[a-f0-9]+)?"/, `href="styles.css?v=${stylesheetVersion}"`);
 
 function render(replacements) {
   let html = base;
@@ -344,6 +349,7 @@ const languageDetection = `  <script>
 const defaultPage = englishPage.replace('  <noscript>', `${languageDetection}\n  <noscript>`);
 
 await Promise.all([
+  writeFile(new URL('index-pt.html', import.meta.url), base),
   writeFile(new URL('index.html', import.meta.url), defaultPage),
   writeFile(new URL('index-en.html', import.meta.url), englishPage),
   writeFile(new URL('index-es.html', import.meta.url), spanishPage)
